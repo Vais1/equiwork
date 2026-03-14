@@ -1,11 +1,7 @@
 <?php
-// Top of file session start
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once '../includes/db.php';
-require_once '../includes/flash.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/flash.php';
 
 // Prevent GET requests from processing script
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

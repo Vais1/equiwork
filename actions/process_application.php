@@ -1,12 +1,9 @@
 <?php
 // actions/process_application.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once '../includes/db.php';
-require_once '../includes/flash.php';
-require_once '../includes/auth_check.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/flash.php';
+require_once __DIR__ . '/../includes/auth_check.php';
 
 // Strict Role Gate: Only Seekers can submit applications
 enforce_role('Seeker');

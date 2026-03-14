@@ -1,8 +1,6 @@
 <?php
 // Start session strictly before any HTML output, as per security standards
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/flash.php';
 ?>
 <!DOCTYPE html>

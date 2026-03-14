@@ -2,12 +2,9 @@
 // jobs.php
 // EquiWork Job Board & Accommodation Matching Engine
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once 'includes/db.php';
-require_once 'includes/auth_check.php';
+require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/auth_check.php';
 
 // Must be authenticated to view the job board
 if (!isset($_SESSION['user_id'])) {

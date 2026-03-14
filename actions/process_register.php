@@ -1,10 +1,7 @@
 <?php
 // Ensure session starts before ANY output
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once '../includes/db.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
 
 // Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

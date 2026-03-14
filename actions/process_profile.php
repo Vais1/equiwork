@@ -1,10 +1,7 @@
 <?php
 // actions/process_profile.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-require_once '../includes/db.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
 
 // Deep validation setup
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user_id'])) {

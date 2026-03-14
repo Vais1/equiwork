@@ -2,6 +2,8 @@
 // includes/db.php
 // EquiWork Database Connection using MySQLi with Prepared Statements support
 
+require_once __DIR__ . '/config.php';
+
 $host = '127.0.0.1';
 $db   = 'equiwork_db';
 $user = 'root';     // Default XAMPP username
