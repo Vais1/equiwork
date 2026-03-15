@@ -104,7 +104,6 @@ require_once __DIR__ . '/flash.php';
                 <?php else: ?>
                     <a href="<?php echo BASE_URL; ?>login.php" class="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 rounded px-2 py-0.5 transition-all whitespace-nowrap leading-none flex items-center">Sign In</a>
                     <a href="<?php echo BASE_URL; ?>register.php" class="bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500 dark:focus:ring-blue-500/50 text-white font-semibold px-3 py-1 rounded-md transition-all shadow-sm hover:shadow text-sm border border-transparent whitespace-nowrap leading-none flex items-center">Join Platform</a>
-                <?php endif; ?>
             </div>
         </nav>
     </header>
