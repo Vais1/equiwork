@@ -23,21 +23,21 @@ require_once 'includes/header.php';
             
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name or Company Name</label>
-                <input type="text" id="username" name="username" required aria-required="true"
+                <input type="text" id="username" name="username" required aria-required="true" aria-describedby="username-error"
                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
                 <p class="mt-1 text-sm text-red-600 hidden" id="username-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
-                <input type="email" id="email" name="email" required aria-required="true" autocomplete="email"
+                <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" aria-describedby="email-error"
                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
                 <p class="mt-1 text-sm text-red-600 hidden" id="email-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
-                <input type="password" id="password" name="password" required aria-required="true" minlength="8" autocomplete="new-password"
+                <input type="password" id="password" name="password" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-hint password-error"
                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400" id="password-hint">Must be at least 8 characters long.</p>
                 <p class="mt-1 text-sm text-red-600 hidden" id="password-error" role="alert" aria-live="polite"></p>
@@ -45,12 +45,20 @@ require_once 'includes/header.php';
 
             <div>
                 <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">I am a...</label>
-                <select id="role" name="role_type" required aria-required="true"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
-                    <option value="Seeker" <?php echo $defaultRole === 'Seeker' ? 'selected' : ''; ?>>Job Seeker</option>
-                    <option value="Employer" <?php echo $defaultRole === 'Employer' ? 'selected' : ''; ?>>Employer</option>
-                    <option value="Admin">Platform Admin (For Demo)</option>
-                </select>
+                
+                <div class="custom-select-container relative w-full" data-name="role_type">
+                    <input type="hidden" name="role_type" id="role" value="<?php echo $defaultRole; ?>" required>
+                    <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors flex justify-between items-center" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="role-label">
+                        <span class="custom-select-text"><?php echo $defaultRole === 'Employer' ? 'Employer' : 'Job Seeker'; ?></span>
+                        <svg class="w-4 h-4 ml-2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="<?php echo $defaultRole === 'Seeker' ? 'true' : 'false'; ?>" data-value="Seeker">Job Seeker</li>
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="<?php echo $defaultRole === 'Employer' ? 'true' : 'false'; ?>" data-value="Employer">Employer</li>
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Admin">Platform Admin (For Demo)</li>
+                    </ul>
+                </div>
+
             </div>
         </fieldset>
 
@@ -66,6 +74,9 @@ require_once 'includes/header.php';
         </div>
     </form>
 </div>
+
+<!-- Inject custom script inline to bypass includes restriction if any -->
+<script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -115,11 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
             clearError(passwordInput, elements[2].error);
         }
 
-        // Check if role is valid (though HTML5 select handles most of this)
+        // Check if role is valid
         const allowedRoles = ['Seeker', 'Employer', 'Admin'];
         if (!allowedRoles.includes(roleInput.value)) {
             isValid = false;
-            // Native fallback is fine here since it's a dropdown, but we halt submit
         }
 
         if (!isValid) {

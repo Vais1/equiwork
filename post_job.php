@@ -42,14 +42,21 @@ require_once 'includes/header.php';
             
             <div>
                 <label for="location_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Work Arrangement <span class="text-red-500">*</span></label>
-                <select id="location_type" name="location_type" required
-                        class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-colors"
-                        aria-describedby="locationError">
-                    <option value="">Select an arrangement...</option>
-                    <option value="Remote">Remote</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="On-site">On-site</option>
-                </select>
+                
+                <div class="custom-select-container relative w-full" data-name="location_type">
+                    <input type="hidden" name="location_type" id="location_type" required>
+                    <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors flex justify-between items-center" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                        <span class="custom-select-text">Select an arrangement...</span>
+                        <svg class="w-4 h-4 ml-2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="true" data-value="">Select an arrangement...</li>
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Remote">Remote</li>
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Hybrid">Hybrid</li>
+                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="On-site">On-site</li>
+                    </ul>
+                </div>
+                
                 <p id="locationError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite">Please select a work arrangement.</p>
             </div>
             
@@ -73,15 +80,14 @@ require_once 'includes/header.php';
                         <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-3"><?php echo htmlspecialchars($category, ENT_QUOTES, 'UTF-8'); ?></h3>
                         <div class="space-y-2">
                         <?php foreach ($items as $item): ?>
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input type="checkbox" id="acc_<?php echo (int)$item['accommodation_id']; ?>" 
-                                           name="accommodations[]" value="<?php echo (int)$item['accommodation_id']; ?>"
-                                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded" role="checkbox" aria-checked="false" tabindex="0">
+                                <input type="hidden" name="accommodations[]" value="<?php echo (int)$item['accommodation_id']; ?>" disabled>
+                                <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
+                                    <svg class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                 </div>
-                                <label for="acc_<?php echo (int)$item['accommodation_id']; ?>" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 pointer-events-none select-none">
                                     <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
-                                </label>
+                                </span>
                             </div>
                         <?php endforeach; ?>
                         </div>

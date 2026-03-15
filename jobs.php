@@ -1,12 +1,19 @@
 <?php
-// jobs.php
-// EquiWork Job Board & Accommodation Matching Engine
+/**
+ * jobs.php
+ * 
+ * EquiWork Job Board & Accommodation Matching Engine
+ * 
+ * This module dynamically matches users with jobs based on a set of selected 
+ * accessibility accommodations. It adheres to strict separation of concerns, 
+ * keeping PHP data retrieval logic distinct from HTML rendering.
+ */
 
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth_check.php';
 
-// Must be authenticated to view the job board
+// Ensure the user is authenticated; role check is basic, but we redirect unauthenticated users
 if (!isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . 'login.php');
     exit;
@@ -14,11 +21,17 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_role = $_SESSION['role'];
 
+// ------------------------------------------------------------------
 // 1. Process Active Filters
+// ------------------------------------------------------------------
+// Securely cast incoming filters to integers to prevent SQL injection or manipulation
 $raw_filters = $_GET['accommodations'] ?? [];
 $active_filters = array_filter(array_map('intval', is_array($raw_filters) ? $raw_filters : []));
 
+// ------------------------------------------------------------------
 // 2. Fetch All Accommodations for the Sidebar
+// ------------------------------------------------------------------
+// Pre-load all available accommodations to render the interactive filter UI.
 $sidebar_accommodations = [];
 $cats_stmt = $conn->prepare("SELECT accommodation_id, name, category FROM accommodations ORDER BY category, name");
 if ($cats_stmt && $cats_stmt->execute()) {
@@ -29,7 +42,10 @@ if ($cats_stmt && $cats_stmt->execute()) {
     $cats_stmt->close();
 }
 
+// ------------------------------------------------------------------
 // 3. Construct the Matching Engine Query (Dynamic & Parameterized)
+// ------------------------------------------------------------------
+// Base query selects active jobs and resolves the employer's username.
 $sql = "SELECT j.job_id, j.title, j.description, j.location_type, j.posted_at, u.username AS employer_name 
         FROM jobs j 
         JOIN users u ON j.employer_id = u.user_id 
@@ -39,7 +55,12 @@ $params = [];
 $types = "";
 
 if (!empty($active_filters)) {
-    // The core matcher: Ensures the job has ALL selected accommodations
+    /**
+     * The Core Matcher: Ensures the job has ALL selected accommodations.
+     * We use an IN clause with a GROUP BY and HAVING COUNT(DISTINCT) check.
+     * This acts as a logical AND, meaning the job must strictly possess
+     * every single accessibility feature requested by the user.
+     */
     $placeholders = implode(',', array_fill(0, count($active_filters), '?'));
     $sql .= " AND j.job_id IN (
                 SELECT job_id 
@@ -49,19 +70,19 @@ if (!empty($active_filters)) {
                 HAVING COUNT(DISTINCT accommodation_id) = ?
               )";
     
-    // Bind the placeholder values
+    // Bind the placeholder values dynamically
     foreach ($active_filters as $filter_id) {
         $params[] = $filter_id;
         $types .= "i";
     }
-    // Bind the COUNT requirement
+    // Bind the total filter count for the HAVING clause check
     $params[] = count($active_filters);
     $types .= "i";
 }
 
 $sql .= " ORDER BY j.posted_at DESC";
 
-// Execute Job Fetch
+// Execute Job Fetch safely using prepared statements
 $stmt = $conn->prepare($sql);
 if (!empty($types) && !empty($params)) {
     $stmt->bind_param($types, ...$params);
@@ -78,7 +99,11 @@ while ($row = $job_results->fetch_assoc()) {
 }
 $stmt->close();
 
-// 4. Fetch Accommodations Specifically for the Rendered Jobs (to display as tags in the UI)
+// ------------------------------------------------------------------
+// 4. Fetch Accommodations Specifically for the Rendered Jobs
+// ------------------------------------------------------------------
+// Instead of running a query for each job (N+1 bottleneck), we fetch 
+// all related accommodations in one bulk query using an IN clause.
 if (!empty($job_ids)) {
     $in_clause = implode(',', array_fill(0, count($job_ids), '?'));
     $acc_sql = "SELECT ja.job_id, a.name 
@@ -97,6 +122,7 @@ if (!empty($job_ids)) {
     $acc_stmt->close();
 }
 
+// Render HTML layout
 require_once 'includes/header.php';
 ?>
 
@@ -106,8 +132,6 @@ require_once 'includes/header.php';
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Accessible Job Board</h1>
         <p class="mt-2 text-gray-600 dark:text-gray-400">Discover employment opportunities tailored to your physical and communicative requirements.</p>
     </div>
-
-    <!-- Application Feedback Messages removed: Now handled globally by flash messages in header.php -->
 
     <div class="flex flex-col lg:flex-row gap-8">
         
@@ -129,18 +153,16 @@ require_once 'includes/header.php';
                                     <?php foreach ($items as $item): ?>
                                         <?php 
                                             // Maintain state if checked
-                                            $isChecked = in_array($item['accommodation_id'], $active_filters) ? 'checked' : ''; 
+                                            $isChecked = in_array($item['accommodation_id'], $active_filters); 
                                         ?>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" 
-                                                   id="acc_<?php echo $item['accommodation_id']; ?>" 
-                                                   name="accommodations[]" 
-                                                   value="<?php echo $item['accommodation_id']; ?>"
-                                                   <?php echo $isChecked; ?>
-                                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label for="acc_<?php echo $item['accommodation_id']; ?>" class="ml-2 text-sm text-gray-700 dark:text-gray-300 select-none cursor-pointer">
+                                        <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded" role="checkbox" aria-checked="<?php echo $isChecked ? 'true' : 'false'; ?>" tabindex="0">
+                                            <input type="hidden" name="accommodations[]" value="<?php echo $item['accommodation_id']; ?>" <?php echo $isChecked ? '' : 'disabled'; ?>>
+                                            <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
+                                                <svg class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                            </div>
+                                            <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 pointer-events-none select-none">
                                                 <?php echo htmlspecialchars($item['name'], ENT_QUOTES); ?>
-                                            </label>
+                                            </span>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>

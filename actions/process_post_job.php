@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // 1. Sanitize and collect inputs
 $employer_id = $_SESSION['user_id'];
-$title = trim($_POST['title'] ?? '');
+$title = trim(htmlspecialchars($_POST['title'] ?? '', ENT_QUOTES, 'UTF-8'));
 $location_type = trim($_POST['location_type'] ?? '');
-$description = trim($_POST['description'] ?? '');
+$description = trim(htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES, 'UTF-8'));
 $accommodations = $_POST['accommodations'] ?? []; // Array of accommodation IDs
 
 // 2. Validate inputs

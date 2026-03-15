@@ -1,4 +1,11 @@
 <?php
+/**
+ * process_register.php
+ * 
+ * Handles new user registration for the EquiWork platform.
+ * Ensures robust data sanitization, password hashing via BCRYPT,
+ * role validation, and duplicate account prevention.
+ */
 // Ensure session starts before ANY output
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
