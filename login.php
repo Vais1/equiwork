@@ -19,9 +19,14 @@ if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-8 mt-12">
-    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">Welcome Back</h1>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-6">Log in to your EquiWork account</p>
+<div class="max-w-md mx-auto bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-8 md:p-10 mt-12 backdrop-blur-sm">
+    <div class="flex justify-center mb-6">
+        <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+        </div>
+    </div>
+    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3 text-center tracking-tight">Welcome Back</h1>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-8 leading-relaxed">Sign in to your EquiWork account to continue.</p>
 
     <form action="<?php echo BASE_URL; ?>actions/process_login.php" method="POST" id="loginForm" novalidate>
         <fieldset class="mb-6 space-y-5">

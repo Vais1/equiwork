@@ -40,9 +40,13 @@ if (isset($_SESSION['last_action']) && (time() - $_SESSION['last_action']) > $ti
     
     // Destroy file store
     session_destroy();
-    
-    // Bounce gracefully to login with reason parameter
-    header('Location: ' . BASE_URL . 'login.php?reason=timeout');
+
+    // Determine context to bounce gracefully back to the right login gate
+    if (strpos($_SERVER['REQUEST_URI'], '/admin/') !== false) {
+        header('Location: ' . BASE_URL . 'admin/login.php?reason=timeout');
+    } else {
+        header('Location: ' . BASE_URL . 'login.php?reason=timeout');
+    }
     exit;
 }
 
@@ -61,7 +65,11 @@ $_SESSION['last_action'] = time();
 function enforce_role($required_role) {
     // Check if the user is completely unauthenticated
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
-        header('Location: ' . BASE_URL . 'login.php');
+        if ($required_role === 'Admin') {
+            header('Location: ' . BASE_URL . 'admin/login.php');
+        } else {
+            header('Location: ' . BASE_URL . 'login.php');
+        }
         exit;
     }
 

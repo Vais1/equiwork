@@ -12,7 +12,8 @@
         </div>
     </footer>
 
-    <!-- Theme Toggle Logic -->
+    <!-- Theme Toggle Logic & Custom UI Controls -->
     <script src="<?php echo BASE_URL; ?>assets/js/theme.js"></script>
+    <script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 </body>
 </html>

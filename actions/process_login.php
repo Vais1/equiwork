@@ -45,17 +45,21 @@ $result = $stmt->get_result();
 if ($user = $result->fetch_assoc()) {
     // Verify password hash against the stored hash
     if (password_verify($password, $user['password_hash'])) {
+        // Ensure Admins are routed exclusively through the dedicated admin gateway
+        if ($user['role_type'] === 'Admin') {
+            set_flash_message('warning', 'Administrators must log in through the secure admin portal.');
+            header('Location: ' . BASE_URL . 'admin/login.php');
+            exit;
+        }
+
         // Authenticated! Update Session securely
         session_regenerate_id(true); // Mitigate session fixation
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['role'] = $user['role_type'];
         $_SESSION['last_action'] = time(); // Track for timeout purposes
-        
+
         // Role Routing as defined in Module A: Dual-Role Authentication
         switch ($user['role_type']) {
-            case 'Admin':
-                header('Location: ' . BASE_URL . 'admin/dashboard.php');
-                break;
             case 'Employer':
                 header('Location: ' . BASE_URL . 'employer_dashboard.php');
                 break;

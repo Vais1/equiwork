@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const customSelects = document.querySelectorAll('.custom-select-container');
     
-    customSelects.forEach(container => {
+    customSelects.forEach((container, sIdx) => {
         const btn = container.querySelector('button[aria-haspopup="listbox"]');
         const list = container.querySelector('ul[role="listbox"]');
         const options = list.querySelectorAll('li[role="option"]');
@@ -27,16 +27,37 @@ document.addEventListener('DOMContentLoaded', () => {
         let isOpen = false;
         let focusedIndex = -1;
 
+        // Ensure ARIA IDs are present for active-descendant
+        const listId = list.id || `custom-select-list-${sIdx}`;
+        list.id = listId;
+        btn.setAttribute('aria-controls', listId);
+
+        options.forEach((opt, idx) => {
+            if (!opt.id) opt.id = `${listId}-opt-${idx}`;
+            opt.setAttribute('aria-selected', 'false'); // default state
+        });
+
         // Sync initial state if value exists
         const initValue = hiddenInput.value;
         if (initValue) {
             const initialOpt = Array.from(options).find(o => o.getAttribute('data-value') === initValue);
             if (initialOpt) {
-                options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
                 initialOpt.setAttribute('aria-selected', 'true');
                 textSpan.textContent = initialOpt.textContent;
             }
         }
+
+        // Listener for programmatic updates
+        hiddenInput.addEventListener('customUpdate', (e) => {
+            const val = e.detail.value;
+            const optToSelect = Array.from(options).find(o => o.getAttribute('data-value') === val);
+            if (optToSelect) {
+                options.forEach(opt => opt.setAttribute('aria-selected', 'false'));
+                optToSelect.setAttribute('aria-selected', 'true');
+                textSpan.textContent = optToSelect.textContent;
+                hiddenInput.value = val;
+            }
+        });
 
         const toggleList = (show) => {
             isOpen = show;
@@ -44,12 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isOpen) {
                 list.classList.remove('hidden');
                 // Scroll to selected
-                const selectedOpt = Array.from(options).findIndex(o => o.getAttribute('aria-selected') === 'true');
-                focusedIndex = selectedOpt > -1 ? selectedOpt : 0;
+                const selectedOptIndex = Array.from(options).findIndex(o => o.getAttribute('aria-selected') === 'true');
+                focusedIndex = selectedOptIndex > -1 ? selectedOptIndex : 0;
                 updateFocus();
                 list.focus();
             } else {
                 list.classList.add('hidden');
+                list.removeAttribute('aria-activedescendant');
                 btn.focus();
             }
         };
@@ -59,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (idx === focusedIndex) {
                     opt.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-900', 'dark:text-blue-100');
                     opt.scrollIntoView({ block: 'nearest' });
+                    list.setAttribute('aria-activedescendant', opt.id);
                 } else {
                     opt.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-900', 'dark:text-blue-100');
                 }
@@ -106,6 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'ArrowUp':
                     e.preventDefault();
                     focusedIndex = (focusedIndex - 1 + options.length) % options.length;
+                    updateFocus();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    focusedIndex = 0;
+                    updateFocus();
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    focusedIndex = options.length - 1;
                     updateFocus();
                     break;
                 case 'Enter':

@@ -261,13 +261,19 @@ require_once '../includes/header.php';
                                         class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 </div>
                                 <div>
-                                    <label for="edit_role_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
-                                    <select name="role_type" id="edit_role_type" required
-                                        class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <option value="Seeker">Seeker</option>
-                                        <option value="Employer">Employer</option>
-                                        <option value="Admin">Admin</option>
-                                    </select>
+                                    <label id="edit_role_label" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
+                                    <div class="custom-select-container relative w-full" data-name="role_type">
+                                        <input type="hidden" name="role_type" id="edit_role_type" required>
+                                        <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 flex justify-between items-center text-left" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
+                                            <span class="custom-select-text">Select Role</span>
+                                            <svg class="w-4 h-4 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </button>
+                                        <ul class="custom-select-list absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
+                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Employer">Employer</li>
+                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Admin">Admin</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -319,7 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
             inputUsername.value = btn.getAttribute('data-username');
             inputEmail.value = btn.getAttribute('data-email');
             inputRole.value = btn.getAttribute('data-role');
-            
+            inputRole.dispatchEvent(new CustomEvent('customUpdate', { detail: { value: btn.getAttribute('data-role') } }));
+
             openModal();
         });
     });

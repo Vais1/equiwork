@@ -128,9 +128,9 @@ require_once 'includes/header.php';
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
-    <div class="mb-8 border-b border-gray-200 dark:border-gray-700 pb-5">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Accessible Job Board</h1>
-        <p class="mt-2 text-gray-600 dark:text-gray-400">Discover employment opportunities tailored to your physical and communicative requirements.</p>
+    <div class="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Adaptive Role Matcher</h1>
+        <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">Filter and connect with verified employers providing the exact accommodations you require.</p>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-8">

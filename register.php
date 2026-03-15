@@ -12,9 +12,9 @@ require_once 'includes/db.php';
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-8 mt-8">
-    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">Create an Account</h1>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-6">Join EquiWork to find or post accessible opportunities.</p>
+<div class="max-w-md mx-auto bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-8 md:p-10 mt-8 backdrop-blur-sm">
+    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3 text-center tracking-tight">Join EquiWork</h1>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-8 leading-relaxed">Create your unified account to navigate or provide adaptive career opportunities.</p>
 
     <!-- Semantic form structure -->
     <form action="<?php echo BASE_URL; ?>actions/process_register.php" method="POST" id="registerForm" novalidate>
