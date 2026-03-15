@@ -25,8 +25,8 @@ require_once 'includes/header.php';
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
         </div>
     </div>
-    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3 text-center tracking-tight">Welcome Back</h1>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-8 leading-relaxed">Sign in to your EquiWork account to continue.</p>
+    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3 text-center tracking-tight">Access Account</h1>
+    <p class="text-gray-600 dark:text-gray-400 text-center mb-8 leading-relaxed font-medium">Log into your EquiWork platform securely to manage your profile and connections.</p>
 
     <form action="<?php echo BASE_URL; ?>actions/process_login.php" method="POST" id="loginForm" novalidate>
         <fieldset class="mb-6 space-y-5">
