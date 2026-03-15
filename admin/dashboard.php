@@ -112,15 +112,15 @@ $users_result = $stmt->get_result();
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
     
     <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Manage registered users and platform parameters.</p>
+            <h1 class="text-3xl font-bold text-text">Admin Dashboard</h1>
+            <p class="mt-2 text-sm text-muted">Manage registered users and platform parameters.</p>
         </div>
         <div class="mt-4 md:mt-0">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
                 Total Users: <?php echo htmlspecialchars($total_users); ?>
             </span>
         </div>
@@ -142,32 +142,32 @@ require_once '../includes/header.php';
     <?php endif; ?>
 
     <!-- Data Table Container -->
-    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="bg-surface shadow-md rounded-lg overflow-hidden border border-border">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-left text-sm text-gray-700 dark:text-gray-300">
-                <thead class="bg-gray-50 dark:bg-gray-700/50">
+            <table class="min-w-full divide-y divide-border text-left text-sm text-text">
+                <thead class="bg-bg">
                     <tr>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">ID</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">Username</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">Email</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">Role</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100">Registered</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-gray-900 dark:text-gray-100 text-right">Actions</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text">ID</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text">Username</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text">Email</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text">Role</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text">Registered</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-text text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                        <tr class="hover:bg-bg transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <?php 
                                     $role_color = match($row['role_type']) {
-                                        'Admin' => 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300',
-                                        'Employer' => 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300',
-                                        'Seeker' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
-                                        default => 'bg-gray-100 text-gray-800'
+                                        'Admin' => 'bg-purple-100 text-purple-800  ',
+                                        'Employer' => 'bg-indigo-100 text-indigo-800  ',
+                                        'Seeker' => 'bg-emerald-100 text-emerald-800  ',
+                                        default => 'bg-bg text-text'
                                     };
                                 ?>
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full <?php echo $role_color; ?>">
@@ -179,7 +179,7 @@ require_once '../includes/header.php';
                                 
                                 <!-- Edit Button triggers Modal via JS -->
                                 <button type="button" 
-                                        class="open-edit-modal font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 focus:outline-none focus:underline"
+                                        class="open-edit-modal font-medium text-accent hover:text-accent focus:outline-none focus:underline"
                                         data-id="<?php echo htmlspecialchars($row['user_id']); ?>"
                                         data-username="<?php echo htmlspecialchars($row['username']); ?>"
                                         data-email="<?php echo htmlspecialchars($row['email']); ?>"
@@ -191,7 +191,7 @@ require_once '../includes/header.php';
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="font-medium text-red-600 dark:text-red-400 hover:text-red-800 focus:outline-none focus:underline">
+                                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                                         Delete
                                     </button>
                                 </form>
@@ -202,7 +202,7 @@ require_once '../includes/header.php';
                     
                     <?php if($users_result->num_rows === 0): ?>
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">No users found.</td>
+                            <td colspan="6" class="px-6 py-8 text-center text-muted">No users found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -211,16 +211,16 @@ require_once '../includes/header.php';
         
         <!-- Pagination Component -->
         <?php if($total_pages > 1): ?>
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 flex items-center justify-between">
-            <span class="text-sm text-gray-700 dark:text-gray-300">
+        <div class="px-6 py-4 border-t border-border bg-bg flex items-center justify-between">
+            <span class="text-sm text-text">
                 Page <span class="font-medium"><?php echo $page; ?></span> of <span class="font-medium"><?php echo $total_pages; ?></span>
             </span>
             <div class="space-x-1">
                 <?php if($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500">Previous</a>
+                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg focus:ring-2 focus:ring-accent">Previous</a>
                 <?php endif; ?>
                 <?php if($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-2 focus:ring-blue-500">Next</a>
+                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg focus:ring-2 focus:ring-accent">Next</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -233,45 +233,45 @@ require_once '../includes/header.php';
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         
         <!-- Background overlay -->
-        <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-80 transition-opacity" aria-hidden="true" id="modalOverlay"></div>
+        <div class="fixed inset-0 bg-bg0 bg-opacity-75 transition-opacity" aria-hidden="true" id="modalOverlay"></div>
 
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <!-- Modal panel -->
-        <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-gray-200 dark:border-gray-700">
+        <div class="inline-block align-bottom bg-surface rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-border">
             <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" id="editForm" novalidate>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="user_id" id="edit_user_id">
                 
-                <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
+                            <h3 class="text-lg leading-6 font-medium text-text" id="modal-title">
                                 Edit User Account
                             </h3>
                             <div class="mt-4 space-y-4">
                                 <div>
-                                    <label for="edit_username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                                    <label for="edit_username" class="block text-sm font-medium text-text">Username</label>
                                     <input type="text" name="username" id="edit_username" required
-                                        class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                                 </div>
                                 <div>
-                                    <label for="edit_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
+                                    <label for="edit_email" class="block text-sm font-medium text-text">Email Address</label>
                                     <input type="email" name="email" id="edit_email" required
-                                        class="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                                 </div>
                                 <div>
-                                    <label id="edit_role_label" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
+                                    <label id="edit_role_label" class="block text-sm font-medium text-text mb-1">Role</label>
                                     <div class="custom-select-container relative w-full" data-name="role_type">
                                         <input type="hidden" name="role_type" id="edit_role_type" required>
-                                        <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 flex justify-between items-center text-left" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
+                                        <button type="button" class="w-full px-4 py-2 border border-border rounded-md bg-surface text-text focus:outline-none focus:ring-4 focus:ring-accent/50 flex justify-between items-center text-left" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
                                             <span class="custom-select-text">Select Role</span>
-                                            <svg class="w-4 h-4 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                            <svg aria-hidden="true" class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                         </button>
-                                        <ul class="custom-select-list absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
-                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Employer">Employer</li>
-                                            <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Admin">Admin</li>
+                                        <ul class="custom-select-list absolute z-50 w-full mt-1 bg-surface border border-border rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
+                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Employer">Employer</li>
+                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Admin</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -280,11 +280,11 @@ require_once '../includes/header.php';
                     </div>
                 </div>
                 <!-- Modal Footer -->
-                <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
-                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border">
+                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Save Changes
                     </button>
-                    <button type="button" id="closeModalBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="button" id="closeModalBtn" class="border border-accent text-accent hover:bg-accent/10 px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
                         Cancel
                     </button>
                 </div>

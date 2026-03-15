@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateFocus = () => {
             options.forEach((opt, idx) => {
                 if (idx === focusedIndex) {
-                    opt.classList.add('bg-blue-100', 'dark:bg-blue-900', 'text-blue-900', 'dark:text-blue-100');
+                    opt.classList.add('bg-accent/10', 'text-accent');
                     opt.scrollIntoView({ block: 'nearest' });
                     list.setAttribute('aria-activedescendant', opt.id);
                 } else {
-                    opt.classList.remove('bg-blue-100', 'dark:bg-blue-900', 'text-blue-900', 'dark:text-blue-100');
+                    opt.classList.remove('bg-accent/10', 'text-accent');
                 }
             });
         };
@@ -182,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let isChecked = container.getAttribute('aria-checked') === 'true';
         if (isChecked) {
             hiddenInput.removeAttribute('disabled');
-            box.classList.add('bg-blue-600', 'border-blue-600');
-            box.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
+            box.classList.add('bg-accent', 'border-accent');
+            box.classList.remove('bg-surface', 'border-border');
             icon.classList.remove('hidden');
         }
 
@@ -193,13 +193,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isChecked) {
                 hiddenInput.removeAttribute('disabled');
-                box.classList.add('bg-blue-600', 'border-blue-600');
-                box.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
+                box.classList.add('bg-accent', 'border-accent');
+                box.classList.remove('bg-surface', 'border-border');
                 icon.classList.remove('hidden');
             } else {
                 hiddenInput.setAttribute('disabled', 'true');
-                box.classList.remove('bg-blue-600', 'border-blue-600');
-                box.classList.add('bg-gray-100', 'dark:bg-gray-700', 'border-gray-300', 'dark:border-gray-600');
+                box.classList.remove('bg-accent', 'border-accent');
+                box.classList.add('bg-surface', 'border-border');
                 icon.classList.add('hidden');
             }
             

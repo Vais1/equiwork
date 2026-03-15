@@ -42,9 +42,9 @@ if (strlen($password) < 8) {
 }
 
 // Role constraints mapping to ENUM
-$allowed_roles = ['Admin', 'Employer', 'Seeker'];
+$allowed_roles = ['Employer', 'Seeker'];
 if (!in_array($role_type, $allowed_roles)) {
-    $errors[] = "Invalid role selected.";
+    $errors[] = "Invalid role selected. Administrators must be provisioned manually.";
 }
 
 // Check for existing user (to prevent duplicate entry SQL errors)
@@ -90,14 +90,14 @@ if (!empty($errors)) {
         
         // Final routing logic based on assigned role
         switch ($role_type) {
-            case 'Admin':
-                header('Location: ' . BASE_URL . 'admin/dashboard.php');
-                break;
             case 'Employer':
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+                header('Location: ' . BASE_URL . 'employer_dashboard.php');     
                 break;
             case 'Seeker':
                 header('Location: ' . BASE_URL . 'jobs.php');
+                break;
+            default:
+                header('Location: ' . BASE_URL . 'index.php');
                 break;
         }
         exit;

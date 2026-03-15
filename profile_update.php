@@ -24,9 +24,9 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-8 mt-12">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">My Profile</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
+<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+    <h1 class="text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
+    <p class="text-muted mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
     <!-- Display Server-Side Flash Messages -->
     <?php if (isset($_SESSION['flash_success'])): ?>
@@ -50,44 +50,44 @@ require_once 'includes/header.php';
         <!-- CSRF Token implementation point normally goes here -->
         
         <fieldset class="mb-8 space-y-6">
-            <legend class="text-lg font-semibold text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 w-full">Basic Information</legend>
+            <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Basic Information</legend>
             
             <div class="form-group relative">
-                <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label for="username" class="block text-sm font-medium text-text mb-1">
                     <?php echo ($role === 'Employer') ? 'Company Name' : 'Full Name'; ?>
                 </label>
                 <input type="text" id="username" name="username" required aria-required="true"
                     value="<?php echo htmlspecialchars($current_user['username'], ENT_QUOTES); ?>"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors"
+                    class="w-full px-4 py-2 border border-border rounded-lg bg-bg text-text focus:outline-none focus:ring-4 focus:ring-accent/50 transition-colors"
                     aria-describedby="usernameError">
-                <p id="usernameError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite"></p>
+                <p id="usernameError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
 
             <div class="form-group relative">
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true"
                     value="<?php echo htmlspecialchars($current_user['email'], ENT_QUOTES); ?>"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors"
+                    class="w-full px-4 py-2 border border-border rounded-lg bg-bg text-text focus:outline-none focus:ring-4 focus:ring-accent/50 transition-colors"
                     aria-describedby="emailError">
-                <p id="emailError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite"></p>
+                <p id="emailError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
         </fieldset>
 
         <fieldset class="mb-8 space-y-6">
-            <legend class="text-lg font-semibold text-gray-900 dark:text-white mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 w-full">Security</legend>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Leave password blank if you do not wish to change it.</p>
+            <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Security</legend>
+            <p class="text-sm text-muted mb-4">Leave password blank if you do not wish to change it.</p>
             
             <div class="form-group relative">
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Password</label>
+                <label for="password" class="block text-sm font-medium text-text mb-1">New Password</label>
                 <input type="password" id="password" name="password" minlength="8"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors"
+                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                     aria-describedby="passwordError">
-                <p id="passwordError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite"></p>
+                <p id="passwordError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
         </fieldset>
 
-        <div class="flex items-center justify-end border-t border-gray-200 dark:border-gray-700 pt-6">
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-sm">
+        <div class="flex items-center justify-end border-t border-border pt-6">
+            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function showError(input, errorElement, msg) {
             isValid = false;
             input.setAttribute('aria-invalid', 'true');
-            input.classList.add('border-red-500', 'dark:border-red-500');
+            input.classList.add('border-red-500', '');
             errorElement.textContent = msg;
             errorElement.classList.remove('hidden');
         }
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Helper to clear error
         function clearError(input, errorElement) {
             input.removeAttribute('aria-invalid');
-            input.classList.remove('border-red-500', 'dark:border-red-500');
+            input.classList.remove('border-red-500', '');
             errorElement.classList.add('hidden');
             errorElement.textContent = '';
         }

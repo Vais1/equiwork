@@ -12,9 +12,9 @@ require_once 'includes/db.php';
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 p-8 md:p-10 mt-8 backdrop-blur-sm">
-    <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3 text-center tracking-tight">Create Account</h1>
-    <p class="text-gray-600 dark:text-gray-400 text-center mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
+<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+    <h1 class="text-3xl font-extrabold text-text mb-3 text-center tracking-tight font-heading">Create Account</h1>
+    <p class="text-muted text-center mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
 
     <!-- Semantic form structure -->
     <form action="<?php echo BASE_URL; ?>actions/process_register.php" method="POST" id="registerForm" novalidate>
@@ -22,54 +22,54 @@ require_once 'includes/header.php';
             <legend class="sr-only">Account Details</legend>
             
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name or Company Name</label>
+                <label for="username" class="block text-sm font-medium text-text mb-1">Full Name or Company Name</label>
                 <input type="text" id="username" name="username" required aria-required="true" aria-describedby="username-error"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
+                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p class="mt-1 text-sm text-red-600 hidden" id="username-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
+                <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" aria-describedby="email-error"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
+                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p class="mt-1 text-sm text-red-600 hidden" id="email-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                <label for="password" class="block text-sm font-medium text-text mb-1">Password</label>
                 <input type="password" id="password" name="password" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-hint password-error"
-                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors">
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400" id="password-hint">Must be at least 8 characters long.</p>
+                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                <p class="mt-1 text-sm text-muted" id="password-hint">Must be at least 8 characters long.</p>
                 <p class="mt-1 text-sm text-red-600 hidden" id="password-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
-                <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">I am a...</label>
+                <label for="role" class="block text-sm font-medium text-text mb-1">I am a...</label>
                 
                 <div class="custom-select-container relative w-full" data-name="role_type">
                     <input type="hidden" name="role_type" id="role" value="<?php echo $defaultRole; ?>" required>
-                    <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors flex justify-between items-center" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="role-label">
+                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="role-label">
                         <span class="custom-select-text"><?php echo $defaultRole === 'Employer' ? 'Employer' : 'Job Seeker'; ?></span>
-                        <svg class="w-4 h-4 ml-2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="<?php echo $defaultRole === 'Seeker' ? 'true' : 'false'; ?>" data-value="Seeker">Job Seeker</li>
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="<?php echo $defaultRole === 'Employer' ? 'true' : 'false'; ?>" data-value="Employer">Employer</li>
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Admin">Platform Admin (For Demo)</li>
+                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-surface border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Seeker' ? 'true' : 'false'; ?>" data-value="Seeker">Job Seeker</li>
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Employer' ? 'true' : 'false'; ?>" data-value="Employer">Employer</li>
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Platform Admin (For Demo)</li>
                     </ul>
                 </div>
 
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 text-white font-semibold flex justify-center px-4 py-3 rounded-lg transition-colors">
+        <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Register Account
         </button>
 
         <div class="mt-6 text-center">
-            <p class="text-sm text-gray-600 dark:text-gray-400">
+            <p class="text-sm text-muted">
                 Already have an account? 
-                <a href="<?php echo BASE_URL; ?>login.php" class="text-blue-600 dark:text-blue-400 hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-blue-300 rounded">Log in</a>
+                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded">Log in</a>
             </p>
         </div>
     </form>
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showError(input, errorElement, message) {
         input.setAttribute('aria-invalid', 'true');
         input.classList.add('border-red-500', 'focus:ring-red-300');
-        input.classList.remove('border-gray-300', 'dark:border-gray-600', 'focus:ring-blue-300', 'dark:focus:ring-blue-500');
+        input.classList.remove('border-border', '', 'focus:ring-accent/50', '');
         errorElement.textContent = message;
         errorElement.classList.remove('hidden');
     }
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearError(input, errorElement) {
         input.removeAttribute('aria-invalid');
         input.classList.remove('border-red-500', 'focus:ring-red-300');
-        input.classList.add('border-gray-300', 'dark:border-gray-600', 'focus:ring-blue-300', 'dark:focus:ring-blue-500');
+        input.classList.add('border-border', '', 'focus:ring-accent/50', '');
         errorElement.textContent = "";
         errorElement.classList.add('hidden');
     }

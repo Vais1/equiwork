@@ -33,7 +33,7 @@ function display_flash_messages() {
         $type = htmlspecialchars($flash['type'], ENT_QUOTES, 'UTF-8');
         $message = htmlspecialchars($flash['message'], ENT_QUOTES, 'UTF-8');
         
-        $colors = 'bg-blue-100 border-blue-400 text-blue-700 dark:bg-blue-900/30 dark:border-blue-700 dark:text-blue-300';
+        $colors = 'bg-accent/10 border-accent/20 text-accent';
         $role = 'status';
         $ariaLive = 'polite';
 
@@ -51,7 +51,7 @@ function display_flash_messages() {
         echo '<span class="block sm:inline font-medium">' . $message . '</span>';
         // Accessible dismiss button
         echo '<button type="button" class="ml-auto text-current opacity-70 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-current rounded" onclick="this.parentElement.remove();" aria-label="Dismiss alert">';
-        echo '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+        echo '<svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
         echo '</button>';
         echo '</div>';
     }

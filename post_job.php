@@ -25,67 +25,67 @@ if ($accResult && $accResult->num_rows > 0) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 p-8 mt-8 mb-12">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Post a New Job</h1>
+<div class="max-w-3xl mx-auto mt-8 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+    <h1 class="text-3xl font-bold text-text mb-6 font-heading">Post a New Job</h1>
     
     <form action="<?php echo BASE_URL; ?>actions/process_post_job.php" method="POST" id="postJobForm" novalidate>
         <fieldset class="mb-6 space-y-4">
-            <legend class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2">Job Details</legend>
+            <legend class="text-xl font-semibold text-text mb-4 border-b pb-2">Job Details</legend>
             
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Job Title <span class="text-red-500">*</span></label>
+                <label for="title" class="block text-sm font-medium text-text mb-1">Job Title <span class="text-red-500">*</span></label>
                 <input type="text" id="title" name="title" required
-                       class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-colors"
+                       class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                        aria-describedby="titleError">
-                <p id="titleError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite">Please enter a job title.</p>
+                <p id="titleError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please enter a job title.</p>
             </div>
             
             <div>
-                <label for="location_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Work Arrangement <span class="text-red-500">*</span></label>
+                <label for="location_type" class="block text-sm font-medium text-text mb-1">Work Arrangement <span class="text-red-500">*</span></label>
                 
                 <div class="custom-select-container relative w-full" data-name="location_type">
                     <input type="hidden" name="location_type" id="location_type" required>
-                    <button type="button" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500 transition-colors flex justify-between items-center" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
                         <span class="custom-select-text">Select an arrangement...</span>
-                        <svg class="w-4 h-4 ml-2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="true" data-value="">Select an arrangement...</li>
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Remote">Remote</li>
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="Hybrid">Hybrid</li>
-                        <li class="px-4 py-2 hover:bg-blue-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100" role="option" aria-selected="false" data-value="On-site">On-site</li>
+                    <ul class="custom-select-list absolute z-10 w-full mt-1 bg-surface border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="true" data-value="">Select an arrangement...</li>
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Remote">Remote</li>
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Hybrid">Hybrid</li>
+                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="On-site">On-site</li>
                     </ul>
                 </div>
                 
-                <p id="locationError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite">Please select a work arrangement.</p>
+                <p id="locationError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please select a work arrangement.</p>
             </div>
             
             <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Job Description <span class="text-red-500">*</span></label>
+                <label for="description" class="block text-sm font-medium text-text mb-1">Job Description <span class="text-red-500">*</span></label>
                 <textarea id="description" name="description" rows="6" required
-                          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-colors"
+                          class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                           aria-describedby="descriptionError"></textarea>
-                <p id="descriptionError" class="mt-1 text-sm text-red-600 dark:text-red-400 hidden" aria-live="polite">Please provide a detailed job description.</p>
+                <p id="descriptionError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please provide a detailed job description.</p>
             </div>
         </fieldset>
 
         <fieldset class="mb-8">
-            <legend class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2">Accessibility Accommodations</legend>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Select the specific accommodations your organisation provides for this role.</p>
+            <legend class="text-xl font-semibold text-text mb-4 border-b pb-2">Accessibility Accommodations</legend>
+            <p class="text-sm text-muted mb-4">Select the specific accommodations your organisation provides for this role.</p>
             
             <?php if (!empty($accommodations)): ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <?php foreach ($accommodations as $category => $items): ?>
-                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                        <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-3"><?php echo htmlspecialchars($category, ENT_QUOTES, 'UTF-8'); ?></h3>
+                    <div class="bg-bg p-4 rounded-lg border border-border">
+                        <h3 class="font-medium text-text mb-3"><?php echo htmlspecialchars($category, ENT_QUOTES, 'UTF-8'); ?></h3>
                         <div class="space-y-2">
                         <?php foreach ($items as $item): ?>
-                            <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 rounded" role="checkbox" aria-checked="false" tabindex="0">
+                            <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent/50 rounded" role="checkbox" aria-checked="false" tabindex="0">
                                 <input type="hidden" name="accommodations[]" value="<?php echo (int)$item['accommodation_id']; ?>" disabled>
-                                <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
-                                    <svg class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
+                                    <svg aria-hidden="true" class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                 </div>
-                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 pointer-events-none select-none">
+                                <span class="ml-2 text-sm text-text pointer-events-none select-none">
                                     <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?>
                                 </span>
                             </div>
@@ -95,16 +95,16 @@ require_once 'includes/header.php';
                 <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <p class="text-gray-500 italic">No accommodations configured in the system yet.</p>
+                <p class="text-muted italic">No accommodations configured in the system yet.</p>
             <?php endif; ?>
         </fieldset>
 
-        <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium">
+        <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-border">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-6 py-2.5 rounded-lg border border-accent text-accent hover:bg-accent/10 focus:ring-2 focus:ring-accent/50 focus:outline-none transition-colors font-medium">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 text-white font-semibold px-8 py-2.5 rounded-lg transition-colors shadow-sm">
+                    class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Post Job
             </button>
         </div>
