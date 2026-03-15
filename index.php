@@ -31,30 +31,6 @@ require_once 'includes/header.php';
     </div>
 </section>
 
-<section class="mt-4 mb-24 grid grid-cols-1 md:grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="bg-white/60 dark:bg-gray-900/40 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-500/30 transition-all duration-300 group hover:shadow-md">
-        <div class="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">Accommodation-First Matching</h3>
-        <p class="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">Filter roles based on explicit spatial, technical, and communicative accommodations. Never second-guess if a company supports your working style.</p>
-    </div>
 
-    <div class="bg-white/60 dark:bg-gray-900/40 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-500/30 transition-all duration-300 group hover:shadow-md">
-        <div class="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">Vetted Employers</h3>
-        <p class="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">We collaborate exclusively with organizations committed to authentic inclusivity and proven, universally designed digital workplaces.</p>
-    </div>
-
-    <div class="bg-white/60 dark:bg-gray-900/40 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-500/30 transition-all duration-300 group hover:shadow-md">
-        <div class="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        </div>
-        <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">Economic Empowerment</h3>
-        <p class="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">Driving equitable growth and actively fostering environments where diverse talents lead directly to high-performing innovation.</p>
-    </div>
-</section>
 
 <?php require_once 'includes/footer.php'; ?>

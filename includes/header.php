@@ -78,10 +78,10 @@ require_once __DIR__ . '/flash.php';
 
     <!-- Sticky, Premium Navbar -->
     <header class="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/75 dark:bg-gray-950/75 border-b border-gray-200/80 dark:border-white/10 shadow-sm transition-colors duration-300">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center" aria-label="Main Navigation">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1 flex flex-wrap justify-between items-center" aria-label="Main Navigation">
             
             <!-- Brand Logo -->
-            <a href="<?php echo BASE_URL; ?>index.php" class="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 rounded-lg p-1 transition-all group">
+            <a href="<?php echo BASE_URL; ?>index.php" class="flex items-center gap-1 text-lg font-bold text-gray-900 dark:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400 rounded-lg p-1 transition-all group">
                 <span class="tracking-tight hidden sm:block">Equi<span class="text-blue-700 dark:text-blue-400">Work</span></span>
             </a>
 
