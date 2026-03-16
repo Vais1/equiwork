@@ -98,39 +98,54 @@ require_once 'includes/header.php';
                 <p id="resumeError" class="mt-2 text-sm text-red-600 hidden" aria-live="assertive" role="alert"></p>
 
                 <!-- Parsed Resume Preview -->
-                <div id="resumePreview" class="hidden mt-6 bg-surface border border-border rounded-lg shadow-sm p-5" aria-live="polite">
-                    <h3 class="text-lg font-semibold text-text border-b border-border pb-2 mb-4">Parsed Profile Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-text">
+                <div id="resumePreview" class="hidden mt-6 bg-surface border border-border rounded-lg shadow-sm p-6" aria-live="polite">
+                    <h3 class="text-xl font-bold text-text border-b border-border pb-3 mb-5">Verify Extracted Profile Information</h3>
+                    <p class="text-sm text-muted mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Email -->
                         <div>
-                            <span class="block font-medium text-muted">Email:</span>
-                            <span id="previewEmail" class="block font-semibold"></span>
+                            <label for="parsed_email" class="block text-sm font-semibold text-text mb-1">Email Address</label>
+                            <input type="email" id="parsed_email" name="parsed_email" 
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                aria-label="Extracted Email Address">
                         </div>
+                        
+                        <!-- Phone -->
                         <div>
-                            <span class="block font-medium text-muted">Phone:</span>
-                            <span id="previewPhone" class="block font-semibold"></span>
+                            <label for="parsed_phone" class="block text-sm font-semibold text-text mb-1">Phone Number</label>
+                            <input type="text" id="parsed_phone" name="parsed_phone" 
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                aria-label="Extracted Phone Number">
                         </div>
+
+                        <!-- Skills -->
                         <div class="md:col-span-2">
-                            <span class="block font-medium text-muted">Identified Skills:</span>
-                            <span id="previewSkills" class="block font-semibold"></span>
+                            <label for="parsed_skills" class="block text-sm font-semibold text-text mb-1">Identified Skills</label>
+                            <input type="text" id="parsed_skills" name="parsed_skills" 
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                aria-label="Extracted Skills" aria-describedby="skillsHelp">
+                            <p id="skillsHelp" class="text-xs text-muted mt-1">Comma-separated list of your technical and soft skills.</p>
                         </div>
+                        
+                        <!-- Education -->
                         <div class="md:col-span-2">
-                            <span class="block font-medium text-muted">Education:</span>
-                            <p id="previewEducation" class="block text-muted text-xs bg-accent/5 p-3 rounded-md mt-1 whitespace-pre-line"></p>
+                            <label for="parsed_education" class="block text-sm font-semibold text-text mb-1">Education History</label>
+                            <textarea id="parsed_education" name="parsed_education" rows="4"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors resize-y"
+                                aria-label="Extracted Education History"></textarea>
                         </div>
-                        <div class="md:col-span-2 mt-2">
-                            <span class="block font-medium text-muted">Work History Snippet:</span>
-                            <p id="previewWorkHistory" class="block text-muted text-xs bg-accent/5 p-3 rounded-md mt-1 whitespace-pre-line"></p>
+
+                        <!-- Work Experience -->
+                        <div class="md:col-span-2">
+                            <label for="parsed_work" class="block text-sm font-semibold text-text mb-1">Work Experience</label>
+                            <textarea id="parsed_work" name="parsed_work" rows="6"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors resize-y"
+                                aria-label="Extracted Work Experience"></textarea>
                         </div>
                     </div>
-                    <p class="text-xs text-muted mt-4">Please verify the extracted information above. It will be sent alongside your application.</p>
                 </div>
             </div>
-            <!-- Hidden inputs to pass data with the form -->
-            <input type="hidden" name="parsed_email" id="parsed_email" value="">
-            <input type="hidden" name="parsed_phone" id="parsed_phone" value="">
-            <input type="hidden" name="parsed_education" id="parsed_education" value="">
-            <input type="hidden" name="parsed_skills" id="parsed_skills" value="">
-            <input type="hidden" name="parsed_work" id="parsed_work" value="">
         </fieldset>
 
         <div class="flex items-center justify-between border-t border-border pt-6">
@@ -158,19 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumePreview = document.getElementById('resumePreview');
     const dropZone = document.getElementById('drop_zone');
     
-    // Preview Elements
-    const previewEmail = document.getElementById('previewEmail');
-    const previewPhone = document.getElementById('previewPhone');
-    const previewEducation = document.getElementById('previewEducation');
-    const previewSkills = document.getElementById('previewSkills');
-    const previewWorkHistory = document.getElementById('previewWorkHistory');
-    
-    // Hidden Inputs
-    const hiddenEmail = document.getElementById('parsed_email');
-    const hiddenPhone = document.getElementById('parsed_phone');
-    const hiddenEducation = document.getElementById('parsed_education');
-    const hiddenSkills = document.getElementById('parsed_skills');
-    const hiddenWork = document.getElementById('parsed_work');
+    // Form Elements for parsed data
+    const parsedEmail = document.getElementById('parsed_email');
+    const parsedPhone = document.getElementById('parsed_phone');
+    const parsedSkills = document.getElementById('parsed_skills');
+    const parsedEducation = document.getElementById('parsed_education');
+    const parsedWork = document.getElementById('parsed_work');
 
     // Drag and Drop functionality
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -245,21 +253,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error || 'Server error occurred during parsing.');
             }
 
-            // Populate Preview
-            previewEmail.textContent = data.data.email;
-            previewPhone.textContent = data.data.phone;
-            previewEducation.textContent = data.data.education;
-            previewSkills.textContent = data.data.skills;
-            previewWorkHistory.textContent = data.data.work_experience;
+            // Populate Form Fields
+            parsedEmail.value = data.data.email;
+            parsedPhone.value = data.data.phone;
+            parsedEducation.value = data.data.education;
+            parsedSkills.value = data.data.skills;
+            parsedWork.value = data.data.work_experience;
 
-            // Populate Hidden Fields
-            hiddenEmail.value = data.data.email;
-            hiddenPhone.value = data.data.phone;
-            hiddenEducation.value = data.data.education;
-            hiddenSkills.value = data.data.skills;
-            hiddenWork.value = data.data.work_experience;
-
-            // Show Preview
+            // Show Preview Area
             parseLoading.classList.add('hidden');
             resumePreview.classList.remove('hidden');
             

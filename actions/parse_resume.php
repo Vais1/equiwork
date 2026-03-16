@@ -181,8 +181,8 @@ foreach ($lines as $line) {
 }
 
 // Format Extracted Arrays back to string representations
-$extractedData['education'] = !empty($sections['education']) ? implode("\n", array_slice($sections['education'], 0, 5)) : 'No formal education identified.';
-$extractedData['work_experience'] = !empty($sections['experience']) ? implode("\n", array_slice($sections['experience'], 0, 8)) : 'No explicit work history identified.';
+$extractedData['education'] = !empty($sections['education']) ? implode("\n", $sections['education']) : '';
+$extractedData['work_experience'] = !empty($sections['experience']) ? implode("\n", $sections['experience']) : '';
 
 // Intelligent Skills Extraction
 $common_skills = [
@@ -211,15 +211,18 @@ foreach ($common_skills as $skill) {
     }
 }
 
-$extractedData['skills'] = !empty($found_skills) ? array_unique($found_skills) : ['No specific technical skills matched.'];
+$extractedData['skills'] = !empty($found_skills) ? array_unique($found_skills) : [];
 
 // 4. Robust Output Sanitization (XSS Prevention)
 function sanitize_parsed_data($data) {
     if (is_array($data)) {
         return array_map('sanitize_parsed_data', $data);
     }
-    // ENT_QUOTES | ENT_HTML5 secures single & double quotes. 
-    return htmlspecialchars(trim($data), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // Remove HTML entity encoding issues for editable fields
+    // json_encode safely transports strings, XSS should be prevented on final form submission
+    $clean = strip_tags(trim($data));
+    $clean = htmlspecialchars_decode($clean, ENT_QUOTES | ENT_HTML5);
+    return $clean;
 }
 
 $sanitizedData = sanitize_parsed_data($extractedData);
