@@ -78,11 +78,11 @@ require_once 'includes/header.php';
                         <div class="flex text-sm text-text justify-center">
                             <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent hover:text-accent-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
                                 <span>Upload a file</span>
-                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" aria-describedby="resumeHelp resumeError" aria-required="true" required>
+                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.jpg,.jpeg,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
                             </label>
                             <p class="pl-1">or drag and drop</p>
                         </div>
-                        <p id="resumeHelp" class="text-xs text-muted">PDF or DOCX up to 5MB</p>
+                        <p id="resumeHelp" class="text-xs text-muted">PDF, DOCX, JPG, or PNG up to 5MB</p>
                     </div>
                 </div>
                 
@@ -113,9 +113,13 @@ require_once 'includes/header.php';
                             <span class="block font-medium text-muted">Identified Skills:</span>
                             <span id="previewSkills" class="block font-semibold"></span>
                         </div>
+                        <div class="md:col-span-2">
+                            <span class="block font-medium text-muted">Education:</span>
+                            <p id="previewEducation" class="block text-muted text-xs bg-accent/5 p-3 rounded-md mt-1 whitespace-pre-line"></p>
+                        </div>
                         <div class="md:col-span-2 mt-2">
                             <span class="block font-medium text-muted">Work History Snippet:</span>
-                            <p id="previewWorkHistory" class="block text-muted text-xs italic bg-accent/5 p-3 rounded-md mt-1"></p>
+                            <p id="previewWorkHistory" class="block text-muted text-xs bg-accent/5 p-3 rounded-md mt-1 whitespace-pre-line"></p>
                         </div>
                     </div>
                     <p class="text-xs text-muted mt-4">Please verify the extracted information above. It will be sent alongside your application.</p>
@@ -124,6 +128,7 @@ require_once 'includes/header.php';
             <!-- Hidden inputs to pass data with the form -->
             <input type="hidden" name="parsed_email" id="parsed_email" value="">
             <input type="hidden" name="parsed_phone" id="parsed_phone" value="">
+            <input type="hidden" name="parsed_education" id="parsed_education" value="">
             <input type="hidden" name="parsed_skills" id="parsed_skills" value="">
             <input type="hidden" name="parsed_work" id="parsed_work" value="">
         </fieldset>
@@ -156,12 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preview Elements
     const previewEmail = document.getElementById('previewEmail');
     const previewPhone = document.getElementById('previewPhone');
+    const previewEducation = document.getElementById('previewEducation');
     const previewSkills = document.getElementById('previewSkills');
     const previewWorkHistory = document.getElementById('previewWorkHistory');
     
     // Hidden Inputs
     const hiddenEmail = document.getElementById('parsed_email');
     const hiddenPhone = document.getElementById('parsed_phone');
+    const hiddenEducation = document.getElementById('parsed_education');
     const hiddenSkills = document.getElementById('parsed_skills');
     const hiddenWork = document.getElementById('parsed_work');
 
@@ -209,9 +216,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resumeInput.setAttribute('aria-invalid', 'false');
 
         // Client-side validation
-        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
+        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword', 'image/jpeg', 'image/png'];
         if (!validTypes.includes(file.type)) {
-            showError('Please upload a valid PDF or DOCX file.');
+            showError('Please upload a valid PDF, DOCX, JPG, or PNG file.');
             return;
         }
 
@@ -241,14 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate Preview
             previewEmail.textContent = data.data.email;
             previewPhone.textContent = data.data.phone;
+            previewEducation.textContent = data.data.education;
             previewSkills.textContent = data.data.skills;
-            previewWorkHistory.textContent = data.data.work_history;
+            previewWorkHistory.textContent = data.data.work_experience;
 
             // Populate Hidden Fields
             hiddenEmail.value = data.data.email;
             hiddenPhone.value = data.data.phone;
+            hiddenEducation.value = data.data.education;
             hiddenSkills.value = data.data.skills;
-            hiddenWork.value = data.data.work_history;
+            hiddenWork.value = data.data.work_experience;
 
             // Show Preview
             parseLoading.classList.add('hidden');
