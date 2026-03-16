@@ -64,6 +64,70 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
+        <fieldset class="mb-8 border-t border-border pt-6">
+            <legend class="sr-only">Resume Upload & Parsing</legend>
+            <div class="form-group relative">
+                <label for="resume" class="block text-sm font-medium text-text mb-2">
+                    Upload Resume (PDF or DOCX) <span class="text-red-500">*</span>
+                </label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-md bg-surface hover:border-accent transition-colors" id="drop_zone">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-text justify-center">
+                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent hover:text-accent-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
+                                <span>Upload a file</span>
+                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" aria-describedby="resumeHelp resumeError" aria-required="true" required>
+                            </label>
+                            <p class="pl-1">or drag and drop</p>
+                        </div>
+                        <p id="resumeHelp" class="text-xs text-muted">PDF or DOCX up to 5MB</p>
+                    </div>
+                </div>
+                
+                <!-- Loading State (ARIA Announced) -->
+                <div id="parseLoading" class="hidden mt-4 flex items-center space-x-3 text-accent" aria-live="assertive">
+                    <svg class="animate-spin h-5 w-5 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-sm font-medium">Extracting data from your resume... Please wait.</span>
+                </div>
+                
+                <p id="resumeError" class="mt-2 text-sm text-red-600 hidden" aria-live="assertive" role="alert"></p>
+
+                <!-- Parsed Resume Preview -->
+                <div id="resumePreview" class="hidden mt-6 bg-surface border border-border rounded-lg shadow-sm p-5" aria-live="polite">
+                    <h3 class="text-lg font-semibold text-text border-b border-border pb-2 mb-4">Parsed Profile Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-text">
+                        <div>
+                            <span class="block font-medium text-muted">Email:</span>
+                            <span id="previewEmail" class="block font-semibold"></span>
+                        </div>
+                        <div>
+                            <span class="block font-medium text-muted">Phone:</span>
+                            <span id="previewPhone" class="block font-semibold"></span>
+                        </div>
+                        <div class="md:col-span-2">
+                            <span class="block font-medium text-muted">Identified Skills:</span>
+                            <span id="previewSkills" class="block font-semibold"></span>
+                        </div>
+                        <div class="md:col-span-2 mt-2">
+                            <span class="block font-medium text-muted">Work History Snippet:</span>
+                            <p id="previewWorkHistory" class="block text-muted text-xs italic bg-accent/5 p-3 rounded-md mt-1"></p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-muted mt-4">Please verify the extracted information above. It will be sent alongside your application.</p>
+                </div>
+            </div>
+            <!-- Hidden inputs to pass data with the form -->
+            <input type="hidden" name="parsed_email" id="parsed_email" value="">
+            <input type="hidden" name="parsed_phone" id="parsed_phone" value="">
+            <input type="hidden" name="parsed_skills" id="parsed_skills" value="">
+            <input type="hidden" name="parsed_work" id="parsed_work" value="">
+        </fieldset>
+
         <div class="flex items-center justify-between border-t border-border pt-6">
             <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text hover:text-accent focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
@@ -75,12 +139,142 @@ require_once 'includes/header.php';
     </form>
 </div>
 
-<!-- Validation Script: Tier 1 Client-Side HTML5/JS -->
+// Validation Script: Tier 1 Client-Side HTML5/JS & Resume Parsing
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('applyForm');
     const letter = document.getElementById('cover_letter');
     const letterError = document.getElementById('coverLetterError');
+    
+    // Resume Elements
+    const resumeInput = document.getElementById('resume');
+    const resumeError = document.getElementById('resumeError');
+    const parseLoading = document.getElementById('parseLoading');
+    const resumePreview = document.getElementById('resumePreview');
+    const dropZone = document.getElementById('drop_zone');
+    
+    // Preview Elements
+    const previewEmail = document.getElementById('previewEmail');
+    const previewPhone = document.getElementById('previewPhone');
+    const previewSkills = document.getElementById('previewSkills');
+    const previewWorkHistory = document.getElementById('previewWorkHistory');
+    
+    // Hidden Inputs
+    const hiddenEmail = document.getElementById('parsed_email');
+    const hiddenPhone = document.getElementById('parsed_phone');
+    const hiddenSkills = document.getElementById('parsed_skills');
+    const hiddenWork = document.getElementById('parsed_work');
+
+    // Drag and Drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.add('border-accent', 'bg-accent/5');
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => {
+            dropZone.classList.remove('border-accent', 'bg-accent/5');
+        }, false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+            resumeInput.files = files;
+            handleFileUpload();
+        }
+    });
+
+    resumeInput.addEventListener('change', handleFileUpload);
+
+    async function handleFileUpload() {
+        const file = resumeInput.files[0];
+        if (!file) return;
+
+        // Reset UI
+        resumeError.classList.add('hidden');
+        resumePreview.classList.add('hidden');
+        parseLoading.classList.remove('hidden');
+        resumeInput.setAttribute('aria-invalid', 'false');
+
+        // Client-side validation
+        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
+        if (!validTypes.includes(file.type)) {
+            showError('Please upload a valid PDF or DOCX file.');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showError('File exceeds the 5MB size limit.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('resume', file);
+
+        try {
+            const response = await fetch('<?php echo BASE_URL; ?>actions/parse_resume.php', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Server error occurred during parsing.');
+            }
+
+            // Populate Preview
+            previewEmail.textContent = data.data.email;
+            previewPhone.textContent = data.data.phone;
+            previewSkills.textContent = data.data.skills;
+            previewWorkHistory.textContent = data.data.work_history;
+
+            // Populate Hidden Fields
+            hiddenEmail.value = data.data.email;
+            hiddenPhone.value = data.data.phone;
+            hiddenSkills.value = data.data.skills;
+            hiddenWork.value = data.data.work_history;
+
+            // Show Preview
+            parseLoading.classList.add('hidden');
+            resumePreview.classList.remove('hidden');
+            
+            // Announce to screen readers
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.classList.add('sr-only');
+            announcement.textContent = 'Resume parsed successfully. Please review the extracted information.';
+            document.body.appendChild(announcement);
+            setTimeout(() => document.body.removeChild(announcement), 3000);
+
+        } catch (err) {
+            showError(err.message);
+        }
+    }
+
+    function showError(message) {
+        parseLoading.classList.add('hidden');
+        resumeError.textContent = message;
+        resumeError.classList.remove('hidden');
+        resumeInput.setAttribute('aria-invalid', 'true');
+        resumeInput.value = ''; // Clear input
+    }
 
     form.addEventListener('submit', function(e) {
         let valid = true;
