@@ -33,7 +33,7 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-12 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+<div class="max-w-3xl mx-auto mt-12 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
     
     <div class="mb-8 border-b border-border pb-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-3">
@@ -70,13 +70,13 @@ require_once 'includes/header.php';
                 <label for="resume" class="block text-sm font-medium text-text mb-2">
                     Upload Resume (PDF or DOCX) <span class="text-red-500">*</span>
                 </label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-md bg-surface hover:border-accent transition-colors" id="drop_zone">
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-md bg-surface transition-colors" id="drop_zone">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <div class="flex text-sm text-text justify-center">
-                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent hover:text-accent-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
+                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
                                 <span>Upload a file</span>
                                 <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.jpg,.jpeg,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
                             </label>
@@ -149,17 +149,16 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-between border-t border-border pt-6">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text hover:text-accent focus:outline-none focus:underline">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
             </a>
-            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Submit Application
             </button>
         </div>
     </form>
 </div>
 
-// Validation Script: Tier 1 Client-Side HTML5/JS & Resume Parsing
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('applyForm');

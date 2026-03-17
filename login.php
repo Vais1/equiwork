@@ -19,7 +19,7 @@ if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+<div class="max-w-md mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
     <div class="flex justify-center mb-6">
         <div class="w-16 h-16 bg-accent/10 text-accent rounded-full flex items-center justify-center">
             <svg aria-hidden="true" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
@@ -47,14 +47,14 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Log In
         </button>
 
         <div class="mt-6 text-center">
             <p class="text-sm text-muted">
                 Don't have an account yet? 
-                <a href="<?php echo BASE_URL; ?>register.php" class="text-accent hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded">Sign up</a>
+                <a href="<?php echo BASE_URL; ?>register.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded">Sign up</a>
             </p>
         </div>
     </form>

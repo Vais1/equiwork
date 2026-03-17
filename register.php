@@ -12,11 +12,10 @@ require_once 'includes/db.php';
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
     <h1 class="text-3xl font-extrabold text-text mb-3 text-center tracking-tight font-heading">Create Account</h1>
     <p class="text-muted text-center mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
 
-    <!-- Semantic form structure -->
     <form action="<?php echo BASE_URL; ?>actions/process_register.php" method="POST" id="registerForm" novalidate>
         <fieldset class="mb-5 space-y-4">
             <legend class="sr-only">Account Details</legend>
@@ -48,34 +47,33 @@ require_once 'includes/header.php';
                 
                 <div class="custom-select-container relative w-full" data-name="role_type">
                     <input type="hidden" name="role_type" id="role" value="<?php echo $defaultRole; ?>" required>
-                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="role-label">
+                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="role-label">
                         <span class="custom-select-text"><?php echo $defaultRole === 'Employer' ? 'Employer' : 'Job Seeker'; ?></span>
                         <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <ul class="custom-select-list absolute z-10 w-full mt-1 bg-surface border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Seeker' ? 'true' : 'false'; ?>" data-value="Seeker">Job Seeker</li>
-                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Employer' ? 'true' : 'false'; ?>" data-value="Employer">Employer</li>
-                        <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Platform Admin (For Demo)</li>
+                        <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Seeker' ? 'true' : 'false'; ?>" data-value="Seeker">Job Seeker</li>
+                        <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="<?php echo $defaultRole === 'Employer' ? 'true' : 'false'; ?>" data-value="Employer">Employer</li>
+                        <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Platform Admin (For Demo)</li>
                     </ul>
                 </div>
 
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Register Account
         </button>
 
         <div class="mt-6 text-center">
             <p class="text-sm text-muted">
                 Already have an account? 
-                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded">Log in</a>
+                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded">Log in</a>
             </p>
         </div>
     </form>
 </div>
 
-<!-- Inject custom script inline to bypass includes restriction if any -->
 <script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 
 <script>

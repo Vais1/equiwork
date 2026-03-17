@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // Project: EquiWork
 // Module: Landing Page
 require_once 'includes/config.php';
@@ -22,10 +22,10 @@ require_once 'includes/header.php';
     </p>
 
     <div class="flex flex-col sm:flex-row justify-center items-center gap-5 sm:gap-6">
-        <a href="<?php echo BASE_URL; ?>register.php?role=Seeker" class="w-full sm:w-auto bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 text-center">
+        <a href="<?php echo BASE_URL; ?>register.php?role=Seeker" class="w-full sm:w-auto bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 text-center">
             Explore Opportunities
         </a>
-        <a href="<?php echo BASE_URL; ?>register.php?role=Employer" class="w-full sm:w-auto border border-accent text-accent hover:bg-accent/10 px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95 text-center">
+        <a href="<?php echo BASE_URL; ?>register.php?role=Employer" class="w-full sm:w-auto border border-accent text-accent px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95 text-center">
             Partner with Us
         </a>
     </div>

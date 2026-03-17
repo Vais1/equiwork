@@ -157,7 +157,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="hover:bg-bg transition-colors">
+                        <tr class="transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
@@ -179,7 +179,7 @@ require_once '../includes/header.php';
                                 
                                 <!-- Edit Button triggers Modal via JS -->
                                 <button type="button" 
-                                        class="open-edit-modal font-medium text-accent hover:text-accent focus:outline-none focus:underline"
+                                        class="open-edit-modal font-medium text-accent focus:outline-none focus:underline"
                                         data-id="<?php echo htmlspecialchars($row['user_id']); ?>"
                                         data-username="<?php echo htmlspecialchars($row['username']); ?>"
                                         data-email="<?php echo htmlspecialchars($row['email']); ?>"
@@ -191,7 +191,7 @@ require_once '../includes/header.php';
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                                         Delete
                                     </button>
                                 </form>
@@ -217,10 +217,10 @@ require_once '../includes/header.php';
             </span>
             <div class="space-x-1">
                 <?php if($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg focus:ring-2 focus:ring-accent">Previous</a>
+                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text focus:ring-2 focus:ring-accent">Previous</a>
                 <?php endif; ?>
                 <?php if($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg focus:ring-2 focus:ring-accent">Next</a>
+                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text focus:ring-2 focus:ring-accent">Next</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -269,9 +269,9 @@ require_once '../includes/header.php';
                                             <svg aria-hidden="true" class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                         </button>
                                         <ul class="custom-select-list absolute z-50 w-full mt-1 bg-surface border border-border rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
-                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Employer">Employer</li>
-                                            <li class="px-4 py-2 hover:bg-accent/10 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Admin</li>
+                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
+                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Employer">Employer</li>
+                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Admin</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -281,10 +281,10 @@ require_once '../includes/header.php';
                 </div>
                 <!-- Modal Footer -->
                 <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border">
-                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Save Changes
                     </button>
-                    <button type="button" id="closeModalBtn" class="border border-accent text-accent hover:bg-accent/10 px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
+                    <button type="button" id="closeModalBtn" class="border border-accent text-accent px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
                         Cancel
                     </button>
                 </div>

@@ -50,7 +50,7 @@ function display_flash_messages() {
         echo '<div class="' . $colors . ' px-4 py-3 rounded-lg border shadow-sm relative mb-4 flex items-center justify-between" role="' . $role . '" aria-live="' . $ariaLive . '">';
         echo '<span class="block sm:inline font-medium">' . $message . '</span>';
         // Accessible dismiss button
-        echo '<button type="button" class="ml-auto text-current opacity-70 hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-current rounded" onclick="this.parentElement.remove();" aria-label="Dismiss alert">';
+        echo '<button type="button" class="ml-auto text-current opacity-70 focus:outline-none focus:ring-2 focus:ring-current rounded" onclick="this.parentElement.remove();" aria-label="Dismiss alert">';
         echo '<svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
         echo '</button>';
         echo '</div>';

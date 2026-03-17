@@ -66,7 +66,6 @@ require_once '../includes/header.php';
 ?>
 
 <div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-2xl p-8 mt-16 text-white relative overflow-hidden">
-    <!-- Admin visual accent to distinguish from standard login -->
     <div class="absolute top-0 left-0 w-full h-2 bg-red-600"></div>
 
     <div class="text-center mb-8">
@@ -96,7 +95,7 @@ require_once '../includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-500/50 text-white font-semibold flex justify-center px-4 py-3 rounded-lg transition-colors">
+        <button type="submit" class="w-full bg-red-600 focus:ring-4 focus:ring-red-500/50 text-white font-semibold flex justify-center px-4 py-3 rounded-lg transition-colors">
             Authenticate
         </button>
     </form>

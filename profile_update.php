@@ -24,11 +24,10 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-200">
+<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
     <h1 class="text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
     <p class="text-muted mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
-    <!-- Display Server-Side Flash Messages -->
     <?php if (isset($_SESSION['flash_success'])): ?>
         <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow-sm" role="alert" aria-live="polite">
             <span class="block sm:inline"><?php echo htmlspecialchars($_SESSION['flash_success'], ENT_QUOTES); unset($_SESSION['flash_success']); ?></span>
@@ -46,8 +45,6 @@ require_once 'includes/header.php';
     <?php endif; ?>
 
     <form action="<?php echo BASE_URL; ?>actions/process_profile.php" method="POST" id="profileForm" novalidate>
-        
-        <!-- CSRF Token implementation point normally goes here -->
         
         <fieldset class="mb-8 space-y-6">
             <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Basic Information</legend>
@@ -87,14 +84,13 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-6">
-            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-accent-hover active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>
     </form>
 </div>
 
-<!-- Validation Script: Tier 1 Client-Side -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('profileForm');
