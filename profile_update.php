@@ -24,7 +24,7 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
+<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
     <h1 class="text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
     <p class="text-muted mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
@@ -84,7 +84,7 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-6">
-            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>

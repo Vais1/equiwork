@@ -25,7 +25,7 @@ if ($accResult && $accResult->num_rows > 0) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-8 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-200">
+<div class="max-w-3xl mx-auto mt-8 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
     <h1 class="text-3xl font-bold text-text mb-6 font-heading">Post a New Job</h1>
     
     <form action="<?php echo BASE_URL; ?>actions/process_post_job.php" method="POST" id="postJobForm" novalidate>
@@ -45,7 +45,7 @@ require_once 'includes/header.php';
                 
                 <div class="custom-select-container relative w-full" data-name="location_type">
                     <input type="hidden" name="location_type" id="location_type" required>
-                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
                         <span class="custom-select-text">Select an arrangement...</span>
                         <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -100,11 +100,11 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-border">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-6 py-2.5 rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-colors font-medium">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-6 py-2.5 rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out hover:opacity-80 font-medium">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Post Job
             </button>
         </div>

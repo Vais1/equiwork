@@ -9,8 +9,10 @@
                     <p>Advancing SDG 08: Decent Work & Economic Growth.</p>
                 </div>
                 <div class="flex flex-wrap justify-center gap-6 font-medium">
-                    <a href="#" class="focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md transition-colors underline decoration-transparent">Accessibility Standards</a>
-                    <a href="#" class="focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md transition-colors underline decoration-transparent">Data Privacy</a>
+                    <a href="<?php echo BASE_URL; ?>register.php?role=Seeker" class="transition-colors duration-300 hover:text-accent focus:outline-none focus:underline">For Job Seekers</a>
+                    <a href="<?php echo BASE_URL; ?>register.php?role=Employer" class="transition-colors duration-300 hover:text-accent focus:outline-none focus:underline">For Employers</a>
+                    <a href="#" class="transition-colors duration-300 hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md underline decoration-transparent">Accessibility Standards</a>
+                    <a href="#" class="transition-colors duration-300 hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md underline decoration-transparent">Data Privacy</a>
                 </div>
             </div>
         </div>

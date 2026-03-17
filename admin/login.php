@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-2xl p-8 mt-16 text-white relative overflow-hidden">
+<div class="max-w-md mx-auto mt-12 bg-surface border border-red-200 rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out text-white relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-2 bg-red-600"></div>
 
     <div class="text-center mb-8">
