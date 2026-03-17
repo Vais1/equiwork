@@ -24,9 +24,9 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
-    <h1 class="text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
-    <p class="text-muted mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
+<div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+    <h1 class="text-2xl md:text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
+    <p class="text-muted mb-6 md:mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
     <?php if (isset($_SESSION['flash_success'])): ?>
         <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow-sm" role="alert" aria-live="polite">
@@ -46,7 +46,7 @@ require_once 'includes/header.php';
 
     <form action="<?php echo BASE_URL; ?>actions/process_profile.php" method="POST" id="profileForm" novalidate>
         
-        <fieldset class="mb-8 space-y-6">
+        <fieldset class="mb-6 md:mb-8 space-y-4 sm:space-y-5">
             <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Basic Information</legend>
             
             <div class="form-group relative">
@@ -70,7 +70,7 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <fieldset class="mb-8 space-y-6">
+        <fieldset class="mb-6 md:mb-8 space-y-4 sm:space-y-5">
             <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Security</legend>
             <p class="text-sm text-muted mb-4">Leave password blank if you do not wish to change it.</p>
             
@@ -83,8 +83,8 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <div class="flex items-center justify-end border-t border-border pt-6">
-            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <div class="flex items-center justify-end border-t border-border pt-4 md:pt-6">
+            <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>

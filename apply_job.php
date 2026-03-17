@@ -33,9 +33,9 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-12 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
     
-    <div class="mb-8 border-b border-border pb-6">
+    <div class="mb-6 md:mb-8 border-b border-border pb-4 md:pb-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-3">
             Application Submission
         </span>
@@ -48,7 +48,7 @@ require_once 'includes/header.php';
         
         <input type="hidden" name="job_id" value="<?php echo (int)$job_id; ?>">
 
-        <fieldset class="mb-8">
+        <fieldset class="mb-6 md:mb-8">
             <legend class="sr-only">Application Letter</legend>
             
             <div class="form-group relative">
@@ -64,13 +64,13 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <fieldset class="mb-8 border-t border-border pt-6">
+        <fieldset class="mb-6 md:mb-8 border-t border-border pt-4 md:pt-6">
             <legend class="sr-only">Resume Upload & Parsing</legend>
             <div class="form-group relative">
                 <label for="resume" class="block text-sm font-medium text-text mb-2">
                     Upload Resume (PDF or DOCX) <span class="text-red-500">*</span>
                 </label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out hover:border-accent" id="drop_zone">
+                <div class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out hover:border-accent" id="drop_zone">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -98,11 +98,11 @@ require_once 'includes/header.php';
                 <p id="resumeError" class="mt-2 text-sm text-red-600 hidden" aria-live="assertive" role="alert"></p>
 
                 <!-- Parsed Resume Preview -->
-                <div id="resumePreview" class="hidden mt-6 bg-surface border border-border rounded-lg shadow-sm p-6" aria-live="polite">
-                    <h3 class="text-xl font-bold text-text border-b border-border pb-3 mb-5">Verify Extracted Profile Information</h3>
-                    <p class="text-sm text-muted mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
+                <div id="resumePreview" class="hidden mt-4 md:mt-6 bg-surface border border-border rounded-lg shadow-sm p-4 md:p-6" aria-live="polite">
+                    <h3 class="text-xl font-bold text-text border-b border-border pb-2 mb-4">Verify Extracted Profile Information</h3>
+                    <p class="text-sm text-muted mb-4 md:mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                         <!-- Email -->
                         <div>
                             <label for="parsed_email" class="block text-sm font-semibold text-text mb-1">Email Address</label>
@@ -148,11 +148,11 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <div class="flex items-center justify-between border-t border-border pt-6">
+        <div class="flex items-center justify-between border-t border-border pt-4 md:pt-6">
             <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-colors duration-300 hover:text-accent focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
             </a>
-            <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Submit Application
             </button>
         </div>

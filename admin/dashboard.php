@@ -112,9 +112,9 @@ $users_result = $stmt->get_result();
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
     
-    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+    <div class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
             <h1 class="text-3xl font-bold text-text">Admin Dashboard</h1>
             <p class="mt-2 text-sm text-muted">Manage registered users and platform parameters.</p>
@@ -147,21 +147,21 @@ require_once '../includes/header.php';
             <table class="min-w-full divide-y divide-border text-left text-sm text-text">
                 <thead class="bg-bg">
                     <tr>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text">ID</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text">Username</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text">Email</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text">Role</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text">Registered</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-text text-right">Actions</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Username</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Email</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Role</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Registered</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
                         <tr class="transition-colors duration-300 ease-in-out hover:bg-accent/5">
-                            <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
                                 <?php 
                                     $role_color = match($row['role_type']) {
                                         'Admin' => 'bg-purple-100 text-purple-800  ',
@@ -174,8 +174,8 @@ require_once '../includes/header.php';
                                     <?php echo htmlspecialchars($row['role_type']); ?>
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap"><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm space-x-2">
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-right text-sm space-x-2">
                                 
                                 <!-- Edit Button triggers Modal via JS -->
                                 <button type="button" 
@@ -191,7 +191,7 @@ require_once '../includes/header.php';
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                                    <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                                         Delete
                                     </button>
                                 </form>
@@ -202,7 +202,7 @@ require_once '../includes/header.php';
                     
                     <?php if($users_result->num_rows === 0): ?>
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-muted">No users found.</td>
+                            <td colspan="6" class="px-4 md:px-6 py-6 text-center text-muted">No users found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -211,7 +211,7 @@ require_once '../includes/header.php';
         
         <!-- Pagination Component -->
         <?php if($total_pages > 1): ?>
-        <div class="px-6 py-4 border-t border-border bg-bg flex items-center justify-between">
+        <div class="px-4 md:px-6 py-3 border-t border-border bg-bg flex items-center justify-between">
             <span class="text-sm text-text">
                 Page <span class="font-medium"><?php echo $page; ?></span> of <span class="font-medium"><?php echo $total_pages; ?></span>
             </span>
@@ -243,7 +243,7 @@ require_once '../includes/header.php';
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="user_id" id="edit_user_id">
                 
-                <div class="bg-surface px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-surface px-4 pt-5 pb-4 sm:p-5 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <h3 class="text-lg leading-6 font-medium text-text" id="modal-title">
@@ -280,11 +280,11 @@ require_once '../includes/header.php';
                     </div>
                 </div>
                 <!-- Modal Footer -->
-                <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border">
-                    <button type="submit" class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border sm:space-x-reverse sm:space-x-3">
+                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Save Changes
                     </button>
-                    <button type="button" id="closeModalBtn" class="border border-accent text-accent px-5 py-2.5 rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
+                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto border border-accent text-accent px-4 py-2.5 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
                         Cancel
                     </button>
                 </div>

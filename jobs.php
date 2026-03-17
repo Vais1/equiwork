@@ -126,17 +126,17 @@ if (!empty($job_ids)) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
     
-    <div class="mb-8 lg:mb-10 border-b border-border pb-4 mt-2">
+    <div class="mb-6 lg:mb-8 border-b border-border pb-3 mt-2">
         <h1 class="text-3xl md:text-4xl font-bold text-text tracking-tight leading-tight font-heading">Job Board</h1>
     </div>
 
-    <div class="flex flex-col lg:flex-row gap-8">
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
         
         <!-- Sidebar Filter System -->
         <aside class="w-full lg:w-1/4">
-            <form action="<?php echo BASE_URL; ?>jobs.php" method="GET" class="bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out sticky top-6">
+            <form action="<?php echo BASE_URL; ?>jobs.php" method="GET" class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out sticky top-6">
                 <h2 class="text-lg font-bold text-text mb-4">Filter by Accessibility</h2>
                 
                 <div class="space-y-6">
@@ -170,8 +170,8 @@ require_once 'includes/header.php';
                     <?php endif; ?>
                 </div>
 
-                <div class="mt-8 pt-4 border-t border-border space-y-3">
-                    <button type="submit" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                <div class="mt-6 md:mt-8 pt-4 border-t border-border space-y-3">
+                    <button type="submit" class="w-full bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Apply Filters
                     </button>
                     <!-- Provide clear option to remove state -->
@@ -193,7 +193,7 @@ require_once 'includes/header.php';
 
             <div class="space-y-6">
                 <?php if (count($jobs) === 0): ?>
-                    <div class="bg-bg p-10 text-center rounded-xl border border-dashed border-border">
+                    <div class="bg-bg p-6 md:p-10 text-center rounded-xl border border-dashed border-border">
                         <svg class="mx-auto h-12 w-12 text-muted mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -202,7 +202,7 @@ require_once 'includes/header.php';
                     </div>
                 <?php else: ?>
                     <?php foreach ($jobs as $job): ?>
-                        <article class="bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col md:flex-row md:items-start md:justify-between focus-within:ring-4 focus-within:ring-blue-300">
+                        <article class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col md:flex-row md:items-start md:justify-between focus-within:ring-4 focus-within:ring-blue-300">
                             
                             <div class="flex-grow">
                                 <div class="flex items-center space-x-2 text-sm text-muted mb-2">
@@ -233,17 +233,17 @@ require_once 'includes/header.php';
                             </div>
                             
                             <!-- Application Action Logic -->
-                            <div class="mt-6 md:mt-0 md:ml-6 flex shrink-0">
+                            <div class="mt-5 md:mt-0 md:ml-5 flex shrink-0">
                                 <?php if ($user_role === 'Seeker'): ?>
-                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-blue-600 focus:ring-4 focus:ring-accent/50 text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300 ease-in-out hover:opacity-80">
+                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-blue-600 focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2.5 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out hover:opacity-80">
                                         Apply Now
                                     </a>
                                 <?php elseif ($user_role === 'Employer'): ?>
-                                    <span class="w-full md:w-auto text-center bg-gray-200 text-muted font-medium px-6 py-2.5 rounded-lg cursor-not-allowed" title="Employers cannot apply to jobs">
+                                    <span class="w-full md:w-auto text-center bg-gray-200 text-muted font-medium px-4 py-2.5 min-w-[44px] rounded-lg cursor-not-allowed" title="Employers cannot apply to jobs">
                                         Employer View
                                     </span>
                                 <?php else: ?>
-                                    <span class="w-full md:w-auto text-center bg-gray-200 text-muted font-medium px-6 py-2.5 rounded-lg cursor-not-allowed">
+                                    <span class="w-full md:w-auto text-center bg-gray-200 text-muted font-medium px-4 py-2.5 min-w-[44px] rounded-lg cursor-not-allowed">
                                         Admin View
                                     </span>
                                 <?php endif; ?>

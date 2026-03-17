@@ -65,10 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto mt-12 bg-surface border border-red-200 rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out text-white relative overflow-hidden">
+<div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-red-200 rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out text-white relative overflow-hidden">
     <div class="absolute top-0 left-0 w-full h-2 bg-red-600"></div>
 
-    <div class="text-center mb-8">
+    <div class="text-center mb-6 md:mb-8">
         <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-600/20 text-red-500 mb-4">
             <svg aria-hidden="true" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
         </div>
@@ -77,7 +77,7 @@ require_once '../includes/header.php';
     </div>
 
     <form action="<?php echo BASE_URL; ?>admin/login.php" method="POST" id="adminLoginForm" novalidate>
-        <fieldset class="mb-6 space-y-5">
+        <fieldset class="mb-5 md:mb-6 space-y-4">
             <legend class="sr-only">Administrator Login</legend>
 
             <div>

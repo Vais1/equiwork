@@ -25,11 +25,11 @@ if ($accResult && $accResult->num_rows > 0) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-8 mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
-    <h1 class="text-3xl font-bold text-text mb-6 font-heading">Post a New Job</h1>
+<div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+    <h1 class="text-2xl md:text-3xl font-bold text-text mb-4 md:mb-6 font-heading">Post a New Job</h1>
     
     <form action="<?php echo BASE_URL; ?>actions/process_post_job.php" method="POST" id="postJobForm" novalidate>
-        <fieldset class="mb-6 space-y-4">
+        <fieldset class="mb-5 md:mb-6 space-y-3 md:space-y-4">
             <legend class="text-xl font-semibold text-text mb-4 border-b pb-2">Job Details</legend>
             
             <div>
@@ -45,7 +45,7 @@ require_once 'includes/header.php';
                 
                 <div class="custom-select-container relative w-full" data-name="location_type">
                     <input type="hidden" name="location_type" id="location_type" required>
-                    <button type="button" class="w-full bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                    <button type="button" class="w-full bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
                         <span class="custom-select-text">Select an arrangement...</span>
                         <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -69,12 +69,12 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <fieldset class="mb-8">
+        <fieldset class="mb-6 md:mb-8">
             <legend class="text-xl font-semibold text-text mb-4 border-b pb-2">Accessibility Accommodations</legend>
             <p class="text-sm text-muted mb-4">Select the specific accommodations your organisation provides for this role.</p>
             
             <?php if (!empty($accommodations)): ?>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                 <?php foreach ($accommodations as $category => $items): ?>
                     <div class="bg-bg p-4 rounded-lg border border-border">
                         <h3 class="font-medium text-text mb-3"><?php echo htmlspecialchars($category, ENT_QUOTES, 'UTF-8'); ?></h3>
@@ -99,12 +99,12 @@ require_once 'includes/header.php';
             <?php endif; ?>
         </fieldset>
 
-        <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-border">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-6 py-2.5 rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out hover:opacity-80 font-medium">
+        <div class="flex justify-end gap-3 sm:gap-4 mt-6 md:mt-8 pt-4 border-t border-border">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-4 py-2.5 min-w-[44px] rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out hover:opacity-80 font-medium">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-accent text-white px-5 py-2.5 rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Post Job
             </button>
         </div>
