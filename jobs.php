@@ -126,7 +126,7 @@ if (!empty($job_ids)) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8 md:pt-6 md:pb-16">
     
     <div class="mb-6 lg:mb-8 border-b border-border pb-3 mt-2">
         <h1 class="text-3xl md:text-4xl font-bold text-text tracking-tight leading-tight font-heading">Job Board</h1>
