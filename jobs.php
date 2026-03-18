@@ -176,7 +176,7 @@ require_once 'includes/header.php';
                     </button>
                     <!-- Provide clear option to remove state -->
                     <?php if (!empty($active_filters)): ?>
-                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-colors duration-300
+                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-colors duration-300">
                             Clear all filters
                         </a>
                     <?php endif; ?>
@@ -235,7 +235,7 @@ require_once 'includes/header.php';
                             <!-- Application Action Logic -->
                             <div class="mt-5 md:mt-0 md:ml-5 flex shrink-0">
                                 <?php if ($user_role === 'Seeker'): ?>
-                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out
+                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out">
                                         Apply Now
                                     </a>
                                 <?php elseif ($user_role === 'Employer'): ?>

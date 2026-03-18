@@ -268,7 +268,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="transition-colors duration-300 ease-in-out
+                        <tr class="transition-colors duration-300 ease-in-out">
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>

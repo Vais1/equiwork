@@ -91,7 +91,7 @@ require_once 'includes/header.php';
         <div class="mt-5 md:mt-6 text-center">
             <p class="text-sm text-muted">
                 Already have an account? 
-                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out in</a>
+                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out">Log in</a>
             </p>
         </div>
     </form>
