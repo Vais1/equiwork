@@ -9,6 +9,7 @@
 // Ensure session starts before ANY output
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/flash.php';
 
 // Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -39,8 +40,7 @@ if ($_SESSION['register_attempts'] >= 5) {
 $_SESSION['last_register_attempt_time'] = time();
 
 // 1. Sanitize Strings & Inputs
-// htmlspecialchars removes potential XSS before validating
-$username  = trim(htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'));
+$username  = trim($_POST['username'] ?? '');
 $email     = trim($_POST['email'] ?? ''); // Wait to run filter_var
 $password  = $_POST['password'] ?? '';
 $role_type = trim($_POST['role_type'] ?? '');
@@ -51,6 +51,8 @@ $errors = [];
 // Name constraint
 if (empty($username)) {
     $errors[] = "Username is required.";
+} elseif (mb_strlen($username) > 100) {
+    $errors[] = "Username must be 100 characters or fewer.";
 }
 
 // Email constraint format
@@ -65,25 +67,29 @@ if (strlen($password) < 8) {
 
 // Role constraints mapping to ENUM
 $allowed_roles = ['Employer', 'Seeker'];
-if (!in_array($role_type, $allowed_roles)) {
+if (!in_array($role_type, $allowed_roles, true)) {
     $errors[] = "Invalid role selected. Administrators must be provisioned manually.";
 }
 
 // Check for existing user (to prevent duplicate entry SQL errors)
 if (empty($errors)) {
-    $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? OR username = ?");
-    $stmt->bind_param("ss", $email, $username);
-    $stmt->execute();
-    $stmt->store_result();
-    
-    if ($stmt->num_rows > 0) {
-        $errors[] = "An account with that email or username already exists.";
+    try {
+        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? OR username = ?");
+        $stmt->bind_param("ss", $email, $username);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $errors[] = "An account with that email or username already exists.";
+        }
+        $stmt->close();
+    } catch (Throwable $e) {
+        error_log('Registration duplicate check failed: ' . $e->getMessage());
+        $errors[] = "We could not validate your registration data. Please try again.";
     }
-    $stmt->close();
 }
 
 // 3. Process Execution if Valid
-require_once '../includes/flash.php';
 
 if (!empty($errors)) {
     $_SESSION['register_attempts']++;
@@ -93,48 +99,39 @@ if (!empty($errors)) {
     header('Location: ' . BASE_URL . 'register.php');
     exit;
 } else {
-    // Check for existing user again is not needed here
-    $_SESSION['register_attempts'] = 0;
-    
-    // Hash password 
-    // Uses BCRYPT inherently with PHP 8, never store plain text
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    try {
+        $_SESSION['register_attempts'] = 0;
 
-    // Prepare robust insertion query
-    $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, role_type) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $username, $email, $password_hash, $role_type);
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-    if ($stmt->execute()) {
-        // Clear errors if any
-        unset($_SESSION['register_errors']);
-        
-        // Auto-login upon registration success (or you could redirect to login)
-        session_regenerate_id(true);
-        $_SESSION['user_id'] = $stmt->insert_id;
-        $_SESSION['role'] = $role_type;
-        $_SESSION['last_action'] = time();
-        
-        // Final routing logic based on assigned role
-        switch ($role_type) {
-            case 'Employer':
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');     
-                break;
-            case 'Seeker':
+        $safe_username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, role_type) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $safe_username, $email, $password_hash, $role_type);
+
+        if ($stmt->execute()) {
+            unset($_SESSION['register_errors']);
+
+            session_regenerate_id(true);
+            $_SESSION['user_id'] = (int)$stmt->insert_id;
+            $_SESSION['role'] = $role_type;
+            $_SESSION['last_action'] = time();
+
+            if ($role_type === 'Employer') {
+                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+            } else {
                 header('Location: ' . BASE_URL . 'jobs.php');
-                break;
-            default:
-                header('Location: ' . BASE_URL . 'index.php');
-                break;
+            }
+            exit;
         }
-        exit;
-    } else {
-        // Failsafe for internal query error
+
         set_flash_message('error', 'A system error occurred. Please try again later.');
         header('Location: ' . BASE_URL . 'register.php');
         exit;
+    } catch (Throwable $e) {
+        error_log('Registration insert failed: ' . $e->getMessage());
+        set_flash_message('error', 'Your account could not be created at this time. Please try again.');
+        header('Location: ' . BASE_URL . 'register.php');
+        exit;
     }
-
-    $stmt->close();
 }
-$conn->close();
 ?>

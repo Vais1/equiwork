@@ -3,8 +3,14 @@ require_once 'includes/config.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
-    // Determine redirect based on role
-    header('Location: ' . BASE_URL . 'index.php'); 
+    $role = $_SESSION['role'] ?? '';
+    if ($role === 'Admin') {
+        header('Location: ' . BASE_URL . 'admin/dashboard.php');
+    } elseif ($role === 'Employer') {
+        header('Location: ' . BASE_URL . 'employer_dashboard.php');
+    } else {
+        header('Location: ' . BASE_URL . 'jobs.php');
+    }
     exit;
 }
 

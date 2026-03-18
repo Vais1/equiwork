@@ -94,8 +94,12 @@ require_once __DIR__ . '/flash.php';
 
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin'): ?>
                         <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="text-sm font-semibold text-text focus:outline-none focus:ring-4 focus:ring-red-300 rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">Admin Panel</a>
+                    <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'Employer'): ?>
+                        <a href="<?php echo BASE_URL; ?>employer_dashboard.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">Employer Dashboard</a>
+                        <a href="<?php echo BASE_URL; ?>post_job.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">Post Job</a>
                     <?php else: ?>
                         <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">Available Roles</a>
+                        <a href="<?php echo BASE_URL; ?>profile_update.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">My Profile</a>
                     <?php endif; ?>
 
                     <div class="h-4 w-px bg-border hidden sm:block"></div>

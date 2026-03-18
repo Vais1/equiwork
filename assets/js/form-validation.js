@@ -1,6 +1,11 @@
 // assets/js/form-validation.js
 
 const FormValidator = {
+        getErrorElement(field) {
+            if (!field || !field.id) return null;
+            return document.getElementById(`${field.id}Error`) || document.getElementById(`${field.id}-error`);
+        },
+
     patterns: {
         email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         password: { min: 8 },
@@ -72,7 +77,7 @@ const FormValidator = {
             // Check email
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput && emailInput.id) {
-                const emailError = document.getElementById(`${emailInput.id}Error`);
+                const emailError = this.getErrorElement(emailInput);
                 if (!this.validate(emailInput, 'email', emailError)) {
                     formIsValid = false;
                 }
@@ -81,7 +86,7 @@ const FormValidator = {
             // Check password
             const passwordInput = form.querySelector('input[type="password"]');
             if (passwordInput && passwordInput.id) {
-                const passwordError = document.getElementById(`${passwordInput.id}Error`);
+                const passwordError = this.getErrorElement(passwordInput);
                 if (!this.validate(passwordInput, 'password', passwordError)) {
                     formIsValid = false;
                 }
@@ -91,9 +96,24 @@ const FormValidator = {
             const textInputs = form.querySelectorAll('input[type="text"][required]');
             textInputs.forEach(input => {
                 if (input.id) {
-                    const textError = document.getElementById(`${input.id}Error`);
+                    const textError = this.getErrorElement(input);
                     if (!this.validate(input, 'username', textError)) {
                         formIsValid = false;
+                    }
+                }
+            });
+
+            const requiredHiddenInputs = form.querySelectorAll('input[type="hidden"][required]');
+            requiredHiddenInputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    formIsValid = false;
+                    const customContainer = input.closest('.custom-select-container');
+                    if (customContainer) {
+                        const trigger = customContainer.querySelector('button[aria-haspopup="listbox"]');
+                        if (trigger) {
+                            trigger.setAttribute('aria-invalid', 'true');
+                            trigger.classList.add('border-red-500');
+                        }
                     }
                 }
             });
@@ -109,7 +129,7 @@ const FormValidator = {
                 let type = input.type;
                 if (type === 'text') type = 'username';
                 if (input.id) {
-                    const errorElem = document.getElementById(`${input.id}Error`);
+                    const errorElem = this.getErrorElement(input);
                     this.validate(input, type, errorElem);
                 }
             });

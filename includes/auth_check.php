@@ -62,7 +62,7 @@ if (!isset($_SESSION['created'])) {
 $_SESSION['last_action'] = time();
 
 // Optional Helper: Function to protect pages based on required role
-function enforce_role($required_role) {
+function enforce_role(string $required_role): void {
     // Check if the user is completely unauthenticated
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
         if ($required_role === 'Admin') {
@@ -80,8 +80,8 @@ function enforce_role($required_role) {
             case 'Admin': 
                 header('Location: ' . BASE_URL . 'admin/dashboard.php'); 
                 break;
-            case 'Employer': 
-                header('Location: ' . BASE_URL . 'employer_dashboard.php'); 
+            case 'Employer':
+                header('Location: ' . BASE_URL . 'employer_dashboard.php');
                 break;
             case 'Seeker': 
                 header('Location: ' . BASE_URL . 'jobs.php'); 

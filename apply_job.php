@@ -47,6 +47,7 @@ require_once 'includes/header.php';
     <form action="<?php echo BASE_URL; ?>actions/process_application.php" method="POST" id="applyForm" novalidate>
         
         <input type="hidden" name="job_id" value="<?php echo (int)$job_id; ?>">
+        <input type="hidden" id="parsed_resume_data" name="parsed_resume_data" value="">
 
         <fieldset class="mb-6 md:mb-8">
             <legend class="sr-only">Application Letter</legend>
@@ -258,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             parsedEducation.value = data.data.education;
             parsedSkills.value = data.data.skills;
             parsedWork.value = data.data.work_experience;
+            document.getElementById('parsed_resume_data').value = JSON.stringify(data.data);
 
             // Show Preview Area
             parseLoading.classList.add('hidden');
@@ -296,12 +298,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Length & Presence Check
         const textValue = letter.value.trim();
+        const parsedResumeInput = document.getElementById('parsed_resume_data');
+
         if (textValue.length === 0) {
             valid = false;
             letterError.textContent = 'Please enter a cover letter. This field cannot be left entirely blank.';
         } else if (textValue.length > 1000) {
             valid = false;
             letterError.textContent = 'Your cover letter exceeds the maximum 1,000 character limit.';
+        } else if (!parsedResumeInput.value) {
+            valid = false;
+            letterError.textContent = 'Please upload and parse your resume before submitting your application.';
         }
 
         if (!valid) {

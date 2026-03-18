@@ -11,7 +11,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ==========================================
     // CUSTOM SELECT COMPONENTS
     // ==========================================

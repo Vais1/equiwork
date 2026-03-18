@@ -78,7 +78,7 @@ try {
     $conn->commit();
 
     set_flash_message('success', 'Job posting created successfully!');
-    header('Location: ' . BASE_URL . 'jobs.php'); // Redirect to jobs dashboard or listing
+    header('Location: ' . BASE_URL . 'employer_dashboard.php');
     exit;
 
 } catch (Exception $e) {
