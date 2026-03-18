@@ -36,16 +36,19 @@ function display_flash_messages() {
         $colors = 'bg-accent/10 border-accent/20 text-accent';
         $role = 'status';
         $ariaLive = 'polite';
+        $btnClass = 'text-accent hover:bg-accent/20 focus:ring-accent';
 
         if ($type === 'error') {
             $colors = 'bg-red-100 border-red-400 text-red-700 dark:bg-red-900/30 dark:border-red-700 dark:text-red-300';
             $role = 'alert';
             $ariaLive = 'assertive';
+            $btnClass = 'text-red-700 hover:bg-red-200 focus:ring-red-500 focus:ring-offset-red-50 dark:text-red-300 dark:hover:bg-red-800/50 dark:focus:ring-red-300 dark:focus:ring-offset-red-900';
         } elseif ($type === 'success') {
             $colors = 'bg-green-100 border-green-400 text-green-700 dark:bg-green-900/30 dark:border-green-700 dark:text-green-300';
+            $btnClass = 'text-green-700 hover:bg-green-200 focus:ring-green-500 focus:ring-offset-green-50 dark:text-green-300 dark:hover:bg-green-800/50 dark:focus:ring-green-300 dark:focus:ring-offset-green-900';
         } elseif ($type === 'warning') {
             $colors = 'bg-yellow-100 border-yellow-400 text-yellow-800 dark:bg-yellow-900/30 dark:border-yellow-700 dark:text-yellow-300';
-            $btnClass = 'text-yellow-800 focus:ring-yellow-500 focus:ring-offset-yellow-50 dark:text-yellow-300 dark:focus:ring-yellow-300 dark:focus:ring-offset-yellow-900';
+            $btnClass = 'text-yellow-800 hover:bg-yellow-200 focus:ring-yellow-500 focus:ring-offset-yellow-50 dark:text-yellow-300 dark:hover:bg-yellow-800/50 dark:focus:ring-yellow-300 dark:focus:ring-offset-yellow-900';
         }
 
         echo '<div class="' . $colors . ' px-4 py-3 rounded-lg border shadow-sm relative mb-4 flex items-center justify-between" role="' . $role . '" aria-live="' . $ariaLive . '">';

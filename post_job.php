@@ -25,7 +25,7 @@ if ($accResult && $accResult->num_rows > 0) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-bold text-text mb-4 md:mb-6 font-heading">Post a New Job</h1>
     
     <form action="<?php echo BASE_URL; ?>actions/process_post_job.php" method="POST" id="postJobForm" novalidate>

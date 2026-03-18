@@ -67,7 +67,7 @@ if (trim($parsedText) === "") {
     $cfile = new CURLFile($file['tmp_name'], $real_mime, $file['name']);
     $post_fields = [
         'file' => $cfile,
-        'apikey' => 'helloworld', // Replace with production OCR.space API key
+        'apikey' => OCR_API_KEY, // Uses key from includes/config.php
         'language' => 'eng',
         'isOverlayRequired' => 'false',
         'OCREngine' => '2'

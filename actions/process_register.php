@@ -16,6 +16,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Session-based Rate Limiting (Throttle after 5 failed attempts)
+if (!isset($_SESSION['register_attempts'])) {
+    $_SESSION['register_attempts'] = 0;
+    $_SESSION['last_register_attempt_time'] = time();
+}
+
+if ($_SESSION['register_attempts'] >= 5) {
+    $time_passed = time() - $_SESSION['last_register_attempt_time'];
+    if ($time_passed < 300) { // Lockout for 5 minutes
+        $wait_time = ceil((300 - $time_passed) / 60);
+        require_once __DIR__ . '/../includes/flash.php';
+        set_flash_message('error', "Too many failed attempts. Please wait $wait_time minute(s).");
+        header('Location: ' . BASE_URL . 'register.php');
+        exit;
+    } else {
+        // Reset after lockout expires
+        $_SESSION['register_attempts'] = 0;
+    }
+}
+
+$_SESSION['last_register_attempt_time'] = time();
+
 // 1. Sanitize Strings & Inputs
 // htmlspecialchars removes potential XSS before validating
 $username  = trim(htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'));
@@ -64,12 +86,16 @@ if (empty($errors)) {
 require_once '../includes/flash.php';
 
 if (!empty($errors)) {
+    $_SESSION['register_attempts']++;
     // Basic fallback - In a real application, you'd store this in a session flash message
     // and display on the register.php page instead of a raw die().
     set_flash_message('error', implode('<br>', $errors));
     header('Location: ' . BASE_URL . 'register.php');
     exit;
 } else {
+    // Check for existing user again is not needed here
+    $_SESSION['register_attempts'] = 0;
+    
     // Hash password 
     // Uses BCRYPT inherently with PHP 8, never store plain text
     $password_hash = password_hash($password, PASSWORD_DEFAULT);

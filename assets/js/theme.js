@@ -42,9 +42,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Global Form Submit Loading State
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
+        let isSubmitting = false;
+
         form.addEventListener('submit', function(e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return;
+            }
+
             // Only show loading if form is valid (bypasses HTML5 default validation check)
             if (form.checkValidity()) {
+                isSubmitting = true;
+                form.setAttribute('aria-busy', 'true');
+
+                // Add polite announcement for screen readers
+                const announcement = document.createElement('div');
+                announcement.setAttribute('role', 'status');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only submission-announcement';
+                announcement.textContent = 'Processing your submission...';
+                document.body.appendChild(announcement);
+
                 const submitBtn = form.querySelector('button[type="submit"]');
                 if (submitBtn && !submitBtn.disabled) {
                     // Save original text and adjust styling
@@ -64,9 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Optional: revert if submission gets stuck (robust timeout)
                     setTimeout(() => {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        isSubmitting = false;
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        }
+                        form.removeAttribute('aria-busy');
+                        const ann = document.querySelector('.submission-announcement');
+                        if (ann) ann.remove();
                     }, 10000);
                 }
             }

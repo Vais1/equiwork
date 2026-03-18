@@ -12,7 +12,7 @@ require_once 'includes/db.php';
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-extrabold text-text mb-2 md:mb-3 text-center tracking-tight font-heading">Create Account</h1>
     <p class="text-muted text-center mb-6 md:mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
 
@@ -76,81 +76,6 @@ require_once 'includes/header.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('registerForm');
-    const usernameInput = document.getElementById('username');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const roleInput = document.getElementById('role');
-    
-    const elements = [
-        { input: usernameInput, error: document.getElementById('username-error') },
-        { input: emailInput, error: document.getElementById('email-error') },
-        { input: passwordInput, error: document.getElementById('password-error') }
-    ];
-
-    form.addEventListener('submit', function(e) {
-        let isValid = true;
-        
-        // Validate Username
-        if (!usernameInput.value.trim()) {
-            showError(usernameInput, elements[0].error, "Full Name or Company Name is required.");
-            isValid = false;
-        } else {
-            clearError(usernameInput, elements[0].error);
-        }
-
-        // Validate Email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailInput.value.trim()) {
-            showError(emailInput, elements[1].error, "Email address is required.");
-            isValid = false;
-        } else if (!emailRegex.test(emailInput.value.trim())) {
-            showError(emailInput, elements[1].error, "Please enter a valid email address.");
-            isValid = false;
-        } else {
-            clearError(emailInput, elements[1].error);
-        }
-
-        // Validate Password Length
-        if (!passwordInput.value) {
-            showError(passwordInput, elements[2].error, "Password is required.");
-            isValid = false;
-        } else if (passwordInput.value.length < 8) {
-            showError(passwordInput, elements[2].error, "Password must be at least 8 characters long.");
-            isValid = false;
-        } else {
-            clearError(passwordInput, elements[2].error);
-        }
-
-        // Check if role is valid
-        const allowedRoles = ['Seeker', 'Employer', 'Admin'];
-        if (!allowedRoles.includes(roleInput.value)) {
-            isValid = false;
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
-
-    function showError(input, errorElement, message) {
-        input.setAttribute('aria-invalid', 'true');
-        input.classList.add('border-red-500', 'focus:ring-red-300');
-        input.classList.remove('border-border', '', 'focus:ring-accent/50', '');
-        errorElement.textContent = message;
-        errorElement.classList.remove('hidden');
-    }
-
-    function clearError(input, errorElement) {
-        input.removeAttribute('aria-invalid');
-        input.classList.remove('border-red-500', 'focus:ring-red-300');
-        input.classList.add('border-border', '', 'focus:ring-accent/50', '');
-        errorElement.textContent = "";
-        errorElement.classList.add('hidden');
-    }
-});
-</script>
+<script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>

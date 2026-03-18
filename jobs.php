@@ -136,7 +136,7 @@ require_once 'includes/header.php';
         
         <!-- Sidebar Filter System -->
         <aside class="w-full lg:w-1/4">
-            <form action="<?php echo BASE_URL; ?>jobs.php" method="GET" class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out sticky top-6">
+            <form action="<?php echo BASE_URL; ?>jobs.php" method="GET" class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out sticky top-6">
                 <h2 class="text-lg font-bold text-text mb-4">Filter by Accessibility</h2>
                 
                 <div class="space-y-6">
@@ -202,7 +202,7 @@ require_once 'includes/header.php';
                     </div>
                 <?php else: ?>
                     <?php foreach ($jobs as $job): ?>
-                        <article class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col md:flex-row md:items-start md:justify-between focus-within:ring-4 focus-within:ring-blue-300">
+                        <article class="bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out flex flex-col md:flex-row md:items-start md:justify-between focus-within:ring-4 focus-within:ring-blue-300">
                             
                             <div class="flex-grow">
                                 <div class="flex items-center space-x-2 text-sm text-muted mb-2">
@@ -224,7 +224,7 @@ require_once 'includes/header.php';
 
                                 <div class="flex flex-wrap gap-2 mt-auto" aria-label="Provided Accommodations">
                                     <?php foreach ($job['accommodations'] as $tag): ?>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent">
                                             <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                             <?php echo htmlspecialchars($tag, ENT_QUOTES); ?>
                                         </span>
@@ -235,7 +235,7 @@ require_once 'includes/header.php';
                             <!-- Application Action Logic -->
                             <div class="mt-5 md:mt-0 md:ml-5 flex shrink-0">
                                 <?php if ($user_role === 'Seeker'): ?>
-                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-blue-600 focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2.5 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out hover:opacity-80">
+                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2.5 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out hover:opacity-80">
                                         Apply Now
                                     </a>
                                 <?php elseif ($user_role === 'Employer'): ?>

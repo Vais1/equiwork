@@ -33,7 +33,7 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
     
     <div class="mb-6 md:mb-8 border-b border-border pb-4 md:pb-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-3">
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reset state
         letter.removeAttribute('aria-invalid');
-        letter.classList.remove('border-red-500', '');
+        letter.classList.remove('border-red-500');
         letterError.classList.add('hidden');
         letterError.textContent = '';
 
@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!valid) {
             e.preventDefault();
             letter.setAttribute('aria-invalid', 'true');
-            letter.classList.add('border-red-500', '');
+            letter.classList.add('border-red-500');
             letterError.classList.remove('hidden');
             letter.focus();
         }

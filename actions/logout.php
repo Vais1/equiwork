@@ -24,7 +24,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-require_once '../includes/db.php';
+require_once '../includes/config.php';
 header('Location: ' . BASE_URL . 'login.php');
 exit;
 ?>

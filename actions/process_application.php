@@ -43,8 +43,8 @@ $chk->close();
 
 // DB Insertion - Secure query mapping to the `applications` structure
 $status = 'Pending';
-$stmt = $conn->prepare("INSERT INTO applications (job_id, seeker_id, status) VALUES (?, ?, ?)");
-$stmt->bind_param("iis", $job_id, $seeker_id, $status);
+$stmt = $conn->prepare("INSERT INTO applications (job_id, seeker_id, status, cover_letter) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("iiss", $job_id, $seeker_id, $status, $letter_safe);
 
 if ($stmt->execute()) {
     

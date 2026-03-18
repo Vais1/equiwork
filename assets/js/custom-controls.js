@@ -59,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        const outsideClickHandler = (e) => {
+            if (!container.contains(e.target) && isOpen) {
+                toggleList(false);
+            }
+        };
+
         const toggleList = (show) => {
             isOpen = show;
             btn.setAttribute('aria-expanded', isOpen);
@@ -69,10 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 focusedIndex = selectedOptIndex > -1 ? selectedOptIndex : 0;
                 updateFocus();
                 list.focus();
+                document.addEventListener('click', outsideClickHandler);
             } else {
                 list.classList.add('hidden');
                 list.removeAttribute('aria-activedescendant');
                 btn.focus();
+                document.removeEventListener('click', outsideClickHandler);
             }
         };
 
@@ -158,13 +166,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 focusedIndex = idx;
                 updateFocus();
             });
-        });
-
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-            if (!container.contains(e.target) && isOpen) {
-                toggleList(false);
-            }
         });
     });
 

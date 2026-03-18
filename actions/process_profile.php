@@ -66,9 +66,11 @@ if (!empty($username)) {
 }
 
 // 3. Execute DB Action
+require_once __DIR__ . '/../includes/flash.php';
+
 if (count($errors) > 0) {
     // Return to form with exact reasons
-    $_SESSION['flash_errors'] = $errors;
+    set_flash_message('error', implode('<br>', $errors));
     header('Location: ' . BASE_URL . 'profile_update.php');
     exit;
 } else {
@@ -84,9 +86,9 @@ if (count($errors) > 0) {
     }
 
     if ($stmt->execute()) {
-        $_SESSION['flash_success'] = "Your profile has been securely updated.";
+        set_flash_message('success', "Your profile has been securely updated.");
     } else {
-        $_SESSION['flash_errors'] = ["A severe system error occurred blocking the database update."];
+        set_flash_message('error', "A severe system error occurred blocking the database update.");
     }
     $stmt->close();
     header('Location: ' . BASE_URL . 'profile_update.php');

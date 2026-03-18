@@ -16,6 +16,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Session-based Rate Limiting (Throttle after 5 failed attempts)
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['last_attempt_time'] = time();
+}
+
+if ($_SESSION['login_attempts'] >= 5) {
+    $time_passed = time() - $_SESSION['last_attempt_time'];
+    if ($time_passed < 300) { // Lockout for 5 minutes
+        $wait_time = ceil((300 - $time_passed) / 60);
+        set_flash_message('error', "Too many failed attempts. Please wait $wait_time minute(s).");
+        header('Location: ' . BASE_URL . 'login.php');
+        exit;
+    } else {
+        // Reset after lockout expires
+        $_SESSION['login_attempts'] = 0;
+    }
+}
+
+$_SESSION['last_attempt_time'] = time();
+
 // Capture variables & trim
 $email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? ''; // Don't modify raw incoming PW structure
@@ -30,6 +51,7 @@ if (empty($email) || empty($password)) {
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     // Invalid email format - generalized error to prevent fishing 
+    $_SESSION['login_attempts']++;
     set_flash_message('error', 'Invalid email or password.');
     header('Location: ' . BASE_URL . 'login.php');
     exit;
@@ -45,6 +67,9 @@ $result = $stmt->get_result();
 if ($user = $result->fetch_assoc()) {
     // Verify password hash against the stored hash
     if (password_verify($password, $user['password_hash'])) {
+        // Successful login, reset attempts
+        $_SESSION['login_attempts'] = 0;
+        
         // Ensure Admins are routed exclusively through the dedicated admin gateway
         if ($user['role_type'] === 'Admin') {
             set_flash_message('warning', 'Administrators must log in through the secure admin portal.');
@@ -73,12 +98,14 @@ if ($user = $result->fetch_assoc()) {
         exit;
     } else {
         // Password did not match
+        $_SESSION['login_attempts']++;
         set_flash_message('error', 'Invalid email or password.');
         header('Location: ' . BASE_URL . 'login.php');
         exit;
     }
 } else {
-    // User does not exist
+    // User not found
+    $_SESSION['login_attempts']++;
     set_flash_message('error', 'Invalid email or password.');
     header('Location: ' . BASE_URL . 'login.php');
     exit;

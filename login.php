@@ -19,7 +19,7 @@ if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
     <div class="flex justify-center mb-5 md:mb-6">
         <div class="w-16 h-16 bg-accent/10 text-accent rounded-full flex items-center justify-center">
             <svg aria-hidden="true" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
@@ -60,59 +60,6 @@ require_once 'includes/header.php';
     </form>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('loginForm');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
-
-    form.addEventListener('submit', (e) => {
-        let isValid = true;
-        
-        // Email validation
-        const emailValue = emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailValue) {
-            showError(emailInput, emailError, "Email address is required.");
-            isValid = false;
-        } else if (!emailRegex.test(emailValue)) {
-            showError(emailInput, emailError, "Please enter a valid email address.");
-            isValid = false;
-        } else {
-            clearError(emailInput, emailError);
-        }
-
-        // Password validation
-        if (!passwordInput.value) {
-            showError(passwordInput, passwordError, "Password is required.");
-            isValid = false;
-        } else {
-            clearError(passwordInput, passwordError);
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
-
-    function showError(input, errorElement, message) {
-        input.setAttribute('aria-invalid', 'true');
-        input.classList.add('border-red-500', 'focus:ring-red-300');
-        input.classList.remove('border-border', '', 'focus:ring-accent/50', '');
-        errorElement.textContent = message;
-        errorElement.classList.remove('hidden');
-    }
-
-    function clearError(input, errorElement) {
-        input.removeAttribute('aria-invalid');
-        input.classList.remove('border-red-500', 'focus:ring-red-300');
-        input.classList.add('border-border', '', 'focus:ring-accent/50', '');
-        errorElement.textContent = "";
-        errorElement.classList.add('hidden');
-    }
-});
-</script>
+<script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>

@@ -24,25 +24,11 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-in-out">
+<div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
     <p class="text-muted mb-6 md:mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
-    <?php if (isset($_SESSION['flash_success'])): ?>
-        <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow-sm" role="alert" aria-live="polite">
-            <span class="block sm:inline"><?php echo htmlspecialchars($_SESSION['flash_success'], ENT_QUOTES); unset($_SESSION['flash_success']); ?></span>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['flash_errors'])): ?>
-        <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative shadow-sm" role="alert" aria-live="assertive">
-            <ul class="list-disc pl-5">
-            <?php foreach ($_SESSION['flash_errors'] as $err): ?>
-                <li><?php echo htmlspecialchars($err, ENT_QUOTES); ?></li>
-            <?php endforeach; unset($_SESSION['flash_errors']); ?>
-            </ul>
-        </div>
-    <?php endif; ?>
+    <?php require_once 'includes/flash.php'; display_flash_messages(); ?>
 
     <form action="<?php echo BASE_URL; ?>actions/process_profile.php" method="POST" id="profileForm" novalidate>
         
@@ -91,68 +77,6 @@ require_once 'includes/header.php';
     </form>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('profileForm');
-    
-    form.addEventListener('submit', function(e) {
-        let isValid = true;
-        
-        // Fields
-        const username = document.getElementById('username');
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        
-        // Errors
-        const usernameError = document.getElementById('usernameError');
-        const emailError = document.getElementById('emailError');
-        const passwordError = document.getElementById('passwordError');
-
-        // Helper to show error
-        function showError(input, errorElement, msg) {
-            isValid = false;
-            input.setAttribute('aria-invalid', 'true');
-            input.classList.add('border-red-500', '');
-            errorElement.textContent = msg;
-            errorElement.classList.remove('hidden');
-        }
-
-        // Helper to clear error
-        function clearError(input, errorElement) {
-            input.removeAttribute('aria-invalid');
-            input.classList.remove('border-red-500', '');
-            errorElement.classList.add('hidden');
-            errorElement.textContent = '';
-        }
-
-        // Reset state
-        [username, email, password].forEach(el => clearError(el, document.getElementById(el.id + 'Error')));
-
-        // 1. Username Regex (prevent pure empty spacing)
-        if (username.value.trim() === '') {
-            showError(username, usernameError, 'Name field cannot be left entirely blank.');
-        }
-
-        // 2. Email Formatting check
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email.value.trim())) {
-            showError(email, emailError, 'Ensure the email matches a recognizable format e.g: user@domain.com.');
-        }
-
-        // 3. Optional Password check
-        if (password.value !== '' && password.value.length < 8) {
-            showError(password, passwordError, 'Password must be at least 8 characters if you are attempting to change it.');
-        }
-
-        // Stop submission logically without sending bad strings to DB
-        if (!isValid) {
-            e.preventDefault();
-            // Move focus to first invalid element for screen readers
-            const firstInvalid = form.querySelector('[aria-invalid="true"]');
-            if (firstInvalid) firstInvalid.focus();
-        }
-    });
-});
-</script>
+<script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>

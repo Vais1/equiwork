@@ -13,10 +13,10 @@
 require_once __DIR__ . '/config.php';
 
 // Database connection parameters
-$host = '127.0.0.1';
-$db   = 'equiwork_db';
-$user = 'root';     // Default XAMPP username (configure for production)
-$pass = '';         // Default XAMPP password is empty
+$host = DB_HOST;
+$db   = DB_NAME;
+$user = DB_USER;
+$pass = DB_PASS;
 
 /**
  * Configure mysqli to throw exceptions on errors.
