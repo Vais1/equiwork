@@ -113,3 +113,4 @@ This project demonstrates end-to-end implementation of:
 - Admin and employer operational workflows.
 - Accessible job matching and application lifecycle.
 - Secure web programming practices expected for WEB2202.
+

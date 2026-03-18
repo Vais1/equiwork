@@ -70,9 +70,9 @@ require_once 'includes/header.php';
             <legend class="sr-only">Resume Upload & Parsing</legend>
             <div class="form-group relative">
                 <label for="resume" class="block text-sm font-medium text-text mb-2">
-                    Upload Resume (PDF or DOCX) <span class="text-red-500">*</span>
+                    Upload Resume (PDF, DOCX, DOC, JPG, PNG) <span class="text-red-500">*</span>
                 </label>
-                <div class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out id="drop_zone">
+                <div id="drop_zone" class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -80,11 +80,11 @@ require_once 'includes/header.php';
                         <div class="flex text-sm text-text justify-center">
                             <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent transition-all duration-300 ease-in-out focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
                                 <span>Upload a file</span>
-                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-describedby="resumeHelp resumeError" aria-required="true" required>
+                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
                             </label>
                             <p class="pl-1">or drag and drop</p>
                         </div>
-                        <p id="resumeHelp" class="text-xs text-muted">PDF or DOCX up to 5MB</p>
+                        <p id="resumeHelp" class="text-xs text-muted">PDF, DOCX, DOC, JPG, or PNG up to 5MB</p>
                     </div>
                 </div>
                 
@@ -183,35 +183,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const csrfMeta = document.querySelector('meta[name="csrf-token"]');
 
     // Drag and Drop functionality
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-    });
+    if (dropZone) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('border-accent', 'bg-accent/5');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('border-accent', 'bg-accent/5');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length) {
+                resumeInput.files = files;
+                handleFileUpload();
+            }
+        });
+    }
 
     function preventDefaults(e) {
         e.preventDefault();
         e.stopPropagation();
     }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => {
-            dropZone.classList.add('border-accent', 'bg-accent/5');
-        }, false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => {
-            dropZone.classList.remove('border-accent', 'bg-accent/5');
-        }, false);
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        if (files.length) {
-            resumeInput.files = files;
-            handleFileUpload();
-        }
-    });
 
     resumeInput.addEventListener('change', handleFileUpload);
 
@@ -226,9 +228,18 @@ document.addEventListener('DOMContentLoaded', () => {
         resumeInput.setAttribute('aria-invalid', 'false');
 
         // Client-side validation
-        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        if (!validTypes.includes(file.type)) {
-            showError('Please upload a valid PDF or DOCX file.');
+        const validTypes = [
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/msword',
+            'image/jpeg',
+            'image/png'
+        ];
+        const extension = (file.name.split('.').pop() || '').toLowerCase();
+        const isAllowedByExtension = ['pdf', 'docx', 'doc', 'jpg', 'jpeg', 'png'].includes(extension);
+        const isAllowedByMime = file.type === '' || validTypes.includes(file.type);
+        if (!isAllowedByExtension || !isAllowedByMime) {
+            showError('Please upload a valid PDF, DOCX, DOC, JPG, or PNG file.');
             return;
         }
 
@@ -239,6 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData();
         formData.append('resume', file);
+        if (csrfMeta) {
+            formData.append('csrf_token', csrfMeta.getAttribute('content') || '');
+        }
 
         try {
             const response = await fetch('<?php echo BASE_URL; ?>actions/parse_resume.php', {
