@@ -35,6 +35,7 @@ require_once 'includes/header.php';
     <p class="text-muted text-center mb-6 md:mb-8 leading-relaxed font-medium">Log into your EquiWork platform securely to manage your profile and connections.</p>
 
     <form action="<?php echo BASE_URL; ?>actions/process_login.php" method="POST" id="loginForm" novalidate>
+        <?php echo csrf_input(); ?>
         <fieldset class="mb-5 md:mb-6 space-y-4 md:space-y-5">
             <legend class="sr-only">Login Credentials</legend>
             
@@ -53,14 +54,14 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
             Log In
         </button>
 
         <div class="mt-5 md:mt-6 text-center">
             <p class="text-sm text-muted">
                 Don't have an account yet? 
-                <a href="<?php echo BASE_URL; ?>register.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out hover:opacity-80">Sign up</a>
+                <a href="<?php echo BASE_URL; ?>register.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out up</a>
             </p>
         </div>
     </form>

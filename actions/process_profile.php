@@ -2,11 +2,16 @@
 // actions/process_profile.php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 // Deep validation setup
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user_id'])) {
     header('Location: ' . BASE_URL . 'profile_update.php');
     exit;
+}
+
+if (!csrf_validate_request()) {
+    csrf_fail_redirect(BASE_URL . 'profile_update.php');
 }
 
 // 1. Rigorous Data Sanitization

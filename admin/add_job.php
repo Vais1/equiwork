@@ -5,12 +5,19 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once '../includes/db.php';
 require_once '../includes/auth_check.php';
+require_once '../includes/csrf.php';
 
 // Enforce Role: Admin only
 enforce_role('Admin');
 
 // Validate and process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_validate_request()) {
+        $_SESSION['flash_error'] = 'Invalid request token. Please refresh and try again.';
+        header('Location: add_job.php');
+        exit;
+    }
+
     // Collect and sanitize inputs
     $employer_id = filter_input(INPUT_POST, 'employer_id', FILTER_VALIDATE_INT);
     $title = trim(htmlspecialchars($_POST['title'] ?? '', ENT_QUOTES, 'UTF-8'));
@@ -116,12 +123,13 @@ require_once '../includes/header.php';
             <h1 class="text-3xl font-heading font-bold text-text mb-2">Publish New Job</h1>
             <p class="text-muted">Create a secure administrative record for accessible employment opportunities.</p>
         </div>
-        <a href="dashboard.php" class="text-sm font-medium text-muted hover:text-text transition-colors">
+        <a href="dashboard.php" class="text-sm font-medium text-muted transition-colors">
             &larr; Back to Dashboard
         </a>
     </div>
 
     <form method="POST" action="add_job.php" class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden" novalidate onsubmit="return validateForm(this);">
+        <?php echo csrf_input(); ?>
         <div class="p-6 md:p-8 space-y-8">
             
             <!-- Section: Primary Information -->
@@ -268,10 +276,10 @@ require_once '../includes/header.php';
                                 <?php foreach ($acc_list as $acc): ?>
                                     
                                     <!-- Custom Checkbox Implementation -->
-                                    <div class="custom-checkbox-container flex items-center justify-between p-3 border border-border rounded-lg bg-surface/50 hover:bg-surface cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-accent group" role="checkbox" aria-checked="false" tabindex="0">
+                                    <div class="custom-checkbox-container flex items-center justify-between p-3 border border-border rounded-lg bg-surface/50 cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-accent group" role="checkbox" aria-label="Assign accommodation <?php echo htmlspecialchars($acc['name'], ENT_QUOTES); ?>" aria-checked="false" tabindex="0">
                                         <input type="hidden" name="accommodations[]" value="<?= (int)$acc['accommodation_id'] ?>" disabled>
                                         <div class="flex-grow select-none">
-                                            <span class="text-sm font-medium text-text group-hover:text-accent transition-colors block">
+                                            <span class="text-sm font-medium text-text transition-colors block">
                                                 <?= htmlspecialchars($acc['name'], ENT_QUOTES) ?>
                                             </span>
                                         </div>
@@ -291,8 +299,8 @@ require_once '../includes/header.php';
         
         <!-- Form Actions -->
         <div class="px-6 md:px-8 py-5 bg-surface border-t border-border flex items-center justify-end gap-3">
-            <a href="dashboard.php" class="px-4 py-2 border border-border text-text rounded-lg text-sm font-medium hover:bg-border/50 focus:outline-none focus:ring-2 focus:ring-border transition-colors">Discard Draft</a>
-            <button type="submit" class="px-6 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg text-sm font-medium focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
+            <a href="dashboard.php" class="px-4 py-2 border border-border text-text rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-border transition-colors">Discard Draft</a>
+            <button type="submit" class="px-6 py-2 bg-accent text-white rounded-lg text-sm font-medium focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 Publish Job Record
             </button>

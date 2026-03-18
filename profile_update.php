@@ -31,6 +31,7 @@ require_once 'includes/header.php';
     <?php require_once 'includes/flash.php'; display_flash_messages(); ?>
 
     <form action="<?php echo BASE_URL; ?>actions/process_profile.php" method="POST" id="profileForm" novalidate>
+        <?php echo csrf_input(); ?>
         
         <fieldset class="mb-6 md:mb-8 space-y-4 sm:space-y-5">
             <legend class="text-lg font-semibold text-text mb-4 border-b border-border pb-2 w-full">Basic Information</legend>
@@ -70,7 +71,7 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-4 md:pt-6">
-            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>

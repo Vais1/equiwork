@@ -1,0 +1,25 @@
+{
+  "name": "equiwork",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i ./assets/css/tailwind-input.css -o ./assets/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i ./assets/css/tailwind-input.css -o ./assets/css/tailwind.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vais1/equiwork.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vais1/equiwork/issues"
+  },
+  "homepage": "https://github.com/Vais1/equiwork#readme",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
+  }
+}

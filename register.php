@@ -26,6 +26,7 @@ require_once 'includes/header.php';
     <p class="text-muted text-center mb-6 md:mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
 
     <form action="<?php echo BASE_URL; ?>actions/process_register.php" method="POST" id="registerForm" novalidate>
+        <?php echo csrf_input(); ?>
         <fieldset class="mb-4 md:mb-5 space-y-3 md:space-y-4">
             <legend class="sr-only">Account Details</legend>
             
@@ -61,7 +62,7 @@ require_once 'includes/header.php';
                             <input class="sr-only peer" type="radio" name="role_type" id="role-seeker" value="Seeker" <?php echo $defaultRole === 'Seeker' ? 'checked' : ''; ?> required>
                             <label
                                 for="role-seeker"
-                                class="block cursor-pointer select-none rounded-md px-3 py-2 text-center text-sm font-semibold text-text transition-all duration-200 hover:bg-surface peer-checked:bg-accent peer-checked:text-white"
+                                class="block cursor-pointer select-none rounded-md px-3 py-2 text-center text-sm font-semibold text-text transition-all duration-200 peer-checked:bg-accent peer-checked:text-white"
                             >
                                 Job Seeker
                             </label>
@@ -71,7 +72,7 @@ require_once 'includes/header.php';
                             <input class="sr-only peer" type="radio" name="role_type" id="role-employer" value="Employer" <?php echo $defaultRole === 'Employer' ? 'checked' : ''; ?> required>
                             <label
                                 for="role-employer"
-                                class="block cursor-pointer select-none rounded-md px-3 py-2 text-center text-sm font-semibold text-text transition-all duration-200 hover:bg-surface peer-checked:bg-accent peer-checked:text-white"
+                                class="block cursor-pointer select-none rounded-md px-3 py-2 text-center text-sm font-semibold text-text transition-all duration-200 peer-checked:bg-accent peer-checked:text-white"
                             >
                                 Employer
                             </label>
@@ -83,14 +84,14 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
             Register Account
         </button>
 
         <div class="mt-5 md:mt-6 text-center">
             <p class="text-sm text-muted">
                 Already have an account? 
-                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out hover:opacity-80">Log in</a>
+                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out in</a>
             </p>
         </div>
     </form>

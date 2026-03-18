@@ -10,11 +10,16 @@
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/flash.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 // Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . 'register.php');
     exit;
+}
+
+if (!csrf_validate_request()) {
+    csrf_fail_redirect(BASE_URL . 'register.php');
 }
 
 // Session-based Rate Limiting (Throttle after 5 failed attempts)

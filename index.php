@@ -34,10 +34,10 @@ require_once 'includes/header.php';
     </p>
 
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-5">
-        <a href="<?php echo BASE_URL; ?>register.php" class="w-full sm:w-auto bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 text-center">
+        <a href="<?php echo BASE_URL; ?>register.php" class="w-full sm:w-auto bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50 text-center">
             Register
         </a>
-        <a href="<?php echo BASE_URL; ?>login.php" class="w-full sm:w-auto border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95 text-center">
+        <a href="<?php echo BASE_URL; ?>login.php" class="w-full sm:w-auto border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95 text-center">
             Sign In
         </a>
     </div>

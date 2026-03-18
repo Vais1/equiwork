@@ -3,12 +3,17 @@ require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/flash.php';
 require_once __DIR__ . '/../includes/auth_check.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 enforce_role('Seeker');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . 'jobs.php');
     exit;
+}
+
+if (!csrf_validate_request()) {
+    csrf_fail_redirect(BASE_URL . 'jobs.php');
 }
 
 $seeker_id = (int)$_SESSION['user_id'];
@@ -122,8 +127,13 @@ try {
         </html>
         ";
 
-        @mail($notify['employer_email'], $subject_emp, $body_emp, $headers);
-        @mail($notify['seeker_email'], $subject_seek, $body_seek, $headers);
+        if (!mail($notify['employer_email'], $subject_emp, $body_emp, $headers)) {
+            error_log('Employer notification email failed for job_id=' . $job_id);
+        }
+
+        if (!mail($notify['seeker_email'], $subject_seek, $body_seek, $headers)) {
+            error_log('Seeker confirmation email failed for job_id=' . $job_id);
+        }
     }
 
     $notify_query->close();

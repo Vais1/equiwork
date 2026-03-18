@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once '../includes/db.php';
 require_once '../includes/auth_check.php';
+require_once '../includes/csrf.php';
 
 // Enforce Role: Admin only
 enforce_role('Admin');
@@ -27,6 +28,12 @@ if (isset($_SESSION['flash_error'])) {
 // POST Handlers (Update & Delete)
 // ---------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_validate_request()) {
+        $_SESSION['flash_error'] = 'Invalid request token. Please refresh and try again.';
+        header('Location: ' . BASE_URL . 'admin/dashboard.php');
+        exit;
+    }
+
     $action = $_POST['action'] ?? '';
 
     // -- DELETE USER --
@@ -87,6 +94,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: " . BASE_URL . "admin/dashboard.php");
         exit;
     }
+
+    // -- DELETE JOB --
+    if ($action === 'delete_job') {
+        $job_id = filter_input(INPUT_POST, 'job_id', FILTER_VALIDATE_INT);
+
+        if (!$job_id) {
+            $_SESSION['flash_error'] = 'Invalid job selected for deletion.';
+        } else {
+            $stmt = $conn->prepare("DELETE FROM jobs WHERE job_id = ?");
+            $stmt->bind_param("i", $job_id);
+            if ($stmt->execute()) {
+                $_SESSION['flash_success'] = 'Job posting deleted successfully.';
+            } else {
+                $_SESSION['flash_error'] = 'Unable to delete the selected job posting.';
+            }
+            $stmt->close();
+        }
+
+        header("Location: " . BASE_URL . "admin/dashboard.php");
+        exit;
+    }
+
+    // -- UPDATE JOB --
+    if ($action === 'edit_job') {
+        $job_id = filter_input(INPUT_POST, 'job_id', FILTER_VALIDATE_INT);
+        $title = trim(htmlspecialchars($_POST['job_title'] ?? '', ENT_QUOTES, 'UTF-8'));
+        $location_type = trim($_POST['location_type'] ?? '');
+        $status = trim($_POST['status'] ?? '');
+
+        $allowed_locations = ['Remote', 'Hybrid', 'On-site'];
+        $allowed_statuses = ['Active', 'Closed'];
+
+        if (!$job_id || $title === '' || !in_array($location_type, $allowed_locations, true) || !in_array($status, $allowed_statuses, true)) {
+            $_SESSION['flash_error'] = 'Invalid job update request.';
+        } else {
+            $stmt = $conn->prepare("UPDATE jobs SET title = ?, location_type = ?, status = ? WHERE job_id = ?");
+            $stmt->bind_param("sssi", $title, $location_type, $status, $job_id);
+            if ($stmt->execute()) {
+                $_SESSION['flash_success'] = 'Job posting updated successfully.';
+            } else {
+                $_SESSION['flash_error'] = 'Unable to update the selected job posting.';
+            }
+            $stmt->close();
+        }
+
+        header("Location: " . BASE_URL . "admin/dashboard.php");
+        exit;
+    }
+
+    // -- UPDATE ACCOMMODATION --
+    if ($action === 'edit_accommodation') {
+        $accommodation_id = filter_input(INPUT_POST, 'accommodation_id', FILTER_VALIDATE_INT);
+        $name = trim(htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8'));
+        $category = trim(htmlspecialchars($_POST['category'] ?? '', ENT_QUOTES, 'UTF-8'));
+
+        if (!$accommodation_id || $name === '' || $category === '') {
+            $_SESSION['flash_error'] = 'Invalid accommodation update request.';
+        } else {
+            $stmt = $conn->prepare("UPDATE accommodations SET name = ?, category = ? WHERE accommodation_id = ?");
+            $stmt->bind_param("ssi", $name, $category, $accommodation_id);
+
+            if ($stmt->execute()) {
+                $_SESSION['flash_success'] = 'Accommodation updated successfully.';
+            } else {
+                $_SESSION['flash_error'] = 'Unable to update accommodation.';
+            }
+
+            $stmt->close();
+        }
+
+        header("Location: " . BASE_URL . "admin/dashboard.php");
+        exit;
+    }
 }
 
 // ---------------------------------------------------------
@@ -109,6 +189,34 @@ $stmt->bind_param("ii", $limit, $offset);
 $stmt->execute();
 $users_result = $stmt->get_result();
 
+$job_limit = 10;
+$job_page = isset($_GET['job_page']) && is_numeric($_GET['job_page']) ? (int)$_GET['job_page'] : 1;
+$job_page = max(1, $job_page);
+$job_offset = ($job_page - 1) * $job_limit;
+
+$job_count_query = $conn->query("SELECT COUNT(job_id) AS total_jobs FROM jobs");
+$total_jobs = (int)($job_count_query->fetch_assoc()['total_jobs'] ?? 0);
+$job_total_pages = max(1, (int)ceil($total_jobs / $job_limit));
+
+$jobs_stmt = $conn->prepare(
+    "SELECT j.job_id, j.title, j.location_type, j.status, j.posted_at, u.username AS employer_name
+     FROM jobs j
+     JOIN users u ON j.employer_id = u.user_id
+     ORDER BY j.posted_at DESC
+     LIMIT ? OFFSET ?"
+);
+$jobs_stmt->bind_param("ii", $job_limit, $job_offset);
+$jobs_stmt->execute();
+$jobs_result = $jobs_stmt->get_result();
+
+$accommodations_stmt = $conn->prepare(
+    "SELECT accommodation_id, name, category
+     FROM accommodations
+     ORDER BY category ASC, name ASC"
+);
+$accommodations_stmt->execute();
+$accommodations_result = $accommodations_stmt->get_result();
+
 require_once '../includes/header.php';
 ?>
 
@@ -120,7 +228,7 @@ require_once '../includes/header.php';
             <p class="mt-2 text-sm text-muted">Manage registered users and platform parameters.</p>
         </div>
         <div class="mt-4 md:mt-0 flex items-center gap-2">
-            <a href="<?php echo BASE_URL; ?>admin/add_job.php" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <a href="<?php echo BASE_URL; ?>admin/add_job.php" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Add Job
             </a>
             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
@@ -160,7 +268,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="transition-colors duration-300 ease-in-out hover:bg-accent/5">
+                        <tr class="transition-colors duration-300 ease-in-out
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
@@ -182,7 +290,7 @@ require_once '../includes/header.php';
                                 
                                 <!-- Edit Button triggers Modal via JS -->
                                 <button type="button" 
-                                        class="open-edit-modal font-medium text-accent transition-colors duration-300 hover:text-accent-hover focus:outline-none focus:underline"
+                                        class="open-edit-modal font-medium text-accent transition-colors duration-300 focus:outline-none focus:underline"
                                         data-id="<?php echo htmlspecialchars($row['user_id']); ?>"
                                         data-username="<?php echo htmlspecialchars($row['username']); ?>"
                                         data-email="<?php echo htmlspecialchars($row['email']); ?>"
@@ -192,9 +300,10 @@ require_once '../includes/header.php';
 
                                 <!-- Delete Form with JS Confirmation -->
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
+                                    <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                                    <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                                         Delete
                                     </button>
                                 </form>
@@ -220,14 +329,154 @@ require_once '../includes/header.php';
             </span>
             <div class="space-x-1">
                 <?php if($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg transition-colors duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Previous</a>
                 <?php endif; ?>
                 <?php if($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text hover:bg-bg transition-colors duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Next</a>
                 <?php endif; ?>
             </div>
         </div>
         <?php endif; ?>
+    </div>
+
+    <div class="mt-8 bg-surface shadow-md rounded-lg overflow-hidden border border-border">
+        <div class="px-4 md:px-6 py-4 border-b border-border bg-bg flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-text">Job Postings Management</h2>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
+                Total Jobs: <?php echo (int)$total_jobs; ?>
+            </span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-border text-left text-sm text-text">
+                <thead class="bg-bg">
+                    <tr>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Title</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Employer</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Location</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Status</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Posted</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    <?php while ($job = $jobs_result->fetch_assoc()): ?>
+                        <tr class="transition-colors duration-300 ease-in-out">
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$job['job_id']; ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($job['employer_name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['status'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4">
+                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+                                    <?php echo csrf_input(); ?>
+                                    <input type="hidden" name="action" value="edit_job">
+                                    <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
+
+                                    <label for="job-title-<?php echo (int)$job['job_id']; ?>" class="sr-only">Job title</label>
+                                    <input id="job-title-<?php echo (int)$job['job_id']; ?>" type="text" name="job_title" value="<?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
+
+                                    <label for="location-<?php echo (int)$job['job_id']; ?>" class="sr-only">Location type</label>
+                                    <select id="location-<?php echo (int)$job['job_id']; ?>" name="location_type" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
+                                        <option value="Remote" <?php echo $job['location_type'] === 'Remote' ? 'selected' : ''; ?>>Remote</option>
+                                        <option value="Hybrid" <?php echo $job['location_type'] === 'Hybrid' ? 'selected' : ''; ?>>Hybrid</option>
+                                        <option value="On-site" <?php echo $job['location_type'] === 'On-site' ? 'selected' : ''; ?>>On-site</option>
+                                    </select>
+
+                                    <label for="status-<?php echo (int)$job['job_id']; ?>" class="sr-only">Job status</label>
+                                    <select id="status-<?php echo (int)$job['job_id']; ?>" name="status" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
+                                        <option value="Active" <?php echo $job['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
+                                        <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
+                                    </select>
+
+                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                </form>
+                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block mt-2" onsubmit="return confirm('Are you sure you want to delete this job posting? This action cannot be undone.');">
+                                    <?php echo csrf_input(); ?>
+                                    <input type="hidden" name="action" value="delete_job">
+                                    <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
+                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-300">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+
+                    <?php if ($jobs_result->num_rows === 0): ?>
+                        <tr>
+                            <td colspan="7" class="px-4 md:px-6 py-6 text-center text-muted">No job postings found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php if ($job_total_pages > 1): ?>
+            <div class="px-4 md:px-6 py-3 border-t border-border bg-bg flex items-center justify-between">
+                <span class="text-sm text-text">
+                    Jobs Page <span class="font-medium"><?php echo $job_page; ?></span> of <span class="font-medium"><?php echo $job_total_pages; ?></span>
+                </span>
+                <div class="space-x-1">
+                    <?php if ($job_page > 1): ?>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                    <?php endif; ?>
+                    <?php if ($job_page < $job_total_pages): ?>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="mt-8 bg-surface shadow-md rounded-lg overflow-hidden border border-border">
+        <div class="px-4 md:px-6 py-4 border-b border-border bg-bg">
+            <h2 class="text-lg font-semibold text-text">Accommodation Categories</h2>
+            <p class="text-sm text-muted mt-1">Update accommodation names and categories used by the matching engine.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-border text-left text-sm text-text">
+                <thead class="bg-bg">
+                    <tr>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Name</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Category</th>
+                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    <?php while ($acc = $accommodations_result->fetch_assoc()): ?>
+                        <tr class="transition-colors duration-300 ease-in-out">
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$acc['accommodation_id']; ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-right">
+                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                                    <?php echo csrf_input(); ?>
+                                    <input type="hidden" name="action" value="edit_accommodation">
+                                    <input type="hidden" name="accommodation_id" value="<?php echo (int)$acc['accommodation_id']; ?>">
+
+                                    <label for="acc-name-<?php echo (int)$acc['accommodation_id']; ?>" class="sr-only">Accommodation name</label>
+                                    <input id="acc-name-<?php echo (int)$acc['accommodation_id']; ?>" type="text" name="name" value="<?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
+
+                                    <label for="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" class="sr-only">Accommodation category</label>
+                                    <input id="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" type="text" name="category" value="<?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
+
+                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+
+                    <?php if ($accommodations_result->num_rows === 0): ?>
+                        <tr>
+                            <td colspan="4" class="px-4 md:px-6 py-6 text-center text-muted">No accommodations found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -243,6 +492,7 @@ require_once '../includes/header.php';
         <!-- Modal panel -->
         <div class="inline-block align-bottom bg-surface rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-border">
             <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" id="editForm" novalidate>
+                <?php echo csrf_input(); ?>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="user_id" id="edit_user_id">
                 
@@ -284,10 +534,10 @@ require_once '../includes/header.php';
                 </div>
                 <!-- Modal Footer -->
                 <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border sm:space-x-reverse sm:space-x-3">
-                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Save Changes
                     </button>
-                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
+                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
                         Cancel
                     </button>
                 </div>
@@ -349,6 +599,8 @@ document.addEventListener('DOMContentLoaded', () => {
 <?php
 // Clean up connection
 $stmt->close();
+$jobs_stmt->close();
+$accommodations_stmt->close();
 $conn->close();
 require_once '../includes/footer.php';
 ?>

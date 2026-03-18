@@ -11,7 +11,7 @@ if (!defined('BASE_URL')) {
 }
 
 // Environment constants
-if (!defined('APP_ENV')) define('APP_ENV', 'development'); // 'development' or 'production'
+if (!defined('APP_ENV')) define('APP_ENV', 'production'); // 'development' or 'production'
 
 // Database Credentials
 if (!defined('DB_HOST')) define('DB_HOST', '127.0.0.1');
@@ -20,7 +20,8 @@ if (!defined('DB_USER')) define('DB_USER', 'root');
 if (!defined('DB_PASS')) define('DB_PASS', '');
 
 // API Keys
-if (!defined('OCR_API_KEY')) define('OCR_API_KEY', 'helloworld');
+if (!defined('OCR_API_KEY')) define('OCR_API_KEY', '');
+if (!defined('ALLOW_EXTERNAL_OCR')) define('ALLOW_EXTERNAL_OCR', false);
 
 if (APP_ENV === 'development') {
     ini_set('display_errors', 1);

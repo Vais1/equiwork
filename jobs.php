@@ -154,7 +154,7 @@ require_once 'includes/header.php';
                                             // Maintain state if checked
                                             $isChecked = in_array($item['accommodation_id'], $active_filters); 
                                         ?>
-                                        <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent/50 rounded" role="checkbox" aria-checked="<?php echo $isChecked ? 'true' : 'false'; ?>" tabindex="0">
+                                        <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent/50 rounded" role="checkbox" aria-label="Filter by <?php echo htmlspecialchars($item['name'], ENT_QUOTES); ?>" aria-checked="<?php echo $isChecked ? 'true' : 'false'; ?>" tabindex="0">
                                             <input type="hidden" name="accommodations[]" value="<?php echo $item['accommodation_id']; ?>" <?php echo $isChecked ? '' : 'disabled'; ?>>
                                             <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
                                                 <svg aria-hidden="true" class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
@@ -171,12 +171,12 @@ require_once 'includes/header.php';
                 </div>
 
                 <div class="mt-6 md:mt-8 pt-4 border-t border-border space-y-3">
-                    <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Apply Filters
                     </button>
                     <!-- Provide clear option to remove state -->
                     <?php if (!empty($active_filters)): ?>
-                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-colors duration-300 hover:text-accent">
+                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-colors duration-300
                             Clear all filters
                         </a>
                     <?php endif; ?>
@@ -235,7 +235,7 @@ require_once 'includes/header.php';
                             <!-- Application Action Logic -->
                             <div class="mt-5 md:mt-0 md:ml-5 flex shrink-0">
                                 <?php if ($user_role === 'Seeker'): ?>
-                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out hover:opacity-80">
+                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out
                                         Apply Now
                                     </a>
                                 <?php elseif ($user_role === 'Employer'): ?>

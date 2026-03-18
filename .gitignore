@@ -1,0 +1,93 @@
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =========================
+# Node.js
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# =========================
+# PHP / Composer
+# =========================
+vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+
+# PHPStorm / misc
+*.log
+
+# =========================
+# XAMPP / Local server
+# =========================
+/xampp/
+/tmp/
+/logs/
+
+# =========================
+# Uploads / User-generated
+# =========================
+uploads/
+storage/
+public/uploads/
+
+# =========================
+# Database
+# =========================
+*.sql
+*.sqlite
+*.db
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.zip
+*.tar
+*.gz
+
+# =========================
+# Coverage / Testing
+# =========================
+coverage/
+.nyc_output/
+
+# =========================
+# Tailwind / PostCSS cache
+# =========================
+*.cache
+*.tmp

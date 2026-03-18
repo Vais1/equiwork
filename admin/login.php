@@ -15,6 +15,7 @@ if (isset($_SESSION['user_id'])) {
 
 require_once '../includes/db.php';
 require_once '../includes/flash.php';
+require_once '../includes/csrf.php';
 
 // Support gentle session-timeout redirection message explicitly for Admins
 if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
@@ -23,6 +24,10 @@ if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
 
 // Handle login logic right here to isolate Admin traffic, enforcing security
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_validate_request()) {
+        csrf_fail_redirect(BASE_URL . 'admin/login.php');
+    }
+
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = $_POST['password'] ?? '';
 
@@ -77,6 +82,7 @@ require_once '../includes/header.php';
     </div>
 
     <form action="<?php echo BASE_URL; ?>admin/login.php" method="POST" id="adminLoginForm" novalidate>
+        <?php echo csrf_input(); ?>
         <fieldset class="mb-5 md:mb-6 space-y-4">
             <legend class="sr-only">Administrator Login</legend>
 

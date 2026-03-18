@@ -9,11 +9,16 @@
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/flash.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 // Prevent GET requests from processing script
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . 'login.php');
     exit;
+}
+
+if (!csrf_validate_request()) {
+    csrf_fail_redirect(BASE_URL . 'login.php');
 }
 
 // Session-based Rate Limiting (Throttle after 5 failed attempts)
@@ -69,18 +74,14 @@ try {
         if (password_verify($password, $user['password_hash'])) {
             $_SESSION['login_attempts'] = 0;
 
-            if ($user['role_type'] === 'Admin') {
-                set_flash_message('warning', 'Administrators must log in through the secure admin portal.');
-                header('Location: ' . BASE_URL . 'admin/login.php');
-                exit;
-            }
-
             session_regenerate_id(true);
             $_SESSION['user_id'] = (int)$user['user_id'];
             $_SESSION['role'] = $user['role_type'];
             $_SESSION['last_action'] = time();
 
-            if ($user['role_type'] === 'Employer') {
+            if ($user['role_type'] === 'Admin') {
+                header('Location: ' . BASE_URL . 'admin/dashboard.php');
+            } elseif ($user['role_type'] === 'Employer') {
                 header('Location: ' . BASE_URL . 'employer_dashboard.php');
             } else {
                 header('Location: ' . BASE_URL . 'jobs.php');

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth_check.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -16,6 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+if (!csrf_validate_request()) {
+    csrf_fail_json();
+}
+
 function sanitize_parsed_data($data) {
     if (is_array($data)) {
         return array_map('sanitize_parsed_data', $data);
@@ -23,6 +28,28 @@ function sanitize_parsed_data($data) {
 
     $clean = strip_tags(trim((string)$data));
     return htmlspecialchars_decode($clean, ENT_QUOTES | ENT_HTML5);
+}
+
+function extract_docx_text(string $path): string {
+    if (!class_exists('ZipArchive')) {
+        return '';
+    }
+
+    $zip = new ZipArchive();
+    if ($zip->open($path) !== true) {
+        return '';
+    }
+
+    $rawXml = $zip->getFromName('word/document.xml');
+    $zip->close();
+
+    if (!is_string($rawXml) || $rawXml === '') {
+        return '';
+    }
+
+    $text = preg_replace('/<w:p[^>]*>/', "\n", $rawXml);
+    $text = preg_replace('/<[^>]+>/', ' ', (string)$text);
+    return trim(html_entity_decode((string)$text, ENT_QUOTES | ENT_XML1, 'UTF-8'));
 }
 
 try {
@@ -35,10 +62,7 @@ try {
     $file = $_FILES['resume'];
     $allowed_mimes = [
         'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/msword',
-        'image/jpeg',
-        'image/png'
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
 
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -51,7 +75,7 @@ try {
 
     if (!in_array($real_mime, $allowed_mimes, true)) {
         http_response_code(400);
-        echo json_encode(['error' => 'Unsupported file format. Please upload a PDF, DOCX, JPG, or PNG file.']);
+        echo json_encode(['error' => 'Unsupported file format. Please upload a PDF or DOCX file.']);
         exit;
     }
 
@@ -78,7 +102,11 @@ try {
         }
     }
 
-    if (trim($parsedText) === '') {
+    if (trim($parsedText) === '' && $real_mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        $parsedText = extract_docx_text($file['tmp_name']);
+    }
+
+    if (trim($parsedText) === '' && ALLOW_EXTERNAL_OCR && OCR_API_KEY !== '') {
         $cfile = new CURLFile($file['tmp_name'], $real_mime, $file['name']);
         $post_fields = [
             'file' => $cfile,
@@ -97,7 +125,7 @@ try {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
         $response = curl_exec($ch);
@@ -132,6 +160,12 @@ try {
     }
 
     if (trim($parsedText) === '') {
+        if (!ALLOW_EXTERNAL_OCR) {
+            http_response_code(400);
+            echo json_encode(['error' => 'No readable text could be extracted locally from this file type. Please upload a text-based PDF or DOCX.']);
+            exit;
+        }
+
         http_response_code(400);
         echo json_encode(['error' => 'No readable text could be identified. Please ensure the document is clear and not heavily distorted.']);
         exit;

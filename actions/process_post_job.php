@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/flash.php';
 require_once __DIR__ . '/../includes/auth_check.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 // Strict session check for Employer role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Employer') {
@@ -15,6 +16,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Employer') {
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . 'post_job.php');
     exit;
+}
+
+if (!csrf_validate_request()) {
+    csrf_fail_redirect(BASE_URL . 'post_job.php');
 }
 
 // 1. Sanitize and collect inputs

@@ -3,12 +3,17 @@ require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/flash.php';
 require_once __DIR__ . '/includes/auth_check.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 enforce_role('Employer');
 
 $employer_id = (int)$_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_validate_request()) {
+        csrf_fail_redirect(BASE_URL . 'employer_dashboard.php');
+    }
+
     $action = $_POST['action'] ?? '';
 
     try {
@@ -132,9 +137,14 @@ require_once __DIR__ . '/includes/header.php';
             <h1 class="text-3xl font-bold text-text font-heading">Employer Dashboard</h1>
             <p class="text-muted mt-1">Post inclusive roles and manage incoming applications in one place.</p>
         </div>
-        <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
-            Post New Job
-        </a>
+        <div class="w-full md:w-auto flex flex-col sm:flex-row gap-2">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto text-center border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+                View All Job Postings
+            </a>
+            <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+                Post New Job
+            </a>
+        </div>
     </div>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8" aria-label="Employer summary">
@@ -174,6 +184,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <td class="px-4 py-3 text-sm text-text"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td class="px-4 py-3 text-sm text-text">
                                         <form action="<?php echo BASE_URL; ?>employer_dashboard.php" method="POST" class="flex gap-2 items-center">
+                                            <?php echo csrf_input(); ?>
                                             <input type="hidden" name="action" value="update_job_status">
                                             <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
                                             <label for="job-status-<?php echo (int)$job['job_id']; ?>" class="sr-only">Update job status</label>
@@ -211,6 +222,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <p class="text-sm text-muted mt-1">Submitted <?php echo date('M d, Y H:i', strtotime($application['submitted_at'])); ?></p>
                             </div>
                             <form action="<?php echo BASE_URL; ?>employer_dashboard.php" method="POST" class="w-full md:w-auto">
+                                <?php echo csrf_input(); ?>
                                 <input type="hidden" name="action" value="update_application_status">
                                 <input type="hidden" name="application_id" value="<?php echo (int)$application['application_id']; ?>">
                                 <label for="status-<?php echo (int)$application['application_id']; ?>" class="block text-sm font-medium text-text mb-1">Application Status</label>

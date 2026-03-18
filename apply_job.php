@@ -45,6 +45,7 @@ require_once 'includes/header.php';
 
     <!-- Application Form -->
     <form action="<?php echo BASE_URL; ?>actions/process_application.php" method="POST" id="applyForm" novalidate>
+        <?php echo csrf_input(); ?>
         
         <input type="hidden" name="job_id" value="<?php echo (int)$job_id; ?>">
         <input type="hidden" id="parsed_resume_data" name="parsed_resume_data" value="">
@@ -71,19 +72,19 @@ require_once 'includes/header.php';
                 <label for="resume" class="block text-sm font-medium text-text mb-2">
                     Upload Resume (PDF or DOCX) <span class="text-red-500">*</span>
                 </label>
-                <div class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out hover:border-accent" id="drop_zone">
+                <div class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out id="drop_zone">
                     <div class="space-y-1 text-center">
                         <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <div class="flex text-sm text-text justify-center">
-                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent transition-all duration-300 ease-in-out hover:opacity-80 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
+                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent transition-all duration-300 ease-in-out focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
                                 <span>Upload a file</span>
-                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.jpg,.jpeg,.png,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
+                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-describedby="resumeHelp resumeError" aria-required="true" required>
                             </label>
                             <p class="pl-1">or drag and drop</p>
                         </div>
-                        <p id="resumeHelp" class="text-xs text-muted">PDF, DOCX, JPG, or PNG up to 5MB</p>
+                        <p id="resumeHelp" class="text-xs text-muted">PDF or DOCX up to 5MB</p>
                     </div>
                 </div>
                 
@@ -150,10 +151,10 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-between border-t border-border pt-4 md:pt-6">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-colors duration-300 hover:text-accent focus:outline-none focus:underline">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-colors duration-300 focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
             </a>
-            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Submit Application
             </button>
         </div>
@@ -179,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const parsedSkills = document.getElementById('parsed_skills');
     const parsedEducation = document.getElementById('parsed_education');
     const parsedWork = document.getElementById('parsed_work');
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
 
     // Drag and Drop functionality
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -224,9 +226,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resumeInput.setAttribute('aria-invalid', 'false');
 
         // Client-side validation
-        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword', 'image/jpeg', 'image/png'];
+        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         if (!validTypes.includes(file.type)) {
-            showError('Please upload a valid PDF, DOCX, JPG, or PNG file.');
+            showError('Please upload a valid PDF or DOCX file.');
             return;
         }
 
@@ -243,7 +245,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-CSRF-Token': csrfMeta ? csrfMeta.getAttribute('content') : ''
                 }
             });
 
