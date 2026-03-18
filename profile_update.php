@@ -24,7 +24,7 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
+<div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
     <p class="text-muted mb-6 md:mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
@@ -63,14 +63,14 @@ require_once 'includes/header.php';
             <div class="form-group relative">
                 <label for="password" class="block text-sm font-medium text-text mb-1">New Password</label>
                 <input type="password" id="password" name="password" minlength="8"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                     aria-describedby="passwordError">
                 <p id="passwordError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-4 md:pt-6">
-            <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Save Profile
             </button>
         </div>
@@ -80,3 +80,4 @@ require_once 'includes/header.php';
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>
+

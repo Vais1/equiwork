@@ -23,3 +23,4 @@
     <script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 </body>
 </html>
+

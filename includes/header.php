@@ -108,7 +108,7 @@ require_once __DIR__ . '/flash.php';
 
                 <?php else: ?>
                     <a href="<?php echo BASE_URL; ?>login.php" class="text-sm font-semibold text-text focus:outline-none focus-visible:ring-4 focus-visible:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out hover:opacity-80 whitespace-nowrap leading-none flex items-center">Sign In</a>
-                    <a href="<?php echo BASE_URL; ?>register.php" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent/50 whitespace-nowrap leading-none flex items-center">Join Platform</a>
+                    <a href="<?php echo BASE_URL; ?>register.php" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-accent/50 whitespace-nowrap leading-none flex items-center">Join Platform</a>
                 <?php endif; ?>
             </div>
         </nav>
@@ -116,3 +116,4 @@ require_once __DIR__ . '/flash.php';
 
     <main id="main-content" class="flex-grow w-full">
         <?php display_flash_messages(); ?>
+

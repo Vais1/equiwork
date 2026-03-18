@@ -89,3 +89,4 @@ try {
     header('Location: ' . BASE_URL . 'post_job.php');
     exit;
 }
+

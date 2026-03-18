@@ -25,7 +25,7 @@ if ($accResult && $accResult->num_rows > 0) {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
+<div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-bold text-text mb-4 md:mb-6 font-heading">Post a New Job</h1>
     
     <form action="<?php echo BASE_URL; ?>actions/process_post_job.php" method="POST" id="postJobForm" novalidate>
@@ -35,7 +35,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="title" class="block text-sm font-medium text-text mb-1">Job Title <span class="text-red-500">*</span></label>
                 <input type="text" id="title" name="title" required
-                       class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                       class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                        aria-describedby="titleError">
                 <p id="titleError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please enter a job title.</p>
             </div>
@@ -45,7 +45,7 @@ require_once 'includes/header.php';
                 
                 <div class="custom-select-container relative w-full" data-name="location_type">
                     <input type="hidden" name="location_type" id="location_type" required>
-                    <button type="button" class="w-full bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                    <button type="button" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
                         <span class="custom-select-text">Select an arrangement...</span>
                         <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -63,7 +63,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="description" class="block text-sm font-medium text-text mb-1">Job Description <span class="text-red-500">*</span></label>
                 <textarea id="description" name="description" rows="6" required
-                          class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                          class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                           aria-describedby="descriptionError"></textarea>
                 <p id="descriptionError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please provide a detailed job description.</p>
             </div>
@@ -100,11 +100,11 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex justify-end gap-3 sm:gap-4 mt-6 md:mt-8 pt-4 border-t border-border">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="px-4 py-2.5 min-w-[44px] rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out hover:opacity-80 font-medium">
+            <a href="<?php echo BASE_URL; ?>employer_dashboard.php" class="px-4 py-2 min-w-[44px] rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out hover:opacity-80 font-medium">
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Post Job
             </button>
         </div>

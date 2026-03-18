@@ -243,3 +243,4 @@ try {
     echo json_encode(['error' => 'Resume parsing failed unexpectedly. Please try another file.']);
     exit;
 }
+

@@ -25,7 +25,7 @@ if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
+<div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     <div class="flex justify-center mb-5 md:mb-6">
         <div class="w-16 h-16 bg-accent/10 text-accent rounded-full flex items-center justify-center">
             <svg aria-hidden="true" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
@@ -41,19 +41,19 @@ require_once 'includes/header.php';
             <div>
                 <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" autofocus aria-describedby="emailError"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p id="emailError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-text mb-1">Password</label>
                 <input type="password" id="password" name="password" required aria-required="true" autocomplete="current-password" aria-describedby="passwordError"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p id="passwordError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Log In
         </button>
 
@@ -69,3 +69,4 @@ require_once 'includes/header.php';
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>
+

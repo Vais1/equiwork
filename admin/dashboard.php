@@ -119,7 +119,10 @@ require_once '../includes/header.php';
             <h1 class="text-3xl font-bold text-text">Admin Dashboard</h1>
             <p class="mt-2 text-sm text-muted">Manage registered users and platform parameters.</p>
         </div>
-        <div class="mt-4 md:mt-0">
+        <div class="mt-4 md:mt-0 flex items-center gap-2">
+            <a href="<?php echo BASE_URL; ?>admin/add_job.php" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                Add Job
+            </a>
             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
                 Total Users: <?php echo htmlspecialchars($total_users); ?>
             </span>
@@ -191,7 +194,7 @@ require_once '../includes/header.php';
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                                    <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                                         Delete
                                     </button>
                                 </form>
@@ -253,12 +256,12 @@ require_once '../includes/header.php';
                                 <div>
                                     <label for="edit_username" class="block text-sm font-medium text-text">Username</label>
                                     <input type="text" name="username" id="edit_username" required
-                                        class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                                 </div>
                                 <div>
                                     <label for="edit_email" class="block text-sm font-medium text-text">Email Address</label>
                                     <input type="email" name="email" id="edit_email" required
-                                        class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                                 </div>
                                 <div>
                                     <label id="edit_role_label" class="block text-sm font-medium text-text mb-1">Role</label>
@@ -281,10 +284,10 @@ require_once '../includes/header.php';
                 </div>
                 <!-- Modal Footer -->
                 <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border sm:space-x-reverse sm:space-x-3">
-                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                         Save Changes
                     </button>
-                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto border border-accent text-accent px-4 py-2.5 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
+                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50 active:scale-95">
                         Cancel
                     </button>
                 </div>
@@ -349,3 +352,4 @@ $stmt->close();
 $conn->close();
 require_once '../includes/footer.php';
 ?>
+

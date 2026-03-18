@@ -132,7 +132,7 @@ require_once __DIR__ . '/includes/header.php';
             <h1 class="text-3xl font-bold text-text font-heading">Employer Dashboard</h1>
             <p class="text-muted mt-1">Post inclusive roles and manage incoming applications in one place.</p>
         </div>
-        <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Post New Job
         </a>
     </div>

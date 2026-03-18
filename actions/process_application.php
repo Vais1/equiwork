@@ -138,3 +138,4 @@ try {
     header('Location: ' . BASE_URL . 'jobs.php');
     exit;
 }
+

@@ -33,7 +33,7 @@ $stmt->close();
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
+<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     
     <div class="mb-6 md:mb-8 border-b border-border pb-4 md:pb-6">
         <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-3">
@@ -58,7 +58,7 @@ require_once 'includes/header.php';
                 </label>
                 <!-- For the sake of the base assessment, we pass this in POST. Since applications table in blueprint doesn't mandate a text column, we might simulate storing it or rely entirely on email notification -->
                 <textarea id="cover_letter" name="cover_letter" rows="8" required aria-required="true"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
                     aria-describedby="coverLetterHelp coverLetterError"></textarea>
                 <p id="coverLetterHelp" class="mt-2 text-sm text-muted">Highlight how your skills merge with the required accommodations for maximum productivity. (Max 1000 characters)</p>
                 <p id="coverLetterError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
@@ -99,7 +99,7 @@ require_once 'includes/header.php';
                 <p id="resumeError" class="mt-2 text-sm text-red-600 hidden" aria-live="assertive" role="alert"></p>
 
                 <!-- Parsed Resume Preview -->
-                <div id="resumePreview" class="hidden mt-4 md:mt-6 bg-surface border border-border rounded-lg shadow-sm p-4 md:p-6" aria-live="polite">
+                <div id="resumePreview" class="hidden mt-4 md:mt-6 bg-surface border border-border rounded-lg shadow-sm p-6" aria-live="polite">
                     <h3 class="text-xl font-bold text-text border-b border-border pb-2 mb-4">Verify Extracted Profile Information</h3>
                     <p class="text-sm text-muted mb-4 md:mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
                     
@@ -153,7 +153,7 @@ require_once 'includes/header.php';
             <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-colors duration-300 hover:text-accent focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
             </a>
-            <button type="submit" class="bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
                 Submit Application
             </button>
         </div>
@@ -336,3 +336,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <?php require_once 'includes/footer.php'; ?>
+

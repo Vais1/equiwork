@@ -2,7 +2,14 @@
 require_once 'includes/config.php';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . 'index.php'); // or redirect based on role
+    $role = $_SESSION['role'] ?? '';
+    if ($role === 'Admin') {
+        header('Location: ' . BASE_URL . 'admin/dashboard.php');
+    } elseif ($role === 'Employer') {
+        header('Location: ' . BASE_URL . 'employer_dashboard.php');
+    } else {
+        header('Location: ' . BASE_URL . 'jobs.php');
+    }
     exit;
 }
 
@@ -13,7 +20,7 @@ require_once 'includes/flash.php';
 require_once 'includes/header.php';
 ?>
 
-<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-4 md:p-6 transition-all duration-300 ease-in-out">
+<div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     <?php display_flash_messages(); ?>
     <h1 class="text-2xl md:text-3xl font-extrabold text-text mb-2 md:mb-3 text-center tracking-tight font-heading">Create Account</h1>
     <p class="text-muted text-center mb-6 md:mb-8 leading-relaxed font-medium">Join EquiWork as a professional seeking inclusive roles or as an organization committed to accessible workflows.</p>
@@ -25,21 +32,21 @@ require_once 'includes/header.php';
             <div>
                 <label for="username" class="block text-sm font-medium text-text mb-1">Full Name or Company Name</label>
                 <input type="text" id="username" name="username" required aria-required="true" aria-describedby="username-error"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p class="mt-1 text-sm text-red-600 hidden" id="username-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" aria-describedby="email-error"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p class="mt-1 text-sm text-red-600 hidden" id="email-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-text mb-1">Password</label>
                 <input type="password" id="password" name="password" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-hint password-error"
-                    class="w-full border border-border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
                 <p class="mt-1 text-sm text-muted" id="password-hint">Must be at least 8 characters long.</p>
                 <p class="mt-1 text-sm text-red-600 hidden" id="password-error" role="alert" aria-live="polite"></p>
             </div>
@@ -76,7 +83,7 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2.5 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-accent/50">
             Register Account
         </button>
 
@@ -94,3 +101,4 @@ require_once 'includes/header.php';
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
 <?php require_once 'includes/footer.php'; ?>
+
