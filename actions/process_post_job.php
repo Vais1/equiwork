@@ -32,8 +32,11 @@ $accommodations = $_POST['accommodations'] ?? []; // Array of accommodation IDs
 $company_name = trim($_POST['company_name'] ?? '');
 $employment_type = trim($_POST['employment_type'] ?? 'Full-time');
 $state_region = trim($_POST['state_region'] ?? '');
-$salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT) ?: null;
-$salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT) ?: null;
+$salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT);
+$salary_min = ($salary_min !== false && $salary_min !== null) ? $salary_min : null;
+
+$salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT);
+$salary_max = ($salary_max !== false && $salary_max !== null) ? $salary_max : null;
 
 
 // 2. Validate inputs

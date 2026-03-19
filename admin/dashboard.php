@@ -5,36 +5,19 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once '../includes/db.php';
+require_once '../includes/flash.php';
 require_once '../includes/auth_check.php';
 require_once '../includes/csrf.php';
 
 // Enforce Role: Admin only
 enforce_role('Admin');
 
-// Set up validation & flash message handling
-$errors = [];
-$success_msg = '';
-
-if (isset($_SESSION['flash_success'])) {
-    $success_msg = $_SESSION['flash_success'];
-    unset($_SESSION['flash_success']);
-}
-if (isset($_SESSION['flash_error'])) {
-    $errors[] = $_SESSION['flash_error'];
-    unset($_SESSION['flash_error']);
-}
-
-// ---------------------------------------------------------
-// POST Handlers (Update & Delete)
-// ---------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate_request()) {
-        $_SESSION['flash_error'] = 'Invalid request token. Please refresh and try again.';
+        set_flash_message('error', 'Invalid request token. Please refresh and try again.');
         header('Location: ' . BASE_URL . 'admin/dashboard.php');
         exit;
     }
-    try {
-
     $action = $_POST['action'] ?? '';
 
     try {
@@ -45,14 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Prevent deleting oneself
         if ($delete_id === $_SESSION['user_id']) {
-            $_SESSION['flash_error'] = "You cannot delete your own admin account.";
+            set_flash_message('error', "You cannot delete your own admin account.");
         } else if ($delete_id) {
             $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
             $stmt->bind_param("i", $delete_id);
             if ($stmt->execute()) {
-                $_SESSION['flash_success'] = "User successfully deleted.";
+                set_flash_message('success', "User successfully deleted.");
             } else {
-                $_SESSION['flash_error'] = "Failed to delete user due to database error.";
+                set_flash_message('error', "Failed to delete user due to database error.");
             }
             $stmt->close();
         }
@@ -69,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $allowed_roles = ['Admin', 'Employer', 'Seeker'];
 
         if (!$edit_id || empty($username) || empty($email) || !in_array($role_type, $allowed_roles)) {
-            $_SESSION['flash_error'] = "Invalid input for updating user.";
+            set_flash_message('error', "Invalid input for updating user.");
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['flash_error'] = "A valid email is required.";
+            set_flash_message('error', "A valid email is required.");
         } else {
             // Check for duplicate emails/usernames excluding the current user being edited
             $check_stmt = $conn->prepare("SELECT user_id FROM users WHERE (email = ? OR username = ?) AND user_id != ?");
@@ -80,15 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check_stmt->store_result();
             
             if ($check_stmt->num_rows > 0) {
-                $_SESSION['flash_error'] = "Another user already has that email or username.";
+                set_flash_message('error', "Another user already has that email or username.");
             } else {
                 // Perform Update
                 $stmt = $conn->prepare("UPDATE users SET username = ?, email = ?, role_type = ? WHERE user_id = ?");
                 $stmt->bind_param("sssi", $username, $email, $role_type, $edit_id);
                 if ($stmt->execute()) {
-                    $_SESSION['flash_success'] = "User profile updated successfully.";
+                    set_flash_message('success', "User profile updated successfully.");
                 } else {
-                    $_SESSION['flash_error'] = "Failed to update user profile.";
+                    set_flash_message('error', "Failed to update user profile.");
                 }
                 $stmt->close();
             }
@@ -103,14 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $job_id = filter_input(INPUT_POST, 'job_id', FILTER_VALIDATE_INT);
 
         if (!$job_id) {
-            $_SESSION['flash_error'] = 'Invalid job selected for deletion.';
+            set_flash_message('error', 'Invalid job selected for deletion.');
         } else {
             $stmt = $conn->prepare("DELETE FROM jobs WHERE job_id = ?");
             $stmt->bind_param("i", $job_id);
             if ($stmt->execute()) {
-                $_SESSION['flash_success'] = 'Job posting deleted successfully.';
+                set_flash_message('success', 'Job posting deleted successfully.');
             } else {
-                $_SESSION['flash_error'] = 'Unable to delete the selected job posting.';
+                set_flash_message('error', 'Unable to delete the selected job posting.');
             }
             $stmt->close();
         }
@@ -130,14 +113,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $allowed_statuses = ['Active', 'Closed'];
 
         if (!$job_id || $title === '' || !in_array($location_type, $allowed_locations, true) || !in_array($status, $allowed_statuses, true)) {
-            $_SESSION['flash_error'] = 'Invalid job update request.';
+            set_flash_message('error', 'Invalid job update request.');
         } else {
             $stmt = $conn->prepare("UPDATE jobs SET title = ?, location_type = ?, status = ? WHERE job_id = ?");
             $stmt->bind_param("sssi", $title, $location_type, $status, $job_id);
             if ($stmt->execute()) {
-                $_SESSION['flash_success'] = 'Job posting updated successfully.';
+                set_flash_message('success', 'Job posting updated successfully.');
             } else {
-                $_SESSION['flash_error'] = 'Unable to update the selected job posting.';
+                set_flash_message('error', 'Unable to update the selected job posting.');
             }
             $stmt->close();
         }
@@ -153,15 +136,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $category = trim($_POST['category'] ?? '');
 
         if (!$accommodation_id || $name === '' || $category === '') {
-            $_SESSION['flash_error'] = 'Invalid accommodation update request.';
+            set_flash_message('error', 'Invalid accommodation update request.');
         } else {
             $stmt = $conn->prepare("UPDATE accommodations SET name = ?, category = ? WHERE accommodation_id = ?");
             $stmt->bind_param("ssi", $name, $category, $accommodation_id);
 
             if ($stmt->execute()) {
-                $_SESSION['flash_success'] = 'Accommodation updated successfully.';
+                set_flash_message('success', 'Accommodation updated successfully.');
             } else {
-                $_SESSION['flash_error'] = 'Unable to update accommodation.';
+                set_flash_message('error', 'Unable to update accommodation.');
             }
 
             $stmt->close();
@@ -169,17 +152,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header("Location: " . BASE_URL . "admin/dashboard.php");
         exit;
+    }
     } catch (mysqli_sql_exception $e) {
         error_log("Admin Action DB Error: " . $e->getMessage());
-        $_SESSION['flash_error'] = "A database error occurred while performing this action.";
+        set_flash_message('error', "A database error occurred while performing this action.");
         header("Location: " . BASE_URL . "admin/dashboard.php");
         exit;
     } catch (Throwable $e) {
         error_log("Admin Action General Error: " . $e->getMessage());
-        $_SESSION['flash_error'] = "An unexpected error occurred.";
+        set_flash_message('error', "An unexpected error occurred.");
         header("Location: " . BASE_URL . "admin/dashboard.php");
         exit;
-    }
     }
 }
 
@@ -250,21 +233,6 @@ require_once '../includes/header.php';
             </span>
         </div>
     </div>
-
-    <!-- Flash Messages -->
-    <?php if ($success_msg): ?>
-        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow-sm" role="alert">
-            <span class="block sm:inline"><?php echo htmlspecialchars($success_msg); ?></span>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($errors)): ?>
-        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative shadow-sm" role="alert">
-            <?php foreach ($errors as $err): ?>
-                <span class="block sm:inline"><?php echo htmlspecialchars($err); ?><br></span>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
 
     <!-- Data Table Container -->
     <div class="bg-surface shadow-md rounded-lg overflow-hidden border border-border">

@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once '../includes/db.php';
+require_once '../includes/flash.php';
 require_once '../includes/auth_check.php';
 require_once '../includes/csrf.php';
 
@@ -13,7 +14,7 @@ enforce_role('Admin');
 // Validate and process form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate_request()) {
-        $_SESSION['flash_error'] = 'Invalid request token. Please refresh and try again.';
+        set_flash_message('error', 'Invalid request token. Please refresh and try again.');
         header('Location: add_job.php');
         exit;
     }
@@ -25,8 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = trim($_POST['description'] ?? '');
     $location_type = trim($_POST['location_type'] ?? '');
     $employment_type = trim($_POST['employment_type'] ?? '');
-    $salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT) ?: null;
-    $salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT) ?: null;
+    
+    $salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT);
+    $salary_min = ($salary_min !== false && $salary_min !== null) ? $salary_min : null;
+    
+    $salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT);
+    $salary_max = ($salary_max !== false && $salary_max !== null) ? $salary_max : null;
     $state_region = trim($_POST['state_region'] ?? '');
     $status = trim($_POST['status'] ?? 'Active');
     
@@ -82,16 +87,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $conn->commit();
-            $_SESSION['flash_success'] = "Job posting successfully added.";
+            set_flash_message('success', "Job posting successfully added.");
             header("Location: dashboard.php");
             exit;
 
         } catch (Exception $e) {
             $conn->rollback();
-            $_SESSION['flash_error'] = "Failed to add job posting. Please try again.";
+            set_flash_message('error', "Failed to add job posting. Please try again.");
         }
     } else {
-        $_SESSION['flash_error'] = implode("<br>", $errors);
+        set_flash_message('error', implode("<br>", $errors));
     }
 }
 

@@ -42,7 +42,7 @@ require_once 'includes/header.php';
                 </label>
                 <input type="text" id="username" name="username" required aria-required="true"
                     value="<?php echo htmlspecialchars($current_user['username'], ENT_QUOTES); ?>"
-                    class="w-full px-4 py-2 border border-border rounded-lg bg-bg text-text focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all duration-200"
+                    class="form-input"
                     aria-describedby="usernameError">
                 <p id="usernameError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
@@ -51,7 +51,7 @@ require_once 'includes/header.php';
                 <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true"
                     value="<?php echo htmlspecialchars($current_user['email'], ENT_QUOTES); ?>"
-                    class="w-full px-4 py-2 border border-border rounded-lg bg-bg text-text focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all duration-200"
+                    class="form-input"
                     aria-describedby="emailError">
                 <p id="emailError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>

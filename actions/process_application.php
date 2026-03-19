@@ -19,13 +19,34 @@ if (!csrf_validate_request()) {
 $seeker_id = (int)$_SESSION['user_id'];
 $job_id = filter_input(INPUT_POST, 'job_id', FILTER_VALIDATE_INT);
 $letter = trim($_POST['cover_letter'] ?? '');
-$parsed_resume_payload = trim($_POST['parsed_resume_data'] ?? '');
+
+// Try to use the updated values from the form first
+$parsed_email = trim($_POST['parsed_email'] ?? '');
+$parsed_phone = trim($_POST['parsed_phone'] ?? '');
+$parsed_skills = trim($_POST['parsed_skills'] ?? '');
+$parsed_education = trim($_POST['parsed_education'] ?? '');
+$parsed_work = trim($_POST['parsed_work'] ?? '');
 
 $parsed_resume_json = null;
-if ($parsed_resume_payload !== '') {
-    $parsed_resume = json_decode($parsed_resume_payload, true);
-    if (is_array($parsed_resume)) {
-        $parsed_resume_json = json_encode($parsed_resume, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+if (!empty($parsed_email) || !empty($parsed_phone) || !empty($parsed_skills) || !empty($parsed_education) || !empty($parsed_work)) {
+    // Construct JSON from the form inputs directly
+    $parsed_resume = [
+        'email' => $parsed_email,
+        'phone' => $parsed_phone,
+        'skills' => $parsed_skills,
+        'education' => $parsed_education,
+        'work_experience' => $parsed_work
+    ];
+    $parsed_resume_json = json_encode($parsed_resume, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+} else {
+    // Fallback to the hidden payload if no visible fields were sent
+    $parsed_resume_payload = trim($_POST['parsed_resume_data'] ?? '');
+    if ($parsed_resume_payload !== '') {
+        $parsed_resume = json_decode($parsed_resume_payload, true);
+        if (is_array($parsed_resume)) {
+            $parsed_resume_json = json_encode($parsed_resume, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
     }
 }
 

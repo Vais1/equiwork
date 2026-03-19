@@ -60,6 +60,8 @@ if (empty($email)) {
 if (!empty($password_raw)) {
     if (strlen($password_raw) < 8) {
         $errors[] = "Password must maintain strict compliance of 8 characters minimum.";
+    } elseif ($password_raw !== $password_confirm) {
+        $errors[] = "Passwords do not match.";
     }
 }
 
