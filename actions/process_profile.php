@@ -7,12 +7,12 @@ require_once __DIR__ . '/../includes/auth_check.php';
 
 // Deep validation setup
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . 'profile_update.php');
+    header('Location: ' . BASE_URL . 'user/profile.php');
     exit;
 }
 
 if (!csrf_validate_request()) {
-    csrf_fail_redirect(BASE_URL . 'profile_update.php');
+    csrf_fail_redirect(BASE_URL . 'user/profile.php');
 }
 
 // 1. Rigorous Data Sanitization
@@ -82,7 +82,7 @@ require_once __DIR__ . '/../includes/flash.php';
 if (count($errors) > 0) {
     // Return to form with exact reasons
     set_flash_message('error', implode('<br>', $errors));
-    header('Location: ' . BASE_URL . 'profile_update.php');
+    header('Location: ' . BASE_URL . 'user/profile.php');
     exit;
 } else {
     // Logic branch: Update WITH or WITHOUT password 
@@ -102,7 +102,7 @@ if (count($errors) > 0) {
         set_flash_message('error', "A severe system error occurred blocking the database update.");
     }
     $stmt->close();
-    header('Location: ' . BASE_URL . 'profile_update.php');
+    header('Location: ' . BASE_URL . 'user/profile.php');
     exit;
 }
 ?>

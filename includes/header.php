@@ -47,12 +47,12 @@ require_once __DIR__ . '/csrf.php';
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin'): ?>
                         <a href="<?php echo BASE_URL; ?>admin/dashboard.php" class="text-sm font-semibold text-text focus:outline-none focus:ring-4 focus:ring-red-300 rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Admin Panel</a>
                     <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'Employer'): ?>
-                        <a href="<?php echo BASE_URL; ?>employer_dashboard.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Employer Dashboard</a>
-                        <a href="<?php echo BASE_URL; ?>post_job.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Post Job</a>
+                        <a href="<?php echo BASE_URL; ?>employer/dashboard.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Employer Dashboard</a>
+                        <a href="<?php echo BASE_URL; ?>employer/post_job.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Post Job</a>
                     <?php else: ?>
                         <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Available Roles</a>
-                        <a href="<?php echo BASE_URL; ?>my_applications.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Applications</a>
-                        <a href="<?php echo BASE_URL; ?>profile_update.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Profile</a>
+                        <a href="<?php echo BASE_URL; ?>seeker/dashboard.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Applications</a>
+                        <a href="<?php echo BASE_URL; ?>user/profile.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Profile</a>
                     <?php endif; ?>
 
                     <div class="h-4 w-px bg-border hidden sm:block"></div>
@@ -60,8 +60,8 @@ require_once __DIR__ . '/csrf.php';
                     <a href="<?php echo BASE_URL; ?>actions/logout.php" class="text-sm font-medium text-muted focus:outline-none focus:ring-4 focus:ring-border rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Log Out</a>
 
                 <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>login.php" class="text-sm font-semibold text-text focus:outline-none focus-visible:ring-4 focus-visible:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Sign In</a>
-                    <a href="<?php echo BASE_URL; ?>register.php" class="btn-primary whitespace-nowrap leading-none flex items-center">Join Platform</a>
+                    <a href="<?php echo BASE_URL; ?>auth/login.php" class="text-sm font-semibold text-text focus:outline-none focus-visible:ring-4 focus-visible:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Sign In</a>
+                    <a href="<?php echo BASE_URL; ?>auth/register.php" class="btn-primary whitespace-nowrap leading-none flex items-center">Join Platform</a>
                 <?php endif; ?>
             </div>
         </nav>

@@ -1,14 +1,14 @@
 <?php
 // post_job.php
-require_once 'includes/config.php';
-require_once 'includes/db.php';
-require_once 'includes/auth_check.php';
-require_once 'includes/flash.php';
+require_once '../includes/config.php';
+require_once '../includes/db.php';
+require_once '../includes/auth_check.php';
+require_once '../includes/flash.php';
 
 // Strict session check for Employer role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Employer') {
     set_flash_message('error', 'Unauthorised access. Only employers can post jobs.');
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: ' . BASE_URL . 'auth/login.php');
     exit;
 }
 
@@ -22,7 +22,7 @@ if ($accResult && $accResult->num_rows > 0) {
     }
 }
 
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-3xl mx-auto mt-6 md:mt-8 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
@@ -137,7 +137,7 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex justify-end gap-3 sm:gap-4 mt-6 md:mt-8 pt-4 border-t border-border">
-            <a href="<?php echo BASE_URL; ?>employer_dashboard.php" class="px-4 py-2 min-w-[44px] rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out font-medium">
+            <a href="<?php echo BASE_URL; ?>employer/dashboard.php" class="px-4 py-2 min-w-[44px] rounded-lg border border-accent text-accent focus:ring-2 focus:ring-accent/50 focus:outline-none transition-all duration-300 ease-in-out font-medium">
                 Cancel
             </a>
             <button type="submit" 
@@ -208,4 +208,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>

@@ -2,8 +2,8 @@
 // apply_job.php
 // Job application submission form
 
-require_once 'includes/db.php';
-require_once 'includes/auth_check.php';
+require_once '../includes/db.php';
+require_once '../includes/auth_check.php';
 
 // Only logged-in 'Seekers' can apply to jobs
 enforce_role('Seeker');
@@ -30,7 +30,7 @@ if ($job_result->num_rows === 0) {
 $job = $job_result->fetch_assoc();
 $stmt->close();
 
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
@@ -365,5 +365,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>
 

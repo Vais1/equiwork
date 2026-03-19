@@ -25,6 +25,6 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 require_once '../includes/config.php';
-header('Location: ' . BASE_URL . 'login.php');
+header('Location: ' . BASE_URL . 'auth/login.php');
 exit;
 ?>

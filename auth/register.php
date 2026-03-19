@@ -1,12 +1,12 @@
 <?php
-require_once 'includes/config.php';
+require_once '../includes/config.php';
 
 if (isset($_SESSION['user_id'])) {
     $role = $_SESSION['role'] ?? '';
     if ($role === 'Admin') {
         header('Location: ' . BASE_URL . 'admin/dashboard.php');
     } elseif ($role === 'Employer') {
-        header('Location: ' . BASE_URL . 'employer_dashboard.php');
+        header('Location: ' . BASE_URL . 'employer/dashboard.php');
     } else {
         header('Location: ' . BASE_URL . 'jobs.php');
     }
@@ -15,9 +15,9 @@ if (isset($_SESSION['user_id'])) {
 
 $defaultRole = isset($_GET['role']) && in_array($_GET['role'], ['Seeker', 'Employer']) ? $_GET['role'] : 'Seeker';
 
-require_once 'includes/db.php';
-require_once 'includes/flash.php';
-require_once 'includes/header.php';
+require_once '../includes/db.php';
+require_once '../includes/flash.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-md mx-auto bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
@@ -98,7 +98,7 @@ require_once 'includes/header.php';
         <div class="mt-5 md:mt-6 text-center">
             <p class="text-sm text-muted">
                 Already have an account? 
-                <a href="<?php echo BASE_URL; ?>login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out">Log in</a>
+                <a href="<?php echo BASE_URL; ?>auth/login.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out">Log in</a>
             </p>
         </div>
     </form>
@@ -108,5 +108,5 @@ require_once 'includes/header.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>
 

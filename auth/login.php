@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/config.php';
+require_once '../includes/config.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
@@ -7,22 +7,22 @@ if (isset($_SESSION['user_id'])) {
     if ($role === 'Admin') {
         header('Location: ' . BASE_URL . 'admin/dashboard.php');
     } elseif ($role === 'Employer') {
-        header('Location: ' . BASE_URL . 'employer_dashboard.php');
+        header('Location: ' . BASE_URL . 'employer/dashboard.php');
     } else {
         header('Location: ' . BASE_URL . 'jobs.php');
     }
     exit;
 }
 
-require_once 'includes/db.php';
-require_once 'includes/flash.php'; // Required to safely handle get-to-flash conversions
+require_once '../includes/db.php';
+require_once '../includes/flash.php'; // Required to safely handle get-to-flash conversions
 
 // Convert GET errors to flash messages gracefully if any persisted through links
 if (isset($_GET['reason']) && $_GET['reason'] === 'timeout') {
     set_flash_message('warning', 'Your session has timed out due to inactivity. Please log in again.');
 }
 
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-md mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
@@ -61,7 +61,7 @@ require_once 'includes/header.php';
         <div class="mt-5 md:mt-6 text-center">
             <p class="text-sm text-muted">
                 Don't have an account yet? 
-                <a href="<?php echo BASE_URL; ?>register.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out">Sign up</a>
+                <a href="<?php echo BASE_URL; ?>auth/register.php" class="text-accent font-medium focus:outline-none focus:ring-2 focus:ring-accent/50 rounded transition-all duration-300 ease-in-out">Sign up</a>
             </p>
         </div>
     </form>
@@ -69,5 +69,5 @@ require_once 'includes/header.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>
 

@@ -1,9 +1,9 @@
 <?php
-require_once __DIR__ . '/includes/config.php';
-require_once __DIR__ . '/includes/db.php';
-require_once __DIR__ . '/includes/flash.php';
-require_once __DIR__ . '/includes/auth_check.php';
-require_once __DIR__ . '/includes/csrf.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/flash.php';
+require_once __DIR__ . '/../includes/auth_check.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 enforce_role('Employer');
 
@@ -11,7 +11,7 @@ $employer_id = (int)$_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate_request()) {
-        csrf_fail_redirect(BASE_URL . 'employer_dashboard.php');
+        csrf_fail_redirect(BASE_URL . 'employer/dashboard.php');
     }
 
     $action = $_POST['action'] ?? '';
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!$application_id || !in_array($next_status, $allowed_statuses, true)) {
                 set_flash_message('error', 'Invalid applicant status update request.');
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+                header('Location: ' . BASE_URL . 'employer/dashboard.php');
                 exit;
             }
 
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (!$job_id || !in_array($job_status, $allowed_job_statuses, true)) {
                 set_flash_message('error', 'Invalid job status update request.');
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+                header('Location: ' . BASE_URL . 'employer/dashboard.php');
                 exit;
             }
 
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_flash_message('error', 'Unable to process your request right now. Please try again.');
     }
 
-    header('Location: ' . BASE_URL . 'employer_dashboard.php');
+    header('Location: ' . BASE_URL . 'employer/dashboard.php');
     exit;
 }
 
@@ -128,7 +128,7 @@ try {
     set_flash_message('error', 'We could not fully load your employer dashboard data.');
 }
 
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
@@ -141,7 +141,7 @@ require_once __DIR__ . '/includes/header.php';
             <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto text-center btn-outline">
                 View All Job Postings
             </a>
-            <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center btn-primary">
+            <a href="<?php echo BASE_URL; ?>employer/post_job.php" class="w-full md:w-auto text-center btn-primary">
                 Post New Job
             </a>
         </div>
@@ -183,7 +183,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <td class="px-4 py-3 text-sm font-medium text-text"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td class="px-4 py-3 text-sm text-text"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td class="px-4 py-3 text-sm text-text">
-                                        <form action="<?php echo BASE_URL; ?>employer_dashboard.php" method="POST" class="flex gap-2 items-center">
+                                        <form action="<?php echo BASE_URL; ?>employer/dashboard.php" method="POST" class="flex gap-2 items-center">
                                             <?php echo csrf_input(); ?>
                                             <input type="hidden" name="action" value="update_job_status">
                                             <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
@@ -221,7 +221,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <p class="text-sm text-muted"><?php echo htmlspecialchars($application['seeker_email'], ENT_QUOTES, 'UTF-8'); ?></p>
                                 <p class="text-sm text-muted mt-1">Submitted <?php echo date('M d, Y H:i', strtotime($application['submitted_at'])); ?></p>
                             </div>
-                            <form action="<?php echo BASE_URL; ?>employer_dashboard.php" method="POST" class="w-full md:w-auto">
+                            <form action="<?php echo BASE_URL; ?>employer/dashboard.php" method="POST" class="w-full md:w-auto">
                                 <?php echo csrf_input(); ?>
                                 <input type="hidden" name="action" value="update_application_status">
                                 <input type="hidden" name="application_id" value="<?php echo (int)$application['application_id']; ?>">
@@ -281,4 +281,4 @@ require_once __DIR__ . '/includes/header.php';
     </section>
 </div>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/footer.php'; ?>

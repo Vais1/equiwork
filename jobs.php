@@ -15,7 +15,7 @@ require_once __DIR__ . '/includes/auth_check.php';
 
 // Ensure the user is authenticated; role check is basic, but we redirect unauthenticated users
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: ' . BASE_URL . 'auth/login.php');
     exit;
 }
 
@@ -259,7 +259,7 @@ require_once 'includes/header.php';
                             <!-- Application Action Logic -->
                             <div class="mt-5 md:mt-0 md:ml-5 flex shrink-0">
                                 <?php if ($user_role === 'Seeker'): ?>
-                                    <a href="<?php echo BASE_URL; ?>apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out">
+                                    <a href="<?php echo BASE_URL; ?>seeker/apply_job.php?job_id=<?php echo $job['job_id']; ?>" class="w-full md:w-auto text-center bg-accent focus:ring-4 focus:ring-accent/50 text-white font-semibold px-4 py-2 min-w-[44px] rounded-lg transition-all duration-300 ease-in-out">
                                         Apply Now
                                     </a>
                                 <?php elseif ($user_role === 'Employer'): ?>

@@ -9,17 +9,17 @@ require_once __DIR__ . '/../includes/csrf.php';
 // Strict session check for Employer role
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Employer') {
     set_flash_message('error', 'Unauthorised access. Only employers can post jobs.');
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: ' . BASE_URL . 'auth/login.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . 'post_job.php');
+    header('Location: ' . BASE_URL . 'employer/post_job.php');
     exit;
 }
 
 if (!csrf_validate_request()) {
-    csrf_fail_redirect(BASE_URL . 'post_job.php');
+    csrf_fail_redirect(BASE_URL . 'employer/post_job.php');
 }
 
 // 1. Sanitize and collect inputs
@@ -61,7 +61,7 @@ if (!empty($errors)) {
     foreach ($errors as $error) {
         set_flash_message('error', $error);
     }
-    header('Location: ' . BASE_URL . 'post_job.php');
+    header('Location: ' . BASE_URL . 'employer/post_job.php');
     exit;
 }
 
@@ -95,7 +95,7 @@ try {
     $conn->commit();
 
     set_flash_message('success', 'Job posting created successfully!');
-    header('Location: ' . BASE_URL . 'employer_dashboard.php');
+    header('Location: ' . BASE_URL . 'employer/dashboard.php');
     exit;
 
 } catch (Exception $e) {
@@ -103,7 +103,7 @@ try {
     // Log the actual error for the developer and show generic message to user
     error_log("Job Posting Error: " . $e->getMessage());
     set_flash_message('error', 'A system error occurred while creating the job posting. Please try again.');
-    header('Location: ' . BASE_URL . 'post_job.php');
+    header('Location: ' . BASE_URL . 'employer/post_job.php');
     exit;
 }
 

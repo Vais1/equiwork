@@ -2,12 +2,12 @@
 // profile_update.php
 // Dual-Role Profile Update Form - Employer or Seeker
 
-require_once 'includes/db.php';
-require_once 'includes/auth_check.php';
+require_once '../includes/db.php';
+require_once '../includes/auth_check.php';
 
 // Users must be logged in to update profile
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . 'login.php');
+    header('Location: ' . BASE_URL . 'auth/login.php');
     exit;
 }
 
@@ -21,14 +21,14 @@ $stmt->execute();
 $current_user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-2xl mx-auto mt-8 md:mt-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
     <h1 class="text-2xl md:text-3xl font-bold text-text mb-2 font-heading">My Profile</h1>
     <p class="text-muted mb-6 md:mb-8">Update your <?php echo strtolower($role); ?> account details and preferences.</p>
 
-    <?php require_once 'includes/flash.php'; display_flash_messages(); ?>
+    <?php require_once '../includes/flash.php'; display_flash_messages(); ?>
 
     <form action="<?php echo BASE_URL; ?>actions/process_profile.php" method="POST" id="profileForm" novalidate>
         <?php echo csrf_input(); ?>
@@ -88,5 +88,5 @@ require_once 'includes/header.php';
 
 <script src="<?php echo BASE_URL; ?>assets/js/form-validation.js"></script>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>
 

@@ -14,12 +14,12 @@ require_once __DIR__ . '/../includes/csrf.php';
 
 // Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . 'register.php');
+    header('Location: ' . BASE_URL . 'auth/register.php');
     exit;
 }
 
 if (!csrf_validate_request()) {
-    csrf_fail_redirect(BASE_URL . 'register.php');
+    csrf_fail_redirect(BASE_URL . 'auth/register.php');
 }
 
 // Session-based Rate Limiting (Throttle after 5 failed attempts)
@@ -34,7 +34,7 @@ if ($_SESSION['register_attempts'] >= 5) {
         $wait_time = ceil((300 - $time_passed) / 60);
         require_once __DIR__ . '/../includes/flash.php';
         set_flash_message('error', "Too many failed attempts. Please wait $wait_time minute(s).");
-        header('Location: ' . BASE_URL . 'register.php');
+        header('Location: ' . BASE_URL . 'auth/register.php');
         exit;
     } else {
         // Reset after lockout expires
@@ -108,7 +108,7 @@ if (!empty($errors)) {
     // Basic fallback - In a real application, you'd store this in a session flash message
     // and display on the register.php page instead of a raw die().
     set_flash_message('error', implode('<br>', $errors));
-    header('Location: ' . BASE_URL . 'register.php');
+    header('Location: ' . BASE_URL . 'auth/register.php');
     exit;
 } else {
     try {
@@ -129,7 +129,7 @@ if (!empty($errors)) {
             $_SESSION['last_action'] = time();
 
             if ($role_type === 'Employer') {
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+                header('Location: ' . BASE_URL . 'employer/dashboard.php');
             } else {
                 header('Location: ' . BASE_URL . 'jobs.php');
             }
@@ -137,12 +137,12 @@ if (!empty($errors)) {
         }
 
         set_flash_message('error', 'A system error occurred. Please try again later.');
-        header('Location: ' . BASE_URL . 'register.php');
+        header('Location: ' . BASE_URL . 'auth/register.php');
         exit;
     } catch (Throwable $e) {
         error_log('Registration insert failed: ' . $e->getMessage());
         set_flash_message('error', 'Your account could not be created at this time. Please try again.');
-        header('Location: ' . BASE_URL . 'register.php');
+        header('Location: ' . BASE_URL . 'auth/register.php');
         exit;
     }
 }

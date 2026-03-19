@@ -1,8 +1,8 @@
 <?php
 // my_applications.php
-require_once 'includes/config.php';
-require_once 'includes/db.php';
-require_once 'includes/auth_check.php';
+require_once '../includes/config.php';
+require_once '../includes/db.php';
+require_once '../includes/auth_check.php';
 
 // Ensure the user is a Seeker
 enforce_role('Seeker');
@@ -29,7 +29,7 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-require_once 'includes/header.php';
+require_once '../includes/header.php';
 ?>
 
 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -97,4 +97,4 @@ require_once 'includes/header.php';
     <?php endif; ?>
 </div>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php require_once '../includes/footer.php'; ?>

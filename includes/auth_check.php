@@ -68,7 +68,7 @@ function enforce_role(string $required_role): void {
         if ($required_role === 'Admin') {
             header('Location: ' . BASE_URL . 'admin/login.php');
         } else {
-            header('Location: ' . BASE_URL . 'login.php');
+            header('Location: ' . BASE_URL . 'auth/login.php');
         }
         exit;
     }
@@ -81,14 +81,14 @@ function enforce_role(string $required_role): void {
                 header('Location: ' . BASE_URL . 'admin/dashboard.php'); 
                 break;
             case 'Employer':
-                header('Location: ' . BASE_URL . 'employer_dashboard.php');
+                header('Location: ' . BASE_URL . 'employer/dashboard.php');
                 break;
             case 'Seeker': 
                 header('Location: ' . BASE_URL . 'jobs.php'); 
                 break;
             default: 
                 // Catch-all
-                header('Location: ' . BASE_URL . 'login.php'); 
+                header('Location: ' . BASE_URL . 'auth/login.php'); 
                 break;
         }
         exit;

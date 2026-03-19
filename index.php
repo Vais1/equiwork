@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
     if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin') {
         header('Location: ' . BASE_URL . 'admin/dashboard.php');
     } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'Employer') {
-        header('Location: ' . BASE_URL . 'employer_dashboard.php');
+        header('Location: ' . BASE_URL . 'employer/dashboard.php');
     } else {
         header('Location: ' . BASE_URL . 'jobs.php');
     }
@@ -34,10 +34,10 @@ require_once 'includes/header.php';
     </p>
 
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-5">
-        <a href="<?php echo BASE_URL; ?>register.php" class="w-full sm:w-auto btn-primary text-center">
+        <a href="<?php echo BASE_URL; ?>auth/register.php" class="w-full sm:w-auto btn-primary text-center">
             Register
         </a>
-        <a href="<?php echo BASE_URL; ?>login.php" class="w-full sm:w-auto btn-outline text-center">
+        <a href="<?php echo BASE_URL; ?>auth/login.php" class="w-full sm:w-auto btn-outline text-center">
             Sign In
         </a>
     </div>
