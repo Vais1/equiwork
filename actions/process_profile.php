@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/auth_check.php';
 
 // Deep validation setup
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_SESSION['user_id'])) {
@@ -22,7 +23,7 @@ $email_raw    = $_POST['email'] ?? '';
 $password_raw = $_POST['password'] ?? '';
 
 // Sanitize outputs
-$username = htmlspecialchars(trim($username_raw), ENT_QUOTES, 'UTF-8');
+$username = trim($username_raw);
 $email    = trim($email_raw); 
 $errors   = [];
 

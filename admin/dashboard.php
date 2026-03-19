@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // -- UPDATE USER --
     if ($action === 'edit') {
         $edit_id = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
-        $username = trim(htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8'));
+        $username = trim($_POST['username'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $role_type = trim($_POST['role_type'] ?? '');
         $allowed_roles = ['Admin', 'Employer', 'Seeker'];
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // -- UPDATE JOB --
     if ($action === 'edit_job') {
         $job_id = filter_input(INPUT_POST, 'job_id', FILTER_VALIDATE_INT);
-        $title = trim(htmlspecialchars($_POST['job_title'] ?? '', ENT_QUOTES, 'UTF-8'));
+        $title = trim($_POST['job_title'] ?? '');
         $location_type = trim($_POST['location_type'] ?? '');
         $status = trim($_POST['status'] ?? '');
 
@@ -146,8 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // -- UPDATE ACCOMMODATION --
     if ($action === 'edit_accommodation') {
         $accommodation_id = filter_input(INPUT_POST, 'accommodation_id', FILTER_VALIDATE_INT);
-        $name = trim(htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8'));
-        $category = trim(htmlspecialchars($_POST['category'] ?? '', ENT_QUOTES, 'UTF-8'));
+        $name = trim($_POST['name'] ?? '');
+        $category = trim($_POST['category'] ?? '');
 
         if (!$accommodation_id || $name === '' || $category === '') {
             $_SESSION['flash_error'] = 'Invalid accommodation update request.';

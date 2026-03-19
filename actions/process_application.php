@@ -29,7 +29,7 @@ if ($parsed_resume_payload !== '') {
     }
 }
 
-$letter_safe = htmlspecialchars($letter, ENT_QUOTES, 'UTF-8');
+$letter_safe = $letter;
 if (!$job_id || $letter_safe === '' || strlen($letter_safe) > 1000 || $parsed_resume_json === null) {
     set_flash_message('error', 'Invalid application parameters provided. Please complete all required fields.');
     header('Location: ' . BASE_URL . 'jobs.php');
@@ -87,8 +87,8 @@ try {
     $notify = $notify_query->get_result()->fetch_assoc();
 
     if ($notify) {
-        $job_title = htmlspecialchars($notify['title'] ?? 'Job Posting', ENT_QUOTES, 'UTF-8');
-        $seeker_name = htmlspecialchars($notify['seeker_name'] ?? 'Applicant', ENT_QUOTES, 'UTF-8');
+        $job_title = $notify['title'] ?? 'Job Posting';
+        $seeker_name = $notify['seeker_name'] ?? 'Applicant';
 
         $headers  = "MIME-Version: 1.0\r\n";
         $headers .= "Content-type: text/html; charset=UTF-8\r\n";

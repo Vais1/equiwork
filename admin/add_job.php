@@ -20,14 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Collect and sanitize inputs
     $employer_id = filter_input(INPUT_POST, 'employer_id', FILTER_VALIDATE_INT);
-    $title = trim(htmlspecialchars($_POST['title'] ?? '', ENT_QUOTES, 'UTF-8'));
-    $company_name = trim(htmlspecialchars($_POST['company_name'] ?? '', ENT_QUOTES, 'UTF-8'));
-    $description = trim(htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $title = trim($_POST['title'] ?? '');
+    $company_name = trim($_POST['company_name'] ?? '');
+    $description = trim($_POST['description'] ?? '');
     $location_type = trim($_POST['location_type'] ?? '');
     $employment_type = trim($_POST['employment_type'] ?? '');
     $salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT) ?: null;
     $salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT) ?: null;
-    $state_region = trim(htmlspecialchars($_POST['state_region'] ?? '', ENT_QUOTES, 'UTF-8'));
+    $state_region = trim($_POST['state_region'] ?? '');
     $status = trim($_POST['status'] ?? 'Active');
     
     // Array of accommodations submitted
@@ -271,7 +271,7 @@ require_once '../includes/header.php';
                 <div class="space-y-6">
                     <?php foreach ($grouped_accommodations as $category => $acc_list): ?>
                         <div>
-                            <h4 class="text-sm font-semibold text-text uppercase tracking-wider mb-3"><?= htmlspecialchars($category, ENT_QUOTES) ?></h4>
+                            <h4 class="text-sm font-semibold text-text uppercase tracking-wider mb-3"><?= $category ?></h4>
                             <div class="grid grid-cols-1 sm:grid-cols-2 mt-2 gap-4">
                                 <?php foreach ($acc_list as $acc): ?>
                                     

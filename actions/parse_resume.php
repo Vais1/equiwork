@@ -1,6 +1,22 @@
 <?php
 // actions/parse_resume.php
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth_check.php';
+require_once __DIR__ . '/../includes/csrf.php';
+
 header('Content-Type: application/json; charset=utf-8');
+
+// Ensure user is authenticated
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized access.']);
+    exit;
+}
+
+// Validate CSRF token for AJAX requests (expects HTTP_X_CSRF_TOKEN header)
+if (!csrf_validate_request()) {
+    csrf_fail_json();
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

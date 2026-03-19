@@ -109,7 +109,7 @@ if (!empty($errors)) {
 
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $safe_username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        $safe_username = $username;
         $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, role_type) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $safe_username, $email, $password_hash, $role_type);
 

@@ -24,9 +24,9 @@ if (!csrf_validate_request()) {
 
 // 1. Sanitize and collect inputs
 $employer_id = $_SESSION['user_id'];
-$title = trim(htmlspecialchars($_POST['title'] ?? '', ENT_QUOTES, 'UTF-8'));
+$title = trim($_POST['title'] ?? '');
 $location_type = trim($_POST['location_type'] ?? '');
-$description = trim(htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES, 'UTF-8'));
+$description = trim($_POST['description'] ?? '');
 $accommodations = $_POST['accommodations'] ?? []; // Array of accommodation IDs
 
 // 2. Validate inputs
