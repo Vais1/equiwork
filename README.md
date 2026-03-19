@@ -40,15 +40,8 @@ EquiWork is a web platform that connects job seekers (especially users needing a
 c:/xampp/htdocs/equiwork
 |-- .gitignore
 |-- README.md
-|-- admin_dashboard.php
 |-- index.php
-|-- login.php
-|-- register.php
 |-- jobs.php
-|-- apply_job.php
-|-- post_job.php
-|-- profile_update.php
-|-- employer_dashboard.php
 |-- project-overview.md
 |-- package.json
 |-- package-lock.json
@@ -65,6 +58,17 @@ c:/xampp/htdocs/equiwork
 |   |-- login.php
 |   |-- dashboard.php
 |   |-- add_job.php
+|-- auth/
+|   |-- login.php
+|   |-- register.php
+|-- employer/
+|   |-- dashboard.php
+|   |-- post_job.php
+|-- seeker/
+|   |-- apply_job.php
+|   |-- dashboard.php
+|-- user/
+|   |-- profile.php
 |-- assets/
 |   |-- css/
 |   |   |-- tailwind-input.css
