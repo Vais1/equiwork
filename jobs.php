@@ -46,7 +46,7 @@ if ($cats_stmt && $cats_stmt->execute()) {
 // 3. Construct the Matching Engine Query (Dynamic & Parameterized)
 // ------------------------------------------------------------------
 // Base query selects active jobs and resolves the employer's username.
-$sql = "SELECT j.job_id, j.title, j.description, j.location_type, j.posted_at, u.username AS employer_name 
+$sql = "SELECT j.job_id, j.title, j.description, j.location_type, j.posted_at, j.company_name, j.employment_type, j.salary_min_myr, j.salary_max_myr, j.state_region, u.username AS employer_name 
         FROM jobs j 
         JOIN users u ON j.employer_id = u.user_id 
         WHERE j.status = 'Active'";
@@ -137,7 +137,16 @@ require_once 'includes/header.php';
         <!-- Sidebar Filter System -->
         <aside class="w-full lg:w-1/4">
             <form action="<?php echo BASE_URL; ?>jobs.php" method="GET" class="bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out sticky top-6">
-                <h2 class="text-lg font-bold text-text mb-4">Filter by Accessibility</h2>
+                
+                <div class="mb-6">
+                    <label for="search" class="block text-sm font-semibold text-text mb-2">Search Jobs</label>
+                    <div class="relative">
+                        <input type="text" id="search" name="q" value="<?php echo htmlspecialchars($search_query, ENT_QUOTES); ?>" placeholder="Job title, company..." class="w-full border border-border rounded-lg pl-9 pr-4 py-2 text-sm focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                        <svg class="w-4 h-4 text-muted absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
+                
+                <h2 class="text-lg font-bold text-text mb-4 border-t border-border pt-4">Filter by Accessibility</h2>
                 
                 <div class="space-y-6">
                     <?php if (empty($sidebar_accommodations)): ?>
@@ -188,7 +197,7 @@ require_once 'includes/header.php';
         <main class="w-full lg:w-3/4">
             
             <div class="mb-4 text-sm text-muted" aria-live="polite">
-                Showing <span class="font-semibold text-text"><?php echo count($jobs); ?></span> opportunity(s) matching your criteria.
+                Showing <span class="font-semibold text-text"><?php echo count($jobs); ?></span> of <span class="font-semibold text-text"><?php echo $total_jobs; ?></span> opportunity(s) matching your criteria.
             </div>
 
             <div class="space-y-6">
@@ -206,13 +215,28 @@ require_once 'includes/header.php';
                             
                             <div class="flex-grow">
                                 <div class="flex items-center space-x-2 text-sm text-muted mb-2">
-                                    <span class="font-medium text-accent"><?php echo htmlspecialchars($job['employer_name'], ENT_QUOTES); ?></span>
+                                    <span class="font-medium text-accent"><?php echo htmlspecialchars($job['company_name'] ?: $job['employer_name'], ENT_QUOTES); ?></span>
                                     <span>&bull;</span>
                                     <span><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></span>
                                     <span>&bull;</span>
                                     <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold">
                                         <?php echo htmlspecialchars($job['location_type'], ENT_QUOTES); ?>
                                     </span>
+                                    <?php if ($job['state_region']): ?>
+                                        <span>&bull;</span>
+                                        <span><?php echo htmlspecialchars($job['state_region'], ENT_QUOTES); ?></span>
+                                    <?php endif; ?>
+                                    <span>&bull;</span>
+                                    <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold">
+                                        <?php echo htmlspecialchars($job['employment_type'] ?? 'Full-time', ENT_QUOTES); ?>
+                                    </span>
+                                    <?php if ($job['salary_min_myr'] || $job['salary_max_myr']): ?>
+                                        <span>&bull;</span>
+                                        <span class="text-green-600 font-semibold">
+                                            MYR <?php echo number_format($job['salary_min_myr'] ?? 0); ?> - <?php echo number_format($job['salary_max_myr'] ?? 0); ?>
+                                        </span>
+                                    <?php endif; ?>
+
                                 </div>
                                 <h2 class="text-xl font-bold text-text mb-3 leading-tight">
                                     <?php echo htmlspecialchars($job['title'], ENT_QUOTES); ?>
@@ -251,7 +275,43 @@ require_once 'includes/header.php';
                         </article>
                     <?php endforeach; ?>
                 <?php endif; ?>
+            
             </div>
+            
+            <!-- Pagination Controls -->
+            <?php if ($total_pages > 1): ?>
+                <div class="mt-8 flex justify-center border-t border-border pt-6">
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <?php 
+                        // Keep current GET params except 'page'
+                        $query_params = $_GET;
+                        unset($query_params['page']);
+                        $base_link = BASE_URL . 'jobs.php?' . http_build_query($query_params);
+                        $base_link .= (!empty($query_params) ? '&' : '') . 'page=';
+                        ?>
+                        
+                        <?php if ($page > 1): ?>
+                            <a href="<?php echo $base_link . ($page - 1); ?>" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-border bg-surface text-sm font-medium text-muted focus:ring-2 focus:ring-accent transition-all duration-200">
+                                <span class="sr-only">Previous</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = max(1, $page - 2); $i <= min($total_pages, $page + 2); $i++): ?>
+                            <a href="<?php echo $base_link . $i; ?>" class="relative inline-flex items-center px-4 py-2 border border-border text-sm font-medium <?php echo $i === $page ? 'z-10 bg-accent text-white border-accent' : 'bg-surface text-text hover:bg-bg'; ?> transition-all duration-200">
+                                <?php echo $i; ?>
+                            </a>
+                        <?php endfor; ?>
+
+                        <?php if ($page < $total_pages): ?>
+                            <a href="<?php echo $base_link . ($page + 1); ?>" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-border bg-surface text-sm font-medium text-muted focus:ring-2 focus:ring-accent transition-all duration-200">
+                                <span class="sr-only">Next</span>
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+                            </a>
+                        <?php endif; ?>
+                    </nav>
+                </div>
+            <?php endif; ?>
             
         </main>
     </div>

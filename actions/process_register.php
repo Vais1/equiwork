@@ -47,7 +47,10 @@ $_SESSION['last_register_attempt_time'] = time();
 // 1. Sanitize Strings & Inputs
 $username  = trim($_POST['username'] ?? '');
 $email     = trim($_POST['email'] ?? ''); // Wait to run filter_var
+
 $password  = $_POST['password'] ?? '';
+$password_confirm = $_POST['password_confirm'] ?? '';
+
 $role_type = trim($_POST['role_type'] ?? '');
 
 // 2. Server-Side Validation
@@ -66,9 +69,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // Password constraint
+
 if (strlen($password) < 8) {
     $errors[] = "Password must be at least 8 characters long.";
+} elseif ($password !== $password_confirm) {
+    $errors[] = "Passwords do not match.";
 }
+
 
 // Role constraints mapping to ENUM
 $allowed_roles = ['Employer', 'Seeker'];

@@ -74,7 +74,7 @@ require_once __DIR__ . '/csrf.php';
                 <span class="tracking-tight hidden sm:block">Equi<span class="text-accent">Work</span></span>
             </a>
 
-            <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
                 <button id="theme-toggle" type="button" class="text-muted focus:outline-none focus-visible:ring-4 focus-visible:ring-accent/50 rounded-lg p-0.5 transition-all duration-300 ease-in-out border border-transparent flex items-center justify-center active:scale-95" aria-label="Toggle Dark Mode">
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                     <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
@@ -89,6 +89,7 @@ require_once __DIR__ . '/csrf.php';
                         <a href="<?php echo BASE_URL; ?>post_job.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Post Job</a>
                     <?php else: ?>
                         <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Available Roles</a>
+                        <a href="<?php echo BASE_URL; ?>my_applications.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Applications</a>
                         <a href="<?php echo BASE_URL; ?>profile_update.php" class="text-sm font-medium text-text focus:outline-none focus:ring-4 focus:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">My Profile</a>
                     <?php endif; ?>
 

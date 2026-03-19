@@ -61,6 +61,42 @@ require_once 'includes/header.php';
                 <p id="locationError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please select a work arrangement.</p>
             </div>
             
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="company_name" class="block text-sm font-medium text-text mb-1">Company Name <span class="text-xs text-muted font-normal">(Optional, defaults to your profile name)</span></label>
+                    <input type="text" id="company_name" name="company_name"
+                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                </div>
+                <div>
+                    <label for="employment_type" class="block text-sm font-medium text-text mb-1">Employment Type</label>
+                    <select id="employment_type" name="employment_type" class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Freelance">Freelance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label for="state_region" class="block text-sm font-medium text-text mb-1">State / Region <span class="text-xs text-muted font-normal">(Optional)</span></label>
+                    <input type="text" id="state_region" name="state_region" placeholder="e.g. Kuala Lumpur"
+                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                </div>
+                <div>
+                    <label for="salary_min_myr" class="block text-sm font-medium text-text mb-1">Min Salary (MYR) <span class="text-xs text-muted font-normal">(Optional)</span></label>
+                    <input type="number" step="0.01" min="0" id="salary_min_myr" name="salary_min_myr" placeholder="e.g. 3000"
+                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                </div>
+                <div>
+                    <label for="salary_max_myr" class="block text-sm font-medium text-text mb-1">Max Salary (MYR) <span class="text-xs text-muted font-normal">(Optional)</span></label>
+                    <input type="number" step="0.01" min="0" id="salary_max_myr" name="salary_max_myr" placeholder="e.g. 5000"
+                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                </div>
+            </div>
+
             <div>
                 <label for="description" class="block text-sm font-medium text-text mb-1">Job Description <span class="text-red-500">*</span></label>
                 <textarea id="description" name="description" rows="6" required

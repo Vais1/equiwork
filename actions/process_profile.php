@@ -20,7 +20,10 @@ if (!csrf_validate_request()) {
 $user_id = $_SESSION['user_id'];
 $username_raw = $_POST['username'] ?? '';
 $email_raw    = $_POST['email'] ?? '';
+
 $password_raw = $_POST['password'] ?? '';
+$password_confirm = $_POST['password_confirm'] ?? '';
+
 
 // Sanitize outputs
 $username = trim($username_raw);

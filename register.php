@@ -53,6 +53,13 @@ require_once 'includes/header.php';
             </div>
 
             <div>
+                <label for="password_confirm" class="block text-sm font-medium text-text mb-1">Confirm Password</label>
+                <input type="password" id="password_confirm" name="password_confirm" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-confirm-error"
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                <p class="mt-1 text-sm text-red-600 hidden" id="password-confirm-error" role="alert" aria-live="polite"></p>
+            </div>
+
+            <div>
                 <label class="block text-sm font-medium text-text mb-1">I am a...</label>
 
                 <fieldset role="radiogroup" aria-label="Account type" aria-describedby="role-help" class="mt-1">

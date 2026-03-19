@@ -29,6 +29,13 @@ $location_type = trim($_POST['location_type'] ?? '');
 $description = trim($_POST['description'] ?? '');
 $accommodations = $_POST['accommodations'] ?? []; // Array of accommodation IDs
 
+$company_name = trim($_POST['company_name'] ?? '');
+$employment_type = trim($_POST['employment_type'] ?? 'Full-time');
+$state_region = trim($_POST['state_region'] ?? '');
+$salary_min = filter_input(INPUT_POST, 'salary_min_myr', FILTER_VALIDATE_FLOAT) ?: null;
+$salary_max = filter_input(INPUT_POST, 'salary_max_myr', FILTER_VALIDATE_FLOAT) ?: null;
+
+
 // 2. Validate inputs
 $errors = [];
 if (empty($title)) {
@@ -59,9 +66,11 @@ if (!empty($errors)) {
 try {
     $conn->begin_transaction();
 
+    
     // Insert the job 
-    $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location_type, status, posted_at) VALUES (?, ?, ?, ?, 'Active', NOW())");
-    $stmt->bind_param("isss", $employer_id, $title, $description, $location_type);
+    $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, company_name, description, location_type, employment_type, salary_min_myr, salary_max_myr, state_region, status, posted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Active', NOW())");
+    $stmt->bind_param("isssssdds", $employer_id, $title, $company_name, $description, $location_type, $employment_type, $salary_min, $salary_max, $state_region);
+
     $stmt->execute();
     
     $job_id = $conn->insert_id;

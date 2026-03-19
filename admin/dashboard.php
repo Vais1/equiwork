@@ -33,8 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ' . BASE_URL . 'admin/dashboard.php');
         exit;
     }
+    try {
 
     $action = $_POST['action'] ?? '';
+
+    try {
 
     // -- DELETE USER --
     if ($action === 'delete') {
@@ -166,6 +169,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header("Location: " . BASE_URL . "admin/dashboard.php");
         exit;
+    } catch (mysqli_sql_exception $e) {
+        error_log("Admin Action DB Error: " . $e->getMessage());
+        $_SESSION['flash_error'] = "A database error occurred while performing this action.";
+        header("Location: " . BASE_URL . "admin/dashboard.php");
+        exit;
+    } catch (Throwable $e) {
+        error_log("Admin Action General Error: " . $e->getMessage());
+        $_SESSION['flash_error'] = "An unexpected error occurred.";
+        header("Location: " . BASE_URL . "admin/dashboard.php");
+        exit;
+    }
     }
 }
 

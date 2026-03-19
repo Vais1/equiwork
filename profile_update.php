@@ -68,6 +68,14 @@ require_once 'includes/header.php';
                     aria-describedby="passwordError">
                 <p id="passwordError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
+
+            <div class="form-group relative">
+                <label for="password_confirm" class="block text-sm font-medium text-text mb-1">Confirm New Password</label>
+                <input type="password" id="password_confirm" name="password_confirm" minlength="8"
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200"
+                    aria-describedby="passwordConfirmError">
+                <p id="passwordConfirmError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
+            </div>
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-4 md:pt-6">

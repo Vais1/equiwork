@@ -18,7 +18,7 @@ if (!$job_id) {
 }
 
 // Fetch Job Details just for Context (assumes jobs table is structured as per blueprint)
-$stmt = $conn->prepare("SELECT title, description FROM jobs WHERE job_id = ?");
+$stmt = $conn->prepare("SELECT title, description, company_name, location_type, employment_type FROM jobs WHERE job_id = ?");
 $stmt->bind_param("i", $job_id);
 $stmt->execute();
 $job_result = $stmt->get_result();
@@ -40,6 +40,19 @@ require_once 'includes/header.php';
             Application Submission
         </span>
         <h1 class="text-3xl font-bold text-text mb-2 font-heading"><?php echo htmlspecialchars($job['title'], ENT_QUOTES); ?></h1>
+        <div class="flex items-center space-x-2 text-sm text-muted mt-2 mb-4">
+            <?php if (!empty($job['company_name'])): ?>
+                <span class="font-medium text-accent"><?php echo htmlspecialchars($job['company_name'], ENT_QUOTES); ?></span>
+                <span>&bull;</span>
+            <?php endif; ?>
+            <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold border border-border">
+                <?php echo htmlspecialchars($job['location_type'], ENT_QUOTES); ?>
+            </span>
+            <span>&bull;</span>
+            <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold border border-border">
+                <?php echo htmlspecialchars($job['employment_type'] ?? 'Full-time', ENT_QUOTES); ?>
+            </span>
+        </div>
         <p class="text-muted">Please provide a brief cover letter outlining your required accommodations and why you're a fit for this role.</p>
     </div>
 
