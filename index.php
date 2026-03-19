@@ -30,7 +30,7 @@ require_once 'includes/header.php';
     </h1>
 
     <p class="text-body text-lg md:text-xl text-muted mb-10 max-w-2xl">
-        EquiWork connects professionals with adaptable organizations. We match based on actual accessibility accommodations—because your environment should adjust to you.
+        EquiWork connects professionals with adaptable organizations. We match based on actual accessibility accommodations because your environment should adjust to you.
     </p>
 
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4 w-full sm:w-auto">
