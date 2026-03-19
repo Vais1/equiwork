@@ -192,7 +192,7 @@ require_once __DIR__ . '/includes/header.php';
                                                 <option value="Active" <?php echo $job['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
                                                 <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
                                             </select>
-                                            <button type="submit" class="bg-accent text-white px-3 py-1 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                            <button type="submit" class="bg-accent text-white px-3 py-1 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
                                         </form>
                                     </td>
                                     <td class="px-4 py-3 text-sm text-text"><?php echo (int)$job['application_count']; ?></td>
@@ -232,7 +232,7 @@ require_once __DIR__ . '/includes/header.php';
                                             <option value="<?php echo $status; ?>" <?php echo $application['status'] === $status ? 'selected' : ''; ?>><?php echo $status; ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <button type="submit" class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                    <button type="submit" class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
                                 </div>
                             </form>
                         </div>

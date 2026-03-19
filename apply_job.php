@@ -59,7 +59,7 @@ require_once 'includes/header.php';
                 </label>
                 <!-- For the sake of the base assessment, we pass this in POST. Since applications table in blueprint doesn't mandate a text column, we might simulate storing it or rely entirely on email notification -->
                 <textarea id="cover_letter" name="cover_letter" rows="8" required aria-required="true"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
                     aria-describedby="coverLetterHelp coverLetterError"></textarea>
                 <p id="coverLetterHelp" class="mt-2 text-sm text-muted">Highlight how your skills merge with the required accommodations for maximum productivity. (Max 1000 characters)</p>
                 <p id="coverLetterError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
@@ -109,7 +109,7 @@ require_once 'includes/header.php';
                         <div>
                             <label for="parsed_email" class="block text-sm font-semibold text-text mb-1">Email Address</label>
                             <input type="email" id="parsed_email" name="parsed_email" 
-                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200"
                                 aria-label="Extracted Email Address">
                         </div>
                         
@@ -117,7 +117,7 @@ require_once 'includes/header.php';
                         <div>
                             <label for="parsed_phone" class="block text-sm font-semibold text-text mb-1">Phone Number</label>
                             <input type="text" id="parsed_phone" name="parsed_phone" 
-                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200"
                                 aria-label="Extracted Phone Number">
                         </div>
 
@@ -125,7 +125,7 @@ require_once 'includes/header.php';
                         <div class="md:col-span-2">
                             <label for="parsed_skills" class="block text-sm font-semibold text-text mb-1">Identified Skills</label>
                             <input type="text" id="parsed_skills" name="parsed_skills" 
-                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200"
                                 aria-label="Extracted Skills" aria-describedby="skillsHelp">
                             <p id="skillsHelp" class="text-xs text-muted mt-1">Comma-separated list of your technical and soft skills.</p>
                         </div>
@@ -134,7 +134,7 @@ require_once 'includes/header.php';
                         <div class="md:col-span-2">
                             <label for="parsed_education" class="block text-sm font-semibold text-text mb-1">Education History</label>
                             <textarea id="parsed_education" name="parsed_education" rows="4"
-                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors resize-y"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 resize-y"
                                 aria-label="Extracted Education History"></textarea>
                         </div>
 
@@ -142,7 +142,7 @@ require_once 'includes/header.php';
                         <div class="md:col-span-2">
                             <label for="parsed_work" class="block text-sm font-semibold text-text mb-1">Work Experience</label>
                             <textarea id="parsed_work" name="parsed_work" rows="6"
-                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors resize-y"
+                                class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 resize-y"
                                 aria-label="Extracted Work Experience"></textarea>
                         </div>
                     </div>
@@ -151,7 +151,7 @@ require_once 'includes/header.php';
         </fieldset>
 
         <div class="flex items-center justify-between border-t border-border pt-4 md:pt-6">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-colors duration-300 focus:outline-none focus:underline">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-all duration-200 duration-300 focus:outline-none focus:underline">
                 &larr; Cancel and return to Job Board
             </a>
             <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">

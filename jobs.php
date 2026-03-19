@@ -156,7 +156,7 @@ require_once 'includes/header.php';
                                         ?>
                                         <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent/50 rounded" role="checkbox" aria-label="Filter by <?php echo htmlspecialchars($item['name'], ENT_QUOTES); ?>" aria-checked="<?php echo $isChecked ? 'true' : 'false'; ?>" tabindex="0">
                                             <input type="hidden" name="accommodations[]" value="<?php echo $item['accommodation_id']; ?>" <?php echo $isChecked ? '' : 'disabled'; ?>>
-                                            <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
+                                            <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-all duration-200 pointer-events-none mt-0.5">
                                                 <svg aria-hidden="true" class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                             </div>
                                             <span class="ml-2 text-sm text-text pointer-events-none select-none">
@@ -176,7 +176,7 @@ require_once 'includes/header.php';
                     </button>
                     <!-- Provide clear option to remove state -->
                     <?php if (!empty($active_filters)): ?>
-                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-colors duration-300">
+                        <a href="<?php echo BASE_URL; ?>jobs.php" class="block w-full text-center text-sm text-muted focus:outline-none focus:underline transition-all duration-200 duration-300">
                             Clear all filters
                         </a>
                     <?php endif; ?>

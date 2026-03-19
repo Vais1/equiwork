@@ -123,7 +123,7 @@ require_once '../includes/header.php';
             <h1 class="text-3xl font-heading font-bold text-text mb-2">Publish New Job</h1>
             <p class="text-muted">Create a secure administrative record for accessible employment opportunities.</p>
         </div>
-        <a href="dashboard.php" class="text-sm font-medium text-muted transition-colors">
+        <a href="dashboard.php" class="text-sm font-medium text-muted transition-all duration-200">
             &larr; Back to Dashboard
         </a>
     </div>
@@ -142,13 +142,13 @@ require_once '../includes/header.php';
                         <label class="block text-sm font-medium text-text">Assigned Employer <span class="text-accent">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="employer_id" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
                                 <span class="custom-select-text text-muted">Select an employer...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach ($employers as $emp): ?>
-                                    <li role="option" data-value="<?= (int)$emp['user_id'] ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-colors duration-150 relative">
+                                    <li role="option" data-value="<?= (int)$emp['user_id'] ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">
                                         <?= htmlspecialchars($emp['username'], ENT_QUOTES) ?>
                                     </li>
                                 <?php endforeach; ?>
@@ -189,13 +189,13 @@ require_once '../includes/header.php';
                         <label class="block text-sm font-medium text-text">Location Environment <span class="text-accent">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="location_type" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
                                 <span class="custom-select-text text-muted">Select paradigm...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach (['Remote', 'Hybrid', 'On-site'] as $loc): ?>
-                                    <li role="option" data-value="<?= $loc ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-colors duration-150 relative"><?= $loc ?></li>
+                                    <li role="option" data-value="<?= $loc ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative"><?= $loc ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -206,13 +206,13 @@ require_once '../includes/header.php';
                         <label class="block text-sm font-medium text-text">Contract Scope <span class="text-accent">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="employment_type" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
                                 <span class="custom-select-text text-muted">Select commitment...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach (['Full-time', 'Part-time', 'Contract', 'Freelance'] as $empType): ?>
-                                    <li role="option" data-value="<?= $empType ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-colors duration-150 relative"><?= $empType ?></li>
+                                    <li role="option" data-value="<?= $empType ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative"><?= $empType ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -223,13 +223,13 @@ require_once '../includes/header.php';
                         <label class="block text-sm font-medium text-text">Operational Status <span class="text-accent">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="status" value="Active" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
                                 <span class="custom-select-text">Active</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
                             <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
-                                <li role="option" aria-selected="true" data-value="Active" class="px-4 py-2 text-sm text-text cursor-pointer transition-colors duration-150 relative">Active</li>
-                                <li role="option" aria-selected="false" data-value="Closed" class="px-4 py-2 text-sm text-text cursor-pointer transition-colors duration-150 relative">Closed</li>
+                                <li role="option" aria-selected="true" data-value="Active" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">Active</li>
+                                <li role="option" aria-selected="false" data-value="Closed" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">Closed</li>
                             </ul>
                         </div>
                     </div>
@@ -279,7 +279,7 @@ require_once '../includes/header.php';
                                     <div class="custom-checkbox-container flex items-center justify-between p-3 border border-border rounded-lg bg-surface/50 cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-accent group" role="checkbox" aria-label="Assign accommodation <?php echo htmlspecialchars($acc['name'], ENT_QUOTES); ?>" aria-checked="false" tabindex="0">
                                         <input type="hidden" name="accommodations[]" value="<?= (int)$acc['accommodation_id'] ?>" disabled>
                                         <div class="flex-grow select-none">
-                                            <span class="text-sm font-medium text-text transition-colors block">
+                                            <span class="text-sm font-medium text-text transition-all duration-200 block">
                                                 <?= htmlspecialchars($acc['name'], ENT_QUOTES) ?>
                                             </span>
                                         </div>
@@ -299,7 +299,7 @@ require_once '../includes/header.php';
         
         <!-- Form Actions -->
         <div class="px-6 md:px-8 py-5 bg-surface border-t border-border flex items-center justify-end gap-3">
-            <a href="dashboard.php" class="px-4 py-2 border border-border text-text rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-border transition-colors">Discard Draft</a>
+            <a href="dashboard.php" class="px-4 py-2 border border-border text-text rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-border transition-all duration-200 transition-all duration-200 active:scale-95">Discard Draft</a>
             <button type="submit" class="px-6 py-2 bg-accent text-white rounded-lg text-sm font-medium focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 Publish Job Record

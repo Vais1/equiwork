@@ -268,7 +268,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="transition-colors duration-300 ease-in-out">
+                        <tr class="transition-all duration-200 duration-300 ease-in-out">
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
@@ -290,7 +290,7 @@ require_once '../includes/header.php';
                                 
                                 <!-- Edit Button triggers Modal via JS -->
                                 <button type="button" 
-                                        class="open-edit-modal font-medium text-accent transition-colors duration-300 focus:outline-none focus:underline"
+                                        class="open-edit-modal font-medium text-accent transition-all duration-200 duration-300 focus:outline-none focus:underline transition-all duration-200 active:scale-95"
                                         data-id="<?php echo htmlspecialchars($row['user_id']); ?>"
                                         data-username="<?php echo htmlspecialchars($row['username']); ?>"
                                         data-email="<?php echo htmlspecialchars($row['email']); ?>"
@@ -329,10 +329,10 @@ require_once '../includes/header.php';
             </span>
             <div class="space-x-1">
                 <?php if($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Previous</a>
                 <?php endif; ?>
                 <?php if($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Next</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -362,7 +362,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while ($job = $jobs_result->fetch_assoc()): ?>
-                        <tr class="transition-colors duration-300 ease-in-out">
+                        <tr class="transition-all duration-200 duration-300 ease-in-out">
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$job['job_id']; ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($job['employer_name'], ENT_QUOTES, 'UTF-8'); ?></td>
@@ -391,13 +391,13 @@ require_once '../includes/header.php';
                                         <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
                                     </select>
 
-                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
                                 </form>
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block mt-2" onsubmit="return confirm('Are you sure you want to delete this job posting? This action cannot be undone.');">
                                     <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="delete_job">
                                     <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
-                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-300">Delete</button>
+                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200 active:scale-95">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -419,10 +419,10 @@ require_once '../includes/header.php';
                 </span>
                 <div class="space-x-1">
                     <?php if ($job_page > 1): ?>
-                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Previous</a>
                     <?php endif; ?>
                     <?php if ($job_page < $job_total_pages): ?>
-                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-colors duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Next</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -447,7 +447,7 @@ require_once '../includes/header.php';
                 </thead>
                 <tbody class="divide-y divide-border">
                     <?php while ($acc = $accommodations_result->fetch_assoc()): ?>
-                        <tr class="transition-colors duration-300 ease-in-out">
+                        <tr class="transition-all duration-200 duration-300 ease-in-out">
                             <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$acc['accommodation_id']; ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?></td>
@@ -463,7 +463,7 @@ require_once '../includes/header.php';
                                     <label for="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" class="sr-only">Accommodation category</label>
                                     <input id="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" type="text" name="category" value="<?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
 
-                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50">Save</button>
+                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
                                 </form>
                             </td>
                         </tr>
@@ -506,18 +506,18 @@ require_once '../includes/header.php';
                                 <div>
                                     <label for="edit_username" class="block text-sm font-medium text-text">Username</label>
                                     <input type="text" name="username" id="edit_username" required
-                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
                                 </div>
                                 <div>
                                     <label for="edit_email" class="block text-sm font-medium text-text">Email Address</label>
                                     <input type="email" name="email" id="edit_email" required
-                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150">
+                                        class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
                                 </div>
                                 <div>
                                     <label id="edit_role_label" class="block text-sm font-medium text-text mb-1">Role</label>
                                     <div class="custom-select-container relative w-full" data-name="role_type">
                                         <input type="hidden" name="role_type" id="edit_role_type" required>
-                                        <button type="button" class="w-full px-4 py-2 border border-border rounded-md bg-surface text-text focus:outline-none focus:ring-4 focus:ring-accent/50 flex justify-between items-center text-left" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
+                                        <button type="button" class="w-full px-4 py-2 border border-border rounded-md bg-surface text-text focus:outline-none focus:ring-4 focus:ring-accent/50 flex justify-between items-center text-left transition-all duration-200 active:scale-95" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
                                             <span class="custom-select-text">Select Role</span>
                                             <svg aria-hidden="true" class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                         </button>

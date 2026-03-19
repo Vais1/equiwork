@@ -36,7 +36,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="title" class="block text-sm font-medium text-text mb-1">Job Title <span class="text-red-500">*</span></label>
                 <input type="text" id="title" name="title" required
-                       class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                       class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
                        aria-describedby="titleError">
                 <p id="titleError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please enter a job title.</p>
             </div>
@@ -64,7 +64,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="description" class="block text-sm font-medium text-text mb-1">Job Description <span class="text-red-500">*</span></label>
                 <textarea id="description" name="description" rows="6" required
-                          class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-colors duration-150"
+                          class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
                           aria-describedby="descriptionError"></textarea>
                 <p id="descriptionError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please provide a detailed job description.</p>
             </div>
@@ -83,7 +83,7 @@ require_once 'includes/header.php';
                         <?php foreach ($items as $item): ?>
                             <div class="flex items-start custom-checkbox-container cursor-pointer focus:outline-none focus:ring-4 focus:ring-accent/50 rounded" role="checkbox" aria-label="Provide <?php echo htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'); ?> accommodation" aria-checked="false" tabindex="0">
                                 <input type="hidden" name="accommodations[]" value="<?php echo (int)$item['accommodation_id']; ?>" disabled>
-                                <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-colors pointer-events-none mt-0.5">
+                                <div class="checkbox-box w-5 h-5 flex-shrink-0 border border-border bg-surface rounded flex items-center justify-center transition-all duration-200 pointer-events-none mt-0.5">
                                     <svg aria-hidden="true" class="w-3 h-3 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                 </div>
                                 <span class="ml-2 text-sm text-text pointer-events-none select-none">

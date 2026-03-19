@@ -89,19 +89,19 @@ require_once '../includes/header.php';
             <div>
                 <label for="email" class="block text-sm font-medium text-text mb-1">Admin Email</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" autofocus aria-describedby="emailError"
-                    class="w-full px-4 py-2 border border-border bg-surface text-text rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 transition-colors placeholder-muted">
+                    class="w-full px-4 py-2 border border-border bg-surface text-text rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 transition-all duration-200 placeholder-muted">
                 <p id="emailError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-text mb-1">Passphrase</label>
                 <input type="password" id="password" name="password" required aria-required="true" autocomplete="current-password" aria-describedby="passwordError"
-                    class="w-full px-4 py-2 border border-border bg-surface text-text rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 transition-colors placeholder-muted">
+                    class="w-full px-4 py-2 border border-border bg-surface text-text rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 transition-all duration-200 placeholder-muted">
                 <p id="passwordError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-red-600 focus:ring-4 focus:ring-red-500/50 text-white font-semibold flex justify-center px-4 py-3 rounded-lg transition-colors">
+        <button type="submit" class="w-full bg-red-600 focus:ring-4 focus:ring-red-500/50 text-white font-semibold flex justify-center px-4 py-3 rounded-lg transition-all duration-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent active:scale-95">
             Authenticate
         </button>
     </form>
