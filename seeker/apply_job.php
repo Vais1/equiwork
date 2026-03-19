@@ -115,42 +115,8 @@ require_once '../includes/header.php';
                         <h3 class="heading-2 border-b border-border pb-2 mb-4">Verify Extracted Information</h3>
                         <p class="text-small mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="form-group">
-                                <label for="parsed_email" class="form-label">Email Address</label>
-                                <input type="email" id="parsed_email" name="parsed_email" 
-                                    class="form-input"
-                                    aria-label="Extracted Email Address">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="parsed_phone" class="form-label">Phone Number</label>
-                                <input type="text" id="parsed_phone" name="parsed_phone" 
-                                    class="form-input"
-                                    aria-label="Extracted Phone Number">
-                            </div>
-
-                            <div class="form-group md:col-span-2">
-                                <label for="parsed_skills" class="form-label">Identified Skills</label>
-                                <input type="text" id="parsed_skills" name="parsed_skills" 
-                                    class="form-input"
-                                    aria-label="Extracted Skills" aria-describedby="skillsHelp">
-                                <p id="skillsHelp" class="text-small mt-1">Comma-separated list of your technical and soft skills.</p>
-                            </div>
-                            
-                            <div class="form-group md:col-span-2">
-                                <label for="parsed_education" class="form-label">Education History</label>
-                                <textarea id="parsed_education" name="parsed_education" rows="4"
-                                    class="form-input resize-y"
-                                    aria-label="Extracted Education History"></textarea>
-                            </div>
-
-                            <div class="form-group md:col-span-2">
-                                <label for="parsed_work" class="form-label">Work Experience</label>
-                                <textarea id="parsed_work" name="parsed_work" rows="6"
-                                    class="form-input resize-y"
-                                    aria-label="Extracted Work Experience"></textarea>
-                            </div>
+                        <div id="dynamicResumeForm" class="space-y-6">
+                            <!-- Dynamic fields will be injected here -->
                         </div>
                     </div>
                 </div>
@@ -179,15 +145,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const resumeError = document.getElementById('resumeError');
     const parseLoading = document.getElementById('parseLoading');
     const resumePreview = document.getElementById('resumePreview');
+    const dynamicResumeForm = document.getElementById('dynamicResumeForm');
     const dropZone = document.getElementById('drop_zone');
     
     // Form Elements for parsed data
-    const parsedEmail = document.getElementById('parsed_email');
-    const parsedPhone = document.getElementById('parsed_phone');
-    const parsedSkills = document.getElementById('parsed_skills');
-    const parsedEducation = document.getElementById('parsed_education');
-    const parsedWork = document.getElementById('parsed_work');
+    const parsedResumeDataInput = document.getElementById('parsed_resume_data');
     const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+
+    let currentParsedData = {};
+
+    function updateHiddenPayload() {
+        parsedResumeDataInput.value = JSON.stringify(currentParsedData);
+    }
 
     // Drag and Drop functionality
     if (dropZone) {
@@ -277,13 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.error || 'Server error occurred during parsing.');
             }
 
-            // Populate Form Fields
-            parsedEmail.value = data.data.email;
-            parsedPhone.value = data.data.phone;
-            parsedEducation.value = data.data.education;
-            parsedSkills.value = data.data.skills;
-            parsedWork.value = data.data.work_experience;
-            document.getElementById('parsed_resume_data').value = JSON.stringify(data.data);
+            currentParsedData = data.data;
+            updateHiddenPayload();
+            renderDynamicForm(currentParsedData);
 
             // Show Preview Area
             parseLoading.classList.add('hidden');
@@ -301,6 +266,127 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             showError(err.message);
         }
+    }
+
+    function renderDynamicForm(data) {
+        dynamicResumeForm.innerHTML = ''; // Clear previous
+
+        // Basic Info Section
+        let basicHtml = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" data-bind="first_name" value="${data.first_name || ''}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" data-bind="last_name" value="${data.last_name || ''}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" data-bind="email" value="${data.email || ''}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-input" data-bind="phone" value="${data.phone || ''}">
+                </div>
+                <div class="form-group md:col-span-2">
+                    <label class="form-label">Skills (Comma-separated)</label>
+                    <input type="text" class="form-input" data-bind="skills" value="${Array.isArray(data.skills) ? data.skills.join(', ') : (data.skills || '')}">
+                </div>
+            </div>
+        `;
+        
+        dynamicResumeForm.insertAdjacentHTML('beforeend', basicHtml);
+
+        // Experience Section
+        let expHtml = `<div class="mb-6"><h4 class="text-lg font-semibold border-b border-border pb-2 mb-4">Work Experience</h4>`;
+        if (Array.isArray(data.work_experience) && data.work_experience.length > 0) {
+            data.work_experience.forEach((job, index) => {
+                expHtml += `
+                    <div class="card-compact mb-4 bg-surface-hover/50 border border-border p-4 rounded">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label text-sm">Job Title</label>
+                                <input type="text" class="form-input text-sm" data-array="work_experience" data-index="${index}" data-key="job_title" value="${job.job_title || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-sm">Company</label>
+                                <input type="text" class="form-input text-sm" data-array="work_experience" data-index="${index}" data-key="company" value="${job.company || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-sm">Location</label>
+                                <input type="text" class="form-input text-sm" data-array="work_experience" data-index="${index}" data-key="location" value="${job.location || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-sm">Dates</label>
+                                <input type="text" class="form-input text-sm" data-array="work_experience" data-index="${index}" data-key="dates" value="${job.dates || ''}">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label text-sm">Description</label>
+                                <textarea class="form-input text-sm" rows="3" data-array="work_experience" data-index="${index}" data-key="description">${job.description || ''}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            expHtml += `<p class="text-sm text-muted">No experience found.</p>`;
+        }
+        expHtml += `</div>`;
+        dynamicResumeForm.insertAdjacentHTML('beforeend', expHtml);
+
+        // Education Section
+        let eduHtml = `<div class="mb-6"><h4 class="text-lg font-semibold border-b border-border pb-2 mb-4">Education</h4>`;
+        if (Array.isArray(data.education) && data.education.length > 0) {
+            data.education.forEach((edu, index) => {
+                eduHtml += `
+                    <div class="card-compact mb-4 bg-surface-hover/50 border border-border p-4 rounded">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label text-sm">Institution</label>
+                                <input type="text" class="form-input text-sm" data-array="education" data-index="${index}" data-key="institution" value="${edu.institution || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-sm">Degree/Certificate</label>
+                                <input type="text" class="form-input text-sm" data-array="education" data-index="${index}" data-key="degree" value="${edu.degree || ''}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label text-sm">Dates</label>
+                                <input type="text" class="form-input text-sm" data-array="education" data-index="${index}" data-key="dates" value="${edu.dates || ''}">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label text-sm">Details</label>
+                                <textarea class="form-input text-sm" rows="2" data-array="education" data-index="${index}" data-key="details">${edu.details || ''}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            eduHtml += `<p class="text-sm text-muted">No education found.</p>`;
+        }
+        eduHtml += `</div>`;
+        dynamicResumeForm.insertAdjacentHTML('beforeend', eduHtml);
+
+        // Bind events to update JSON dynamically
+        dynamicResumeForm.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const target = e.target;
+                const bindKey = target.getAttribute('data-bind');
+                if (bindKey) {
+                    currentParsedData[bindKey] = target.value;
+                } else {
+                    const arrayName = target.getAttribute('data-array');
+                    const index = target.getAttribute('data-index');
+                    const key = target.getAttribute('data-key');
+                    if (arrayName && index !== null && key) {
+                        currentParsedData[arrayName][index][key] = target.value;
+                    }
+                }
+                updateHiddenPayload();
+            });
+        });
     }
 
     function showError(message) {

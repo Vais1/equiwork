@@ -132,102 +132,101 @@ if (trim($parsedText) === "") {
     exit;
 }
 
-// 3. Advanced NLP & RegEx Classification
-$extractedData = [
-    'email' => '',
-    'phone' => '',
-    'education' => '',
-    'work_experience' => '',
-    'skills' => []
-];
+// 3. Enterprise-level LLM Parsing with Gemini 2.5 Flash
+$geminiApiKey = defined('GEMINI_API_KEY') ? GEMINI_API_KEY : getenv('GEMINI_API_KEY');
+
+if (empty($geminiApiKey)) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Gemini API key is not configured.']);
+    exit;
+}
 
 // Normalize text for easier parsing
 $normalizedText = preg_replace("/\r\n|\r/", "\n", $parsedText);
 
-// Extract Email - RFC 5322 compatible simplification
-if (preg_match('/[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+/', $normalizedText, $matches)) {
-    $extractedData['email'] = $matches[0];
+$prompt = 'You are an expert resume parser. Extract the following resume text into a strict JSON object with EXACTLY this structure:
+{
+  "first_name": "string or empty",
+  "last_name": "string or empty",
+  "email": "string or empty",
+  "phone": "string or empty",
+  "skills": ["array of exact string skills found"],
+  "education": [
+    {
+      "institution": "string or empty",
+      "degree": "string or empty",
+      "dates": "string or empty",
+      "details": "string or empty"
+    }
+  ],
+  "work_experience": [
+    {
+      "job_title": "string or empty",
+      "company": "string or empty",
+      "location": "string or empty",
+      "dates": "string or empty",
+      "description": "string or empty"
+    }
+  ]
 }
+Return ONLY the valid JSON, no markdown code block formatting (like ```json) or extra text.
 
-// Extract Phone - Handles intl format, parentheses, common separators
-if (preg_match('/(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/', $normalizedText, $matches)) {
-    $extractedData['phone'] = $matches[0];
-}
+Resume Text:
+"""
+' . substr($normalizedText, 0, 15000) . '
+"""';
 
-// Advanced NLP-like Section Block Chunking
-$lines = explode("\n", $normalizedText);
-$currentSection = null;
-$sections = [
-    'education' => [],
-    'experience' => [],
-    'skills_text' => []
+$geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" . $geminiApiKey;
+
+$payload = [
+    "contents" => [
+        [
+            "parts" => [
+                ["text" => $prompt]
+            ]
+        ]
+    ],
+    "generationConfig" => [
+        "temperature" => 0.1,
+        "responseMimeType" => "application/json"
+    ]
 ];
 
-$header_regex = [
-    'education'  => '/^(?:education|academic background|qualifications)\s*:?$/i',
-    'experience' => '/^(?:experience|work history|employment history|career|professional experience)\s*:?$/i',
-    'skills'     => '/^(?:skills|technical skills|core competencies|expertise)\s*:?$/i',
-    'ignore'     => '/^(?:projects|certifications|references|objective|summary|languages)\s*:?$/i'
-];
+$chGemini = curl_init();
+curl_setopt($chGemini, CURLOPT_URL, $geminiUrl);
+curl_setopt($chGemini, CURLOPT_POST, 1);
+curl_setopt($chGemini, CURLOPT_POSTFIELDS, json_encode($payload));
+curl_setopt($chGemini, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($chGemini, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($chGemini, CURLOPT_TIMEOUT, 30);
+curl_setopt($chGemini, CURLOPT_SSL_VERIFYPEER, false);
 
-foreach ($lines as $line) {
-    $cleanLine = trim($line);
-    $lowerLine = strtolower($cleanLine);
-    
-    if (empty($cleanLine)) continue;
+$geminiResponse = curl_exec($chGemini);
+$geminiHttpCode = curl_getinfo($chGemini, CURLINFO_HTTP_CODE);
+curl_close($chGemini);
 
-    $isHeader = false;
-    foreach ($header_regex as $sec => $regex) {
-        if (preg_match($regex, $lowerLine)) {
-            $currentSection = $sec;
-            $isHeader = true;
-            break;
-        }
-    }
-
-    if ($isHeader) continue;
-    
-    if ($currentSection && $currentSection !== 'ignore') {
-        if ($currentSection === 'skills') {
-            $sections['skills_text'][] = $cleanLine;
-        } else {
-            $sections[$currentSection][] = $cleanLine;
-        }
-    }
+if ($geminiHttpCode !== 200 || !$geminiResponse) {
+    http_response_code(500);
+    error_log("Gemini API Error: " . curl_error($chGemini) . " - Response: " . $geminiResponse);
+    echo json_encode(['error' => 'AI parsing engine failed to respond. Please try again.']);
+    exit;
 }
 
-// Format Extracted Arrays back to string representations
-$extractedData['education'] = !empty($sections['education']) ? implode("\n", $sections['education']) : '';
-$extractedData['work_experience'] = !empty($sections['experience']) ? implode("\n", $sections['experience']) : '';
+$geminiData = json_decode($geminiResponse, true);
+$aiResultJson = $geminiData['candidates'][0]['content']['parts'][0]['text'] ?? '{}';
+$extractedData = json_decode($aiResultJson, true);
 
-// Intelligent Skills Extraction
-$common_skills = [
-    'javascript','php','python','java','html','css','sql','react','node','node.js','aws','docker','git',
-    'communication','leadership','management','agile','scrum','c++','c#','ruby','go','typescript',
-    'vue','angular','laravel','symfony','django','flask','spring','accessibility','wcag','aria','tailwind',
-    'bootstrap','mysql','postgresql','mongodb','redis','linux','bash','problem solving','project management'
-];
-
-$found_skills = [];
-// Look in specific skills section first
-$skills_blob = implode(" ", $sections['skills_text']);
-
-// If specific skills section was empty, parse the whole text
-if (trim($skills_blob) === "") {
-    $skills_blob = $normalizedText;
+if (!is_array($extractedData)) {
+    $extractedData = [
+        'first_name' => '',
+        'last_name' => '',
+        'email' => '',
+        'phone' => '',
+        'skills' => [],
+        'education' => [],
+        'work_experience' => []
+    ];
 }
-
-$lower_blob = strtolower($skills_blob);
-
-// Exact word match boundaries to avoid substring false positives (e.g. 'go' in 'good')
-foreach ($common_skills as $skill) {
-    $pattern = '/\b' . preg_quote($skill, '/') . '\b/i';
-    if (preg_match($pattern, $lower_blob)) {
-        $found_skills[] = ucwords($skill);
-    }
-}
-
-$extractedData['skills'] = !empty($found_skills) ? array_unique($found_skills) : [];
 
 // 4. Robust Output Sanitization (XSS Prevention)
 function sanitize_parsed_data($data) {
