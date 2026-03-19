@@ -4,6 +4,10 @@ module.exports = {
   content: [
     './*.php',
     './admin/**/*.php',
+    './auth/**/*.php',
+    './employer/**/*.php',
+    './seeker/**/*.php',
+    './user/**/*.php',
     './actions/**/*.php',
     './includes/**/*.php',
     './assets/js/**/*.js'
@@ -11,8 +15,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
-        heading: ['Trebuchet MS', 'Segoe UI', 'Tahoma', 'sans-serif']
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+        heading: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
       },
       colors: {
         bg: 'rgb(var(--color-bg) / <alpha-value>)',
@@ -20,8 +24,7 @@ module.exports = {
         border: 'rgb(var(--color-border) / <alpha-value>)',
         text: 'rgb(var(--color-text) / <alpha-value>)',
         muted: 'rgb(var(--color-muted) / <alpha-value>)',
-        accent: 'rgb(var(--color-accent) / <alpha-value>)',
-        'accent-hover': 'rgb(var(--color-accent-hover) / <alpha-value>)'
+        accent: 'rgb(var(--color-accent) / <alpha-value>)'
       }
     }
   }

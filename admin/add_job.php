@@ -121,39 +121,36 @@ foreach ($all_accs as $acc) {
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    
-    <div class="flex items-center justify-between mb-8">
+<main class="container-main max-w-4xl">
+    <div class="flex items-center justify-between mb-8 gap-4">
         <div>
-            <h1 class="text-3xl font-heading font-bold text-text mb-2">Publish New Job</h1>
-            <p class="text-muted">Create a secure administrative record for accessible employment opportunities.</p>
+            <h1 class="heading-1">Publish New Job</h1>
+            <p class="text-body mt-1">Create a secure administrative record for accessible employment opportunities.</p>
         </div>
-        <a href="dashboard.php" class="text-sm font-medium text-muted transition-all duration-200">
+        <a href="dashboard.php" class="btn-ghost shrink-0">
             &larr; Back to Dashboard
         </a>
     </div>
 
-    <form method="POST" action="add_job.php" class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden" novalidate onsubmit="return validateForm(this);">
+    <form method="POST" action="add_job.php" class="card p-0 overflow-hidden" novalidate onsubmit="return validateForm(this);">
         <?php echo csrf_input(); ?>
         <div class="p-6 md:p-8 space-y-8">
             
-            <!-- Section: Primary Information -->
             <fieldset>
-                <legend class="text-lg font-heading font-semibold text-text mb-4 pb-2 border-b border-border w-full">Core Reference Details</legend>
+                <legend class="heading-2 mb-4 pb-2 border-b border-border w-full">Core Reference Details</legend>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Custom Select: Employer -->
-                    <div class="space-y-1 relative z-40">
-                        <label class="block text-sm font-medium text-text">Assigned Employer <span class="text-accent">*</span></label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="form-group relative z-40">
+                        <label class="form-label">Assigned Employer <span class="text-red-500">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="employer_id" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
-                                <span class="custom-select-text text-muted">Select an employer...</span>
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="form-input text-left flex justify-between items-center">
+                                <span class="custom-select-text">Select an employer...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
+                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-md shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach ($employers as $emp): ?>
-                                    <li role="option" data-value="<?= (int)$emp['user_id'] ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">
+                                    <li role="option" data-value="<?= (int)$emp['user_id'] ?>" class="px-3 py-2 text-sm text-text cursor-pointer transition-colors relative">
                                         <?= htmlspecialchars($emp['username'], ENT_QUOTES) ?>
                                     </li>
                                 <?php endforeach; ?>
@@ -161,138 +158,124 @@ require_once '../includes/header.php';
                         </div>
                     </div>
 
-                    <!-- Company Name -->
-                    <div class="space-y-1">
-                        <label for="company_name" class="block text-sm font-medium text-text">Company Alias (Optional)</label>
-                        <input type="text" id="company_name" name="company_name" placeholder="e.g. Inclusivity Inc" class="w-full px-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm placeholder:text-muted/60">
+                    <div class="form-group">
+                        <label for="company_name" class="form-label">Company Alias <span class="text-xs text-muted font-normal">(Optional)</span></label>
+                        <input type="text" id="company_name" name="company_name" placeholder="e.g. Inclusivity Inc" class="form-input">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6 mt-6">
-                    <!-- Job Title -->
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-text">Job Title <span class="text-accent">*</span></label>
-                        <input type="text" id="title" name="title" required placeholder="Frontend Developer, Accessible Workflows" class="w-full px-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm placeholder:text-muted/60">
+                <div class="grid grid-cols-1 gap-5 mt-5">
+                    <div class="form-group">
+                        <label for="title" class="form-label">Job Title <span class="text-red-500">*</span></label>
+                        <input type="text" id="title" name="title" required placeholder="Frontend Developer, Accessible Workflows" class="form-input">
                     </div>
 
-                    <!-- Description -->
-                    <div class="space-y-1">
-                        <label for="description" class="block text-sm font-medium text-text">Detailed Opportunity Description <span class="text-accent">*</span></label>
-                        <textarea id="description" name="description" rows="5" required placeholder="Describe responsibilities, expectations, and culture..." class="w-full px-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm resize-y placeholder:text-muted/60"></textarea>
+                    <div class="form-group">
+                        <label for="description" class="form-label">Detailed Opportunity Description <span class="text-red-500">*</span></label>
+                        <textarea id="description" name="description" rows="5" required placeholder="Describe responsibilities, expectations, and culture..." class="form-input resize-y"></textarea>
                     </div>
                 </div>
             </fieldset>
 
-            <!-- Section: Demographics & Type -->
             <fieldset>
-                <legend class="text-lg font-heading font-semibold text-text mb-4 pb-2 border-b border-border w-full">Arrangement Configuration</legend>
+                <legend class="heading-2 mb-4 pb-2 border-b border-border w-full">Arrangement Configuration</legend>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                     
-                    <!-- Custom Select: Location Type -->
-                    <div class="space-y-1 relative z-30">
-                        <label class="block text-sm font-medium text-text">Location Environment <span class="text-accent">*</span></label>
+                    <div class="form-group relative z-30">
+                        <label class="form-label">Location Environment <span class="text-red-500">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="location_type" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
-                                <span class="custom-select-text text-muted">Select paradigm...</span>
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="form-input text-left flex justify-between items-center">
+                                <span class="custom-select-text">Select paradigm...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
+                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-md shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach (['Remote', 'Hybrid', 'On-site'] as $loc): ?>
-                                    <li role="option" data-value="<?= $loc ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative"><?= $loc ?></li>
+                                    <li role="option" data-value="<?= $loc ?>" class="px-3 py-2 text-sm text-text cursor-pointer transition-colors relative"><?= $loc ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Custom Select: Employment Type -->
-                    <div class="space-y-1 relative z-20">
-                        <label class="block text-sm font-medium text-text">Contract Scope <span class="text-accent">*</span></label>
+                    <div class="form-group relative z-20">
+                        <label class="form-label">Contract Scope <span class="text-red-500">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="employment_type" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
-                                <span class="custom-select-text text-muted">Select commitment...</span>
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="form-input text-left flex justify-between items-center">
+                                <span class="custom-select-text">Select commitment...</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
+                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-md shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
                                 <?php foreach (['Full-time', 'Part-time', 'Contract', 'Freelance'] as $empType): ?>
-                                    <li role="option" data-value="<?= $empType ?>" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative"><?= $empType ?></li>
+                                    <li role="option" data-value="<?= $empType ?>" class="px-3 py-2 text-sm text-text cursor-pointer transition-colors relative"><?= $empType ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Custom Select: Status -->
-                    <div class="space-y-1 relative z-10">
-                        <label class="block text-sm font-medium text-text">Operational Status <span class="text-accent">*</span></label>
+                    <div class="form-group relative z-10">
+                        <label class="form-label">Operational Status <span class="text-red-500">*</span></label>
                         <div class="custom-select-container relative">
                             <input type="hidden" name="status" value="Active" required>
-                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="w-full flex items-center justify-between px-3 py-2 bg-surface border border-border text-text text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-left active:scale-95">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="false" class="form-input text-left flex justify-between items-center">
                                 <span class="custom-select-text">Active</span>
                                 <svg class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-lg shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
-                                <li role="option" aria-selected="true" data-value="Active" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">Active</li>
-                                <li role="option" aria-selected="false" data-value="Closed" class="px-4 py-2 text-sm text-text cursor-pointer transition-all duration-200 duration-150 relative">Closed</li>
+                            <ul role="listbox" class="absolute mt-1 w-full bg-surface border border-border rounded-md shadow-lg hidden z-50 max-h-60 overflow-y-auto outline-none transition-all py-1">
+                                <li role="option" aria-selected="true" data-value="Active" class="px-3 py-2 text-sm text-text cursor-pointer transition-colors relative">Active</li>
+                                <li role="option" aria-selected="false" data-value="Closed" class="px-3 py-2 text-sm text-text cursor-pointer transition-colors relative">Closed</li>
                             </ul>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                    <!-- State/Region -->
-                    <div class="space-y-1">
-                        <label for="state_region" class="block text-sm font-medium text-text">State / Region</label>
-                        <input type="text" id="state_region" name="state_region" placeholder="e.g. Kuala Lumpur" class="w-full px-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm placeholder:text-muted/60">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
+                    <div class="form-group">
+                        <label for="state_region" class="form-label">State / Region</label>
+                        <input type="text" id="state_region" name="state_region" placeholder="e.g. Kuala Lumpur" class="form-input">
                     </div>
 
-                    <!-- Minimum Salary -->
-                    <div class="space-y-1">
-                        <label for="salary_min_myr" class="block text-sm font-medium text-text">Base Salary (MYR)</label>
+                    <div class="form-group">
+                        <label for="salary_min_myr" class="form-label">Base Salary (MYR)</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-muted pointer-events-none text-sm">RM</span>
-                            <input type="number" id="salary_min_myr" name="salary_min_myr" step="0.01" min="0" placeholder="0.00" class="w-full pl-10 pr-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm">
+                            <input type="number" id="salary_min_myr" name="salary_min_myr" step="0.01" min="0" placeholder="0.00" class="form-input pl-10">
                         </div>
                     </div>
                     
-                    <!-- Maximum Salary -->
-                    <div class="space-y-1">
-                        <label for="salary_max_myr" class="block text-sm font-medium text-text">Ceiling Salary (MYR)</label>
+                    <div class="form-group">
+                        <label for="salary_max_myr" class="form-label">Ceiling Salary (MYR)</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-muted pointer-events-none text-sm">RM</span>
-                            <input type="number" id="salary_max_myr" name="salary_max_myr" step="0.01" min="0" placeholder="0.00" class="w-full pl-10 pr-3 py-2 bg-surface text-text border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all text-sm">
+                            <input type="number" id="salary_max_myr" name="salary_max_myr" step="0.01" min="0" placeholder="0.00" class="form-input pl-10">
                         </div>
                     </div>
                 </div>
             </fieldset>
 
-            <!-- Section: Accessibility Integration (SDG 08 Alignment) -->
             <fieldset>
-                <legend class="text-lg font-heading font-semibold text-text mb-4 pb-2 border-b border-border w-full">Verified Work Accommodations</legend>
-                <p class="text-sm text-muted mb-6">Select specific, verified accommodations natively provided for this role. This ensures accurate candidate filtering alignment.</p>
+                <legend class="heading-2 mb-2 pb-2 border-b border-border w-full">Verified Work Accommodations</legend>
+                <p class="text-small mb-6">Select specific, verified accommodations natively provided for this role. This ensures accurate candidate filtering alignment.</p>
                 
                 <div class="space-y-6">
                     <?php foreach ($grouped_accommodations as $category => $acc_list): ?>
-                        <div>
-                            <h4 class="text-sm font-semibold text-text uppercase tracking-wider mb-3"><?= $category ?></h4>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 mt-2 gap-4">
+                        <div class="card-compact">
+                            <h4 class="heading-3 mb-3"><?= htmlspecialchars($category, ENT_QUOTES) ?></h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <?php foreach ($acc_list as $acc): ?>
-                                    
-                                    <!-- Custom Checkbox Implementation -->
-                                    <div class="custom-checkbox-container flex items-center justify-between p-3 border border-border rounded-lg bg-surface/50 cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-accent group" role="checkbox" aria-label="Assign accommodation <?php echo htmlspecialchars($acc['name'], ENT_QUOTES); ?>" aria-checked="false" tabindex="0">
+                                    <div class="custom-checkbox-container flex items-center justify-between p-3 border border-border rounded-md bg-surface cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent group" role="checkbox" aria-label="Assign accommodation <?php echo htmlspecialchars($acc['name'], ENT_QUOTES); ?>" aria-checked="false" tabindex="0">
                                         <input type="hidden" name="accommodations[]" value="<?= (int)$acc['accommodation_id'] ?>" disabled>
                                         <div class="flex-grow select-none">
-                                            <span class="text-sm font-medium text-text transition-all duration-200 block">
+                                            <span class="text-sm font-medium text-text block">
                                                 <?= htmlspecialchars($acc['name'], ENT_QUOTES) ?>
                                             </span>
                                         </div>
-                                        <div class="checkbox-box flex items-center justify-center w-5 h-5 rounded border border-border bg-surface transition-all flex-shrink-0 ml-3">
-                                            <svg class="w-3.5 h-3.5 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        <div class="checkbox-box flex items-center justify-center w-5 h-5 rounded border border-border bg-surface flex-shrink-0 ml-3">
+                                            <svg class="w-3.5 h-3.5 text-bg hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                         </div>
                                     </div>
-                                    
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -302,16 +285,15 @@ require_once '../includes/header.php';
             
         </div>
         
-        <!-- Form Actions -->
-        <div class="px-6 md:px-8 py-5 bg-surface border-t border-border flex items-center justify-end gap-3">
-            <a href="dashboard.php" class="px-4 py-2 border border-border text-text rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-border transition-all duration-200 transition-all duration-200 active:scale-95">Discard Draft</a>
-            <button type="submit" class="px-6 py-2 bg-accent text-white rounded-lg text-sm font-medium focus:outline-none focus:ring-4 focus:ring-accent/50 transition-all shadow-sm active:scale-95 flex items-center gap-2">
+        <div class="px-6 md:px-8 py-4 bg-bg border-t border-border flex items-center justify-end gap-3">
+            <a href="dashboard.php" class="btn-outline">Discard Draft</a>
+            <button type="submit" class="btn-primary flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                 Publish Job Record
             </button>
         </div>
     </form>
-</div>
+</main>
 
 <script src="<?php echo BASE_URL; ?>assets/js/custom-controls.js"></script>
 

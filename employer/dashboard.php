@@ -131,72 +131,72 @@ try {
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+<div class="container-main max-w-7xl">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-text font-heading">Employer Dashboard</h1>
-            <p class="text-muted mt-1">Post inclusive roles and manage incoming applications in one place.</p>
+            <h1 class="heading-1">Employer Dashboard</h1>
+            <p class="text-small mt-1">Post inclusive roles and manage incoming applications.</p>
         </div>
-        <div class="w-full md:w-auto flex flex-col sm:flex-row gap-2">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto text-center btn-outline">
+        <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto btn-outline">
                 View All Job Postings
             </a>
-            <a href="<?php echo BASE_URL; ?>employer/post_job.php" class="w-full md:w-auto text-center btn-primary">
+            <a href="<?php echo BASE_URL; ?>employer/post_job.php" class="w-full md:w-auto btn-primary">
                 Post New Job
             </a>
         </div>
     </div>
 
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8" aria-label="Employer summary">
-        <article class="bg-surface border border-border rounded-xl p-5 shadow-sm">
-            <p class="text-sm text-muted">Active and historical job posts</p>
-            <p class="text-3xl font-bold text-text mt-1"><?php echo (int)$total_jobs; ?></p>
+        <article class="card">
+            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Total Jobs Posted</p>
+            <p class="text-4xl font-semibold text-text tracking-tight"><?php echo (int)$total_jobs; ?></p>
         </article>
-        <article class="bg-surface border border-border rounded-xl p-5 shadow-sm">
-            <p class="text-sm text-muted">Total applications received</p>
-            <p class="text-3xl font-bold text-text mt-1"><?php echo (int)$total_applications; ?></p>
+        <article class="card">
+            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Total Applications</p>
+            <p class="text-4xl font-semibold text-text tracking-tight"><?php echo (int)$total_applications; ?></p>
         </article>
     </section>
 
     <section class="mb-10" aria-labelledby="jobs-heading">
-        <h2 id="jobs-heading" class="text-xl font-bold text-text mb-4">Your Job Listings</h2>
-        <div class="bg-surface border border-border rounded-xl shadow-sm overflow-hidden">
+        <h2 id="jobs-heading" class="heading-2 mb-4">Your Job Listings</h2>
+        <div class="bg-surface border border-border rounded-lg shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-border">
+                <table class="min-w-full divide-y divide-border text-sm">
                     <thead class="bg-bg">
                         <tr>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-text">Title</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-text">Arrangement</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-text">Status</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-text">Applications</th>
-                            <th class="px-4 py-3 text-left text-sm font-semibold text-text">Posted</th>
+                            <th class="px-5 py-3 text-left font-medium text-muted uppercase tracking-wider text-xs">Title</th>
+                            <th class="px-5 py-3 text-left font-medium text-muted uppercase tracking-wider text-xs">Arrangement</th>
+                            <th class="px-5 py-3 text-left font-medium text-muted uppercase tracking-wider text-xs">Status</th>
+                            <th class="px-5 py-3 text-left font-medium text-muted uppercase tracking-wider text-xs">Applications</th>
+                            <th class="px-5 py-3 text-left font-medium text-muted uppercase tracking-wider text-xs">Posted</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-border">
                         <?php if (empty($jobs)): ?>
                             <tr>
-                                <td colspan="5" class="px-4 py-6 text-sm text-muted">No jobs posted yet.</td>
+                                <td colspan="5" class="px-5 py-8 text-center text-muted">No jobs posted yet.</td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($jobs as $job): ?>
                                 <tr>
-                                    <td class="px-4 py-3 text-sm font-medium text-text"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td class="px-4 py-3 text-sm text-text"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                    <td class="px-4 py-3 text-sm text-text">
+                                    <td class="px-5 py-4 font-medium text-text"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td class="px-5 py-4 text-muted"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <td class="px-5 py-4 text-text">
                                         <form action="<?php echo BASE_URL; ?>employer/dashboard.php" method="POST" class="flex gap-2 items-center">
                                             <?php echo csrf_input(); ?>
                                             <input type="hidden" name="action" value="update_job_status">
                                             <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
                                             <label for="job-status-<?php echo (int)$job['job_id']; ?>" class="sr-only">Update job status</label>
-                                            <select id="job-status-<?php echo (int)$job['job_id']; ?>" name="job_status" class="border border-border rounded-lg bg-surface text-text px-2 py-1 text-sm">
+                                            <select id="job-status-<?php echo (int)$job['job_id']; ?>" name="job_status" class="form-input py-1 px-2 text-xs w-auto">
                                                 <option value="Active" <?php echo $job['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
                                                 <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
                                             </select>
-                                            <button type="submit" class="bg-accent text-white px-3 py-1 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
+                                            <button type="submit" class="btn-outline btn-sm px-2 py-1">Save</button>
                                         </form>
                                     </td>
-                                    <td class="px-4 py-3 text-sm text-text"><?php echo (int)$job['application_count']; ?></td>
-                                    <td class="px-4 py-3 text-sm text-text"><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></td>
+                                    <td class="px-5 py-4 text-text"><span class="badge"><?php echo (int)$job['application_count']; ?></span></td>
+                                    <td class="px-5 py-4 text-muted"><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -207,38 +207,38 @@ require_once __DIR__ . '/../includes/header.php';
     </section>
 
     <section aria-labelledby="apps-heading">
-        <h2 id="apps-heading" class="text-xl font-bold text-text mb-4">Recent Applicants</h2>
+        <h2 id="apps-heading" class="heading-2 mb-4">Recent Applicants</h2>
         <div class="space-y-4">
             <?php if (empty($applications)): ?>
-                <div class="bg-surface border border-border rounded-xl p-6 text-sm text-muted">No applications received yet.</div>
+                <div class="card text-center py-8 text-muted">No applications received yet.</div>
             <?php else: ?>
                 <?php foreach ($applications as $application): ?>
-                    <article class="bg-surface border border-border rounded-xl p-5 shadow-sm">
-                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                    <article class="card">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
                             <div>
-                                <p class="text-sm text-muted"><?php echo htmlspecialchars($application['job_title'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-1"><?php echo htmlspecialchars($application['job_title'], ENT_QUOTES, 'UTF-8'); ?></p>
                                 <h3 class="text-lg font-semibold text-text"><?php echo htmlspecialchars($application['seeker_name'], ENT_QUOTES, 'UTF-8'); ?></h3>
-                                <p class="text-sm text-muted"><?php echo htmlspecialchars($application['seeker_email'], ENT_QUOTES, 'UTF-8'); ?></p>
-                                <p class="text-sm text-muted mt-1">Submitted <?php echo date('M d, Y H:i', strtotime($application['submitted_at'])); ?></p>
+                                <p class="text-sm text-text"><?php echo htmlspecialchars($application['seeker_email'], ENT_QUOTES, 'UTF-8'); ?></p>
+                                <p class="text-xs text-muted mt-1">Submitted <?php echo date('M d, Y H:i', strtotime($application['submitted_at'])); ?></p>
                             </div>
-                            <form action="<?php echo BASE_URL; ?>employer/dashboard.php" method="POST" class="w-full md:w-auto">
+                            <form action="<?php echo BASE_URL; ?>employer/dashboard.php" method="POST" class="w-full md:w-auto shrink-0 bg-bg p-3 rounded-md border border-border">
                                 <?php echo csrf_input(); ?>
                                 <input type="hidden" name="action" value="update_application_status">
                                 <input type="hidden" name="application_id" value="<?php echo (int)$application['application_id']; ?>">
-                                <label for="status-<?php echo (int)$application['application_id']; ?>" class="block text-sm font-medium text-text mb-1">Application Status</label>
+                                <label for="status-<?php echo (int)$application['application_id']; ?>" class="block text-xs font-medium text-text mb-2">Update Status</label>
                                 <div class="flex gap-2">
-                                    <select id="status-<?php echo (int)$application['application_id']; ?>" name="status" class="border border-border rounded-lg bg-surface text-text px-3 py-2 text-sm">
+                                    <select id="status-<?php echo (int)$application['application_id']; ?>" name="status" class="form-input py-1.5 text-sm w-full md:w-32">
                                         <?php foreach (['Reviewed', 'Accepted', 'Rejected'] as $status): ?>
                                             <option value="<?php echo $status; ?>" <?php echo $application['status'] === $status ? 'selected' : ''; ?>><?php echo $status; ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                    <button type="submit" class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
+                                    <button type="submit" class="btn-primary py-1.5 px-3">Save</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="mt-4 border-t border-border pt-4">
-                            <p class="text-sm font-semibold text-text mb-1">Cover Letter</p>
-                            <p class="text-sm text-text whitespace-pre-line"><?php echo htmlspecialchars($application['cover_letter'] ?? 'No cover letter provided.', ENT_QUOTES, 'UTF-8'); ?></p>
+                        <div class="mt-5 border-t border-border pt-5">
+                            <p class="text-sm font-semibold text-text mb-2">Cover Letter</p>
+                            <p class="text-sm text-muted whitespace-pre-line bg-bg p-4 rounded-md border border-border"><?php echo htmlspecialchars($application['cover_letter'] ?? 'No cover letter provided.', ENT_QUOTES, 'UTF-8'); ?></p>
 
                             <?php
                                 $parsedResume = [];
@@ -251,24 +251,27 @@ require_once __DIR__ . '/../includes/header.php';
                             ?>
 
                             <?php if (!empty($parsedResume)): ?>
-                                <details class="mt-4">
-                                    <summary class="cursor-pointer text-sm font-semibold text-accent">View Parsed Resume Snapshot</summary>
-                                    <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                <details class="mt-4 group">
+                                    <summary class="cursor-pointer text-sm font-medium text-text flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-sm inline-flex">
+                                        <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                        View Parsed Resume Snapshot
+                                    </summary>
+                                    <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm bg-bg p-4 rounded-md border border-border">
                                         <div>
-                                            <p class="text-muted">Parsed Email</p>
-                                            <p class="text-text"><?php echo htmlspecialchars($parsedResume['email'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
+                                            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Parsed Email</p>
+                                            <p class="text-text font-medium"><?php echo htmlspecialchars($parsedResume['email'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
                                         </div>
                                         <div>
-                                            <p class="text-muted">Parsed Phone</p>
-                                            <p class="text-text"><?php echo htmlspecialchars($parsedResume['phone'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
+                                            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Parsed Phone</p>
+                                            <p class="text-text font-medium"><?php echo htmlspecialchars($parsedResume['phone'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
                                         </div>
-                                        <div class="md:col-span-2">
-                                            <p class="text-muted">Skills</p>
-                                            <p class="text-text whitespace-pre-line"><?php echo htmlspecialchars($parsedResume['skills'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
+                                        <div class="md:col-span-2 border-t border-border pt-3">
+                                            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Skills</p>
+                                            <p class="text-text whitespace-pre-line leading-relaxed"><?php echo htmlspecialchars($parsedResume['skills'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
                                         </div>
-                                        <div class="md:col-span-2">
-                                            <p class="text-muted">Work Experience</p>
-                                            <p class="text-text whitespace-pre-line"><?php echo htmlspecialchars($parsedResume['work_experience'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
+                                        <div class="md:col-span-2 border-t border-border pt-3">
+                                            <p class="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Work Experience</p>
+                                            <p class="text-text whitespace-pre-line leading-relaxed"><?php echo htmlspecialchars($parsedResume['work_experience'] ?? '-', ENT_QUOTES, 'UTF-8'); ?></p>
                                         </div>
                                     </div>
                                 </details>

@@ -217,114 +217,102 @@ $accommodations_result = $accommodations_stmt->get_result();
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16">
-    
-    <div class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+<main class="container-main max-w-7xl">
+    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-            <h1 class="text-3xl font-bold text-text">Admin Dashboard</h1>
-            <p class="mt-2 text-sm text-muted">Manage registered users and platform parameters.</p>
+            <h1 class="heading-1">Admin Dashboard</h1>
+            <p class="text-body mt-1">Manage registered users and platform parameters.</p>
         </div>
-        <div class="mt-4 md:mt-0 flex items-center gap-2">
+        <div class="flex items-center gap-3">
             <a href="<?php echo BASE_URL; ?>admin/add_job.php" class="btn-primary">
                 Add Job
             </a>
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
+            <span class="badge py-1 px-3 bg-accent text-bg">
                 Total Users: <?php echo htmlspecialchars($total_users); ?>
             </span>
         </div>
     </div>
 
     <!-- Data Table Container -->
-    <div class="bg-surface shadow-md rounded-lg overflow-hidden border border-border">
+    <div class="card p-0 overflow-hidden mb-8">
+        <div class="px-6 py-4 border-b border-border bg-bg flex items-center justify-between">
+            <h2 class="heading-2">User Management</h2>
+        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-border text-left text-sm text-text">
                 <thead class="bg-bg">
                     <tr>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Username</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Email</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Role</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Registered</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Actions</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">ID</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Username</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Email</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Role</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Registered</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border">
+                <tbody class="divide-y divide-border bg-surface">
                     <?php while($row = $users_result->fetch_assoc()): ?>
-                        <tr class="transition-all duration-200 duration-300 ease-in-out">
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['user_id']); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap">
-                                <?php 
-                                    $role_color = match($row['role_type']) {
-                                        'Admin' => 'bg-purple-100 text-purple-800  ',
-                                        'Employer' => 'bg-indigo-100 text-indigo-800  ',
-                                        'Seeker' => 'bg-emerald-100 text-emerald-800  ',
-                                        default => 'bg-bg text-text'
-                                    };
-                                ?>
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full <?php echo $role_color; ?>">
+                        <tr class="transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-muted"><?php echo htmlspecialchars($row['user_id']); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap font-medium"><?php echo htmlspecialchars($row['username']); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="badge border border-border">
                                     <?php echo htmlspecialchars($row['role_type']); ?>
                                 </span>
                             </td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-right text-sm space-x-2">
-                                
-                                <!-- Edit Button triggers Modal via JS -->
+                            <td class="px-6 py-4 whitespace-nowrap text-muted"><?php echo date('M d, Y', strtotime($row['created_at'])); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
                                 <button type="button" 
-                                        class="open-edit-modal font-medium text-accent transition-all duration-200 duration-300 focus:outline-none focus:underline transition-all duration-200 active:scale-95"
+                                        class="open-edit-modal btn-ghost btn-sm"
                                         data-id="<?php echo htmlspecialchars($row['user_id']); ?>"
                                         data-username="<?php echo htmlspecialchars($row['username']); ?>"
                                         data-email="<?php echo htmlspecialchars($row['email']); ?>"
                                         data-role="<?php echo htmlspecialchars($row['role_type']); ?>">
                                     Edit
                                 </button>
-
-                                <!-- Delete Form with JS Confirmation -->
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block" onsubmit="return confirm('WARNING: Are you sure you want to completely delete record for <?php echo htmlspecialchars($row['username'], ENT_QUOTES); ?>? This cannot be undone.');">
                                     <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($row['user_id']); ?>">
-                                    <button type="submit" class="btn-primary">
+                                    <button type="submit" class="btn-outline btn-sm text-red-600 border-red-200 hover:bg-red-50">
                                         Delete
                                     </button>
                                 </form>
-                                
                             </td>
                         </tr>
                     <?php endwhile; ?>
                     
                     <?php if($users_result->num_rows === 0): ?>
                         <tr>
-                            <td colspan="6" class="px-4 md:px-6 py-6 text-center text-muted">No users found.</td>
+                            <td colspan="6" class="px-6 py-8 text-center text-muted">No users found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
         
-        <!-- Pagination Component -->
         <?php if($total_pages > 1): ?>
-        <div class="px-4 md:px-6 py-3 border-t border-border bg-bg flex items-center justify-between">
-            <span class="text-sm text-text">
-                Page <span class="font-medium"><?php echo $page; ?></span> of <span class="font-medium"><?php echo $total_pages; ?></span>
+        <div class="px-6 py-4 border-t border-border bg-bg flex items-center justify-between">
+            <span class="text-sm text-muted">
+                Page <span class="font-medium text-text"><?php echo $page; ?></span> of <span class="font-medium text-text"><?php echo $total_pages; ?></span>
             </span>
-            <div class="space-x-1">
+            <div class="space-x-2">
                 <?php if($page > 1): ?>
-                    <a href="?page=<?php echo $page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                    <a href="?page=<?php echo $page - 1; ?>" class="btn-outline btn-sm">Previous</a>
                 <?php endif; ?>
                 <?php if($page < $total_pages): ?>
-                    <a href="?page=<?php echo $page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                    <a href="?page=<?php echo $page + 1; ?>" class="btn-outline btn-sm">Next</a>
                 <?php endif; ?>
             </div>
         </div>
         <?php endif; ?>
     </div>
 
-    <div class="mt-8 bg-surface shadow-md rounded-lg overflow-hidden border border-border">
-        <div class="px-4 md:px-6 py-4 border-b border-border bg-bg flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-text">Job Postings Management</h2>
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-accent/10 text-accent">
+    <div class="card p-0 overflow-hidden mb-8">
+        <div class="px-6 py-4 border-b border-border bg-bg flex items-center justify-between">
+            <h2 class="heading-2">Job Postings Management</h2>
+            <span class="badge py-1 px-3 bg-accent text-bg">
                 Total Jobs: <?php echo (int)$total_jobs; ?>
             </span>
         </div>
@@ -333,53 +321,57 @@ require_once '../includes/header.php';
             <table class="min-w-full divide-y divide-border text-left text-sm text-text">
                 <thead class="bg-bg">
                     <tr>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Title</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Employer</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Location</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Status</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Posted</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Actions</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">ID</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Title</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Employer</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Location</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Status</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Posted</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border">
+                <tbody class="divide-y divide-border bg-surface">
                     <?php while ($job = $jobs_result->fetch_assoc()): ?>
-                        <tr class="transition-all duration-200 duration-300 ease-in-out">
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$job['job_id']; ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo htmlspecialchars($job['employer_name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($job['status'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4">
-                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-2 items-center">
+                        <tr class="transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-muted"><?php echo (int)$job['job_id']; ?></td>
+                            <td class="px-6 py-4 font-medium"><?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($job['employer_name'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="badge border border-border"><?php echo htmlspecialchars($job['location_type'], ENT_QUOTES, 'UTF-8'); ?></span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="badge border border-border <?php echo $job['status'] === 'Active' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-zinc-100 text-zinc-600'; ?>">
+                                    <?php echo htmlspecialchars($job['status'], ENT_QUOTES, 'UTF-8'); ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-muted"><?php echo date('M d, Y', strtotime($job['posted_at'])); ?></td>
+                            <td class="px-6 py-4 text-right">
+                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="flex flex-col gap-2 items-end">
                                     <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="edit_job">
                                     <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
 
-                                    <label for="job-title-<?php echo (int)$job['job_id']; ?>" class="sr-only">Job title</label>
-                                    <input id="job-title-<?php echo (int)$job['job_id']; ?>" type="text" name="job_title" value="<?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
-
-                                    <label for="location-<?php echo (int)$job['job_id']; ?>" class="sr-only">Location type</label>
-                                    <select id="location-<?php echo (int)$job['job_id']; ?>" name="location_type" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
-                                        <option value="Remote" <?php echo $job['location_type'] === 'Remote' ? 'selected' : ''; ?>>Remote</option>
-                                        <option value="Hybrid" <?php echo $job['location_type'] === 'Hybrid' ? 'selected' : ''; ?>>Hybrid</option>
-                                        <option value="On-site" <?php echo $job['location_type'] === 'On-site' ? 'selected' : ''; ?>>On-site</option>
-                                    </select>
-
-                                    <label for="status-<?php echo (int)$job['job_id']; ?>" class="sr-only">Job status</label>
-                                    <select id="status-<?php echo (int)$job['job_id']; ?>" name="status" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
-                                        <option value="Active" <?php echo $job['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
-                                        <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
-                                    </select>
-
-                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
+                                    <div class="flex items-center gap-2 w-full max-w-[300px]">
+                                        <input type="text" name="job_title" value="<?php echo htmlspecialchars($job['title'], ENT_QUOTES, 'UTF-8'); ?>" class="form-input text-xs py-1 px-2" aria-label="Job title">
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <select name="location_type" class="form-input text-xs py-1 px-2 w-auto" aria-label="Location type">
+                                            <option value="Remote" <?php echo $job['location_type'] === 'Remote' ? 'selected' : ''; ?>>Remote</option>
+                                            <option value="Hybrid" <?php echo $job['location_type'] === 'Hybrid' ? 'selected' : ''; ?>>Hybrid</option>
+                                            <option value="On-site" <?php echo $job['location_type'] === 'On-site' ? 'selected' : ''; ?>>On-site</option>
+                                        </select>
+                                        <select name="status" class="form-input text-xs py-1 px-2 w-auto" aria-label="Job status">
+                                            <option value="Active" <?php echo $job['status'] === 'Active' ? 'selected' : ''; ?>>Active</option>
+                                            <option value="Closed" <?php echo $job['status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
+                                        </select>
+                                        <button type="submit" class="btn-primary btn-sm">Save</button>
+                                    </div>
                                 </form>
                                 <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="inline-block mt-2" onsubmit="return confirm('Are you sure you want to delete this job posting? This action cannot be undone.');">
                                     <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="delete_job">
                                     <input type="hidden" name="job_id" value="<?php echo (int)$job['job_id']; ?>">
-                                    <button type="submit" class="bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200 active:scale-95">Delete</button>
+                                    <button type="submit" class="btn-outline btn-sm text-red-600 border-red-200">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -387,7 +379,7 @@ require_once '../includes/header.php';
 
                     <?php if ($jobs_result->num_rows === 0): ?>
                         <tr>
-                            <td colspan="7" class="px-4 md:px-6 py-6 text-center text-muted">No job postings found.</td>
+                            <td colspan="7" class="px-6 py-8 text-center text-muted">No job postings found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -395,57 +387,57 @@ require_once '../includes/header.php';
         </div>
 
         <?php if ($job_total_pages > 1): ?>
-            <div class="px-4 md:px-6 py-3 border-t border-border bg-bg flex items-center justify-between">
-                <span class="text-sm text-text">
-                    Jobs Page <span class="font-medium"><?php echo $job_page; ?></span> of <span class="font-medium"><?php echo $job_total_pages; ?></span>
+            <div class="px-6 py-4 border-t border-border bg-bg flex items-center justify-between">
+                <span class="text-sm text-muted">
+                    Jobs Page <span class="font-medium text-text"><?php echo $job_page; ?></span> of <span class="font-medium text-text"><?php echo $job_total_pages; ?></span>
                 </span>
-                <div class="space-x-1">
+                <div class="space-x-2">
                     <?php if ($job_page > 1): ?>
-                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page - 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Previous</a>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page - 1; ?>" class="btn-outline btn-sm">Previous</a>
                     <?php endif; ?>
                     <?php if ($job_page < $job_total_pages): ?>
-                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page + 1; ?>" class="px-3 py-1 border border-border rounded bg-surface text-text transition-all duration-200 duration-300 focus:ring-2 focus:ring-accent">Next</a>
+                        <a href="?page=<?php echo $page; ?>&job_page=<?php echo $job_page + 1; ?>" class="btn-outline btn-sm">Next</a>
                     <?php endif; ?>
                 </div>
             </div>
         <?php endif; ?>
     </div>
 
-    <div class="mt-8 bg-surface shadow-md rounded-lg overflow-hidden border border-border">
-        <div class="px-4 md:px-6 py-4 border-b border-border bg-bg">
-            <h2 class="text-lg font-semibold text-text">Accommodation Categories</h2>
-            <p class="text-sm text-muted mt-1">Update accommodation names and categories used by the matching engine.</p>
+    <div class="card p-0 overflow-hidden">
+        <div class="px-6 py-4 border-b border-border bg-bg flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <div>
+                <h2 class="heading-2">Accommodation Categories</h2>
+                <p class="text-sm text-muted mt-1">Update accommodation names and categories used by the matching engine.</p>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-border text-left text-sm text-text">
                 <thead class="bg-bg">
                     <tr>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">ID</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Name</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text">Category</th>
-                        <th scope="col" class="px-4 md:px-6 py-3 md:py-4 font-semibold text-text text-right">Action</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">ID</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Name</th>
+                        <th scope="col" class="px-6 py-4 font-semibold">Category</th>
+                        <th scope="col" class="px-6 py-4 font-semibold text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border">
+                <tbody class="divide-y divide-border bg-surface">
                     <?php while ($acc = $accommodations_result->fetch_assoc()): ?>
-                        <tr class="transition-all duration-200 duration-300 ease-in-out">
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap"><?php echo (int)$acc['accommodation_id']; ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4"><?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 whitespace-nowrap text-right">
-                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-2 items-center">
+                        <tr class="transition-colors duration-200">
+                            <td class="px-6 py-4 whitespace-nowrap text-muted"><?php echo (int)$acc['accommodation_id']; ?></td>
+                            <td class="px-6 py-4">
+                                <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" class="flex items-center gap-2 justify-end w-full">
                                     <?php echo csrf_input(); ?>
                                     <input type="hidden" name="action" value="edit_accommodation">
                                     <input type="hidden" name="accommodation_id" value="<?php echo (int)$acc['accommodation_id']; ?>">
 
-                                    <label for="acc-name-<?php echo (int)$acc['accommodation_id']; ?>" class="sr-only">Accommodation name</label>
-                                    <input id="acc-name-<?php echo (int)$acc['accommodation_id']; ?>" type="text" name="name" value="<?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
-
-                                    <label for="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" class="sr-only">Accommodation category</label>
-                                    <input id="acc-category-<?php echo (int)$acc['accommodation_id']; ?>" type="text" name="category" value="<?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?>" class="border border-border rounded-lg px-3 py-2 bg-surface text-text">
-
-                                    <button type="submit" class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all duration-200 active:scale-95">Save</button>
+                                    <input type="text" name="name" value="<?php echo htmlspecialchars($acc['name'], ENT_QUOTES, 'UTF-8'); ?>" class="form-input text-xs py-1 px-2" aria-label="Accommodation name">
+                            </td>
+                            <td class="px-6 py-4">
+                                    <input type="text" name="category" value="<?php echo htmlspecialchars($acc['category'], ENT_QUOTES, 'UTF-8'); ?>" class="form-input text-xs py-1 px-2" aria-label="Accommodation category">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <button type="submit" class="btn-primary btn-sm">Save</button>
                                 </form>
                             </td>
                         </tr>
@@ -453,74 +445,67 @@ require_once '../includes/header.php';
 
                     <?php if ($accommodations_result->num_rows === 0): ?>
                         <tr>
-                            <td colspan="4" class="px-4 md:px-6 py-6 text-center text-muted">No accommodations found.</td>
+                            <td colspan="4" class="px-6 py-8 text-center text-muted">No accommodations found.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <!-- Accessible Edit User Modal -->
 <div id="editUserModal" class="fixed z-50 inset-0 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        
         <!-- Background overlay -->
-        <div class="fixed inset-0 bg-bg0 bg-opacity-75 transition-opacity" aria-hidden="true" id="modalOverlay"></div>
+        <div class="fixed inset-0 bg-zinc-950/50 backdrop-blur-sm transition-opacity" aria-hidden="true" id="modalOverlay"></div>
 
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
         <!-- Modal panel -->
-        <div class="inline-block align-bottom bg-surface rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full border border-border">
+        <div class="inline-block align-bottom card p-0 text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full">
             <form action="<?php echo BASE_URL; ?>admin/dashboard.php" method="POST" id="editForm" novalidate>
                 <?php echo csrf_input(); ?>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="user_id" id="edit_user_id">
                 
-                <div class="bg-surface px-4 pt-5 pb-4 sm:p-5 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                            <h3 class="text-lg leading-6 font-medium text-text" id="modal-title">
-                                Edit User Account
-                            </h3>
-                            <div class="mt-4 space-y-4">
-                                <div>
-                                    <label for="edit_username" class="block text-sm font-medium text-text">Username</label>
-                                    <input type="text" name="username" id="edit_username" required
-                                        class="form-input">
-                                </div>
-                                <div>
-                                    <label for="edit_email" class="block text-sm font-medium text-text">Email Address</label>
-                                    <input type="email" name="email" id="edit_email" required
-                                        class="form-input">
-                                </div>
-                                <div>
-                                    <label id="edit_role_label" class="block text-sm font-medium text-text mb-1">Role</label>
-                                    <div class="custom-select-container relative w-full" data-name="role_type">
-                                        <input type="hidden" name="role_type" id="edit_role_type" required>
-                                        <button type="button" class="w-full px-4 py-2 border border-border rounded-md bg-surface text-text focus:outline-none focus:ring-4 focus:ring-accent/50 flex justify-between items-center text-left transition-all duration-200 active:scale-95" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
-                                            <span class="custom-select-text">Select Role</span>
-                                            <svg aria-hidden="true" class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                        </button>
-                                        <ul class="custom-select-list absolute z-50 w-full mt-1 bg-surface border border-border rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
-                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
-                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Employer">Employer</li>
-                                            <li class="px-4 py-2 cursor-pointer text-text" role="option" aria-selected="false" data-value="Admin">Admin</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                <div class="px-6 py-6">
+                    <h3 class="heading-2 mb-6" id="modal-title">
+                        Edit User Account
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="edit_username" class="form-label">Username</label>
+                            <input type="text" name="username" id="edit_username" required class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_email" class="form-label">Email Address</label>
+                            <input type="email" name="email" id="edit_email" required class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label id="edit_role_label" class="form-label">Role</label>
+                            <div class="custom-select-container relative w-full" data-name="role_type">
+                                <input type="hidden" name="role_type" id="edit_role_type" required>
+                                <button type="button" class="form-input text-left flex justify-between items-center" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="edit_role_label">
+                                    <span class="custom-select-text">Select Role</span>
+                                    <svg aria-hidden="true" class="w-4 h-4 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <ul class="custom-select-list absolute z-50 w-full mt-1 bg-surface border border-border rounded-md shadow-lg max-h-60 overflow-y-auto hidden" role="listbox" tabindex="-1">
+                                    <li class="px-3 py-2 cursor-pointer text-sm text-text" role="option" aria-selected="false" data-value="Seeker">Seeker</li>
+                                    <li class="px-3 py-2 cursor-pointer text-sm text-text" role="option" aria-selected="false" data-value="Employer">Employer</li>
+                                    <li class="px-3 py-2 cursor-pointer text-sm text-text" role="option" aria-selected="false" data-value="Admin">Admin</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Modal Footer -->
-                <div class="bg-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-border sm:space-x-reverse sm:space-x-3">
-                    <button type="submit" class="w-full sm:w-auto mb-3 sm:mb-0 btn-primary">
-                        Save Changes
-                    </button>
-                    <button type="button" id="closeModalBtn" class="w-full sm:w-auto btn-outline">
+                <div class="px-6 py-4 bg-bg border-t border-border flex justify-end gap-3">
+                    <button type="button" id="closeModalBtn" class="btn-outline">
                         Cancel
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Save Changes
                     </button>
                 </div>
             </form>

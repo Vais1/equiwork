@@ -33,146 +33,140 @@ $stmt->close();
 require_once '../includes/header.php';
 ?>
 
-<div class="max-w-3xl mx-auto mt-8 md:mt-12 mb-8 md:mb-12 bg-surface border border-border rounded-xl shadow-sm p-6 transition-all duration-300 ease-in-out">
-    
-    <div class="mb-6 md:mb-8 border-b border-border pb-4 md:pb-6">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent mb-3">
-            Application Submission
-        </span>
-        <h1 class="text-3xl font-bold text-text mb-2 font-heading"><?php echo htmlspecialchars($job['title'], ENT_QUOTES); ?></h1>
-        <div class="flex items-center space-x-2 text-sm text-muted mt-2 mb-4">
-            <?php if (!empty($job['company_name'])): ?>
-                <span class="font-medium text-accent"><?php echo htmlspecialchars($job['company_name'], ENT_QUOTES); ?></span>
-                <span>&bull;</span>
-            <?php endif; ?>
-            <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold border border-border">
-                <?php echo htmlspecialchars($job['location_type'], ENT_QUOTES); ?>
-            </span>
-            <span>&bull;</span>
-            <span class="bg-surface px-2 py-0.5 rounded text-xs font-semibold border border-border">
-                <?php echo htmlspecialchars($job['employment_type'] ?? 'Full-time', ENT_QUOTES); ?>
-            </span>
-        </div>
-        <p class="text-muted">Please provide a brief cover letter outlining your required accommodations and why you're a fit for this role.</p>
-    </div>
-
-    <!-- Application Form -->
-    <form action="<?php echo BASE_URL; ?>actions/process_application.php" method="POST" id="applyForm" novalidate>
-        <?php echo csrf_input(); ?>
+<main class="container-main max-w-3xl">
+    <div class="card">
         
-        <input type="hidden" name="job_id" value="<?php echo (int)$job_id; ?>">
-        <input type="hidden" id="parsed_resume_data" name="parsed_resume_data" value="">
-
-        <fieldset class="mb-6 md:mb-8">
-            <legend class="sr-only">Application Letter</legend>
-            
-            <div class="form-group relative">
-                <label for="cover_letter" class="block text-sm font-medium text-text mb-2">
-                    Cover Letter & Accommodation Requirements <span class="text-red-500">*</span>
-                </label>
-                <!-- For the sake of the base assessment, we pass this in POST. Since applications table in blueprint doesn't mandate a text column, we might simulate storing it or rely entirely on email notification -->
-                <textarea id="cover_letter" name="cover_letter" rows="8" required aria-required="true"
-                    class="form-input"
-                    aria-describedby="coverLetterHelp coverLetterError"></textarea>
-                <p id="coverLetterHelp" class="mt-2 text-sm text-muted">Highlight how your skills merge with the required accommodations for maximum productivity. (Max 1000 characters)</p>
-                <p id="coverLetterError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
+        <div class="mb-8 border-b border-border pb-6">
+            <span class="badge mb-3">Application Submission</span>
+            <h1 class="heading-1 mb-2"><?php echo htmlspecialchars($job['title'], ENT_QUOTES); ?></h1>
+            <div class="flex items-center space-x-2 text-small mt-2 mb-4">
+                <?php if (!empty($job['company_name'])): ?>
+                    <span class="font-medium text-text"><?php echo htmlspecialchars($job['company_name'], ENT_QUOTES); ?></span>
+                    <span>&bull;</span>
+                <?php endif; ?>
+                <span class="badge">
+                    <?php echo htmlspecialchars($job['location_type'], ENT_QUOTES); ?>
+                </span>
+                <span>&bull;</span>
+                <span class="badge">
+                    <?php echo htmlspecialchars($job['employment_type'] ?? 'Full-time', ENT_QUOTES); ?>
+                </span>
             </div>
-        </fieldset>
-
-        <fieldset class="mb-6 md:mb-8 border-t border-border pt-4 md:pt-6">
-            <legend class="sr-only">Resume Upload & Parsing</legend>
-            <div class="form-group relative">
-                <label for="resume" class="block text-sm font-medium text-text mb-2">
-                    Upload Resume (PDF, DOCX, DOC, JPG, PNG) <span class="text-red-500">*</span>
-                </label>
-                <div id="drop_zone" class="mt-1 flex justify-center px-4 md:px-6 pt-4 pb-5 border-2 border-border border-dashed rounded-md bg-surface transition-all duration-300 ease-in-out">
-                    <div class="space-y-1 text-center">
-                        <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <div class="flex text-sm text-text justify-center">
-                            <label for="resume" class="relative cursor-pointer bg-surface rounded-md font-medium text-accent transition-all duration-300 ease-in-out focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent">
-                                <span>Upload a file</span>
-                                <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
-                            </label>
-                            <p class="pl-1">or drag and drop</p>
-                        </div>
-                        <p id="resumeHelp" class="text-xs text-muted">PDF, DOCX, DOC, JPG, or PNG up to 5MB</p>
-                    </div>
-                </div>
-                
-                <!-- Loading State (ARIA Announced) -->
-                <div id="parseLoading" class="hidden mt-4 flex items-center space-x-3 text-accent" aria-live="assertive">
-                    <svg class="animate-spin h-5 w-5 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span class="text-sm font-medium">Extracting data from your resume... Please wait.</span>
-                </div>
-                
-                <p id="resumeError" class="mt-2 text-sm text-red-600 hidden" aria-live="assertive" role="alert"></p>
-
-                <!-- Parsed Resume Preview -->
-                <div id="resumePreview" class="hidden mt-4 md:mt-6 bg-surface border border-border rounded-lg shadow-sm p-6" aria-live="polite">
-                    <h3 class="text-xl font-bold text-text border-b border-border pb-2 mb-4">Verify Extracted Profile Information</h3>
-                    <p class="text-sm text-muted mb-4 md:mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                        <!-- Email -->
-                        <div>
-                            <label for="parsed_email" class="block text-sm font-semibold text-text mb-1">Email Address</label>
-                            <input type="email" id="parsed_email" name="parsed_email" 
-                                class="form-input"
-                                aria-label="Extracted Email Address">
-                        </div>
-                        
-                        <!-- Phone -->
-                        <div>
-                            <label for="parsed_phone" class="block text-sm font-semibold text-text mb-1">Phone Number</label>
-                            <input type="text" id="parsed_phone" name="parsed_phone" 
-                                class="form-input"
-                                aria-label="Extracted Phone Number">
-                        </div>
-
-                        <!-- Skills -->
-                        <div class="md:col-span-2">
-                            <label for="parsed_skills" class="block text-sm font-semibold text-text mb-1">Identified Skills</label>
-                            <input type="text" id="parsed_skills" name="parsed_skills" 
-                                class="form-input"
-                                aria-label="Extracted Skills" aria-describedby="skillsHelp">
-                            <p id="skillsHelp" class="text-xs text-muted mt-1">Comma-separated list of your technical and soft skills.</p>
-                        </div>
-                        
-                        <!-- Education -->
-                        <div class="md:col-span-2">
-                            <label for="parsed_education" class="block text-sm font-semibold text-text mb-1">Education History</label>
-                            <textarea id="parsed_education" name="parsed_education" rows="4"
-                                class="form-input resize-y"
-                                aria-label="Extracted Education History"></textarea>
-                        </div>
-
-                        <!-- Work Experience -->
-                        <div class="md:col-span-2">
-                            <label for="parsed_work" class="block text-sm font-semibold text-text mb-1">Work Experience</label>
-                            <textarea id="parsed_work" name="parsed_work" rows="6"
-                                class="form-input resize-y"
-                                aria-label="Extracted Work Experience"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-
-        <div class="flex items-center justify-between border-t border-border pt-4 md:pt-6">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="text-sm font-medium text-text transition-all duration-200 duration-300 focus:outline-none focus:underline">
-                &larr; Cancel and return to Job Board
-            </a>
-            <button type="submit" class="btn-primary">
-                Submit Application
-            </button>
+            <p class="text-body">Please provide a brief cover letter outlining your required accommodations and why you're a fit for this role.</p>
         </div>
-    </form>
-</div>
+
+        <!-- Application Form -->
+        <form action="<?php echo BASE_URL; ?>actions/process_application.php" method="POST" id="applyForm" novalidate>
+            <?php echo csrf_input(); ?>
+            
+            <input type="hidden" name="job_id" value="<?php echo (int)$job_id; ?>">
+            <input type="hidden" id="parsed_resume_data" name="parsed_resume_data" value="">
+
+            <fieldset class="mb-8">
+                <legend class="sr-only">Application Letter</legend>
+                
+                <div class="form-group">
+                    <label for="cover_letter" class="form-label">
+                        Cover Letter & Accommodation Requirements <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="cover_letter" name="cover_letter" rows="8" required aria-required="true"
+                        class="form-input"
+                        aria-describedby="coverLetterHelp coverLetterError"></textarea>
+                    <p id="coverLetterHelp" class="text-small mt-1">Highlight how your skills merge with the required accommodations for maximum productivity. (Max 1000 characters)</p>
+                    <p id="coverLetterError" class="text-small text-red-600 hidden mt-1" aria-live="polite"></p>
+                </div>
+            </fieldset>
+
+            <fieldset class="mb-8 border-t border-border pt-6">
+                <legend class="sr-only">Resume Upload & Parsing</legend>
+                <div class="form-group">
+                    <label for="resume" class="form-label">
+                        Upload Resume (PDF, DOCX, DOC, JPG, PNG) <span class="text-red-500">*</span>
+                    </label>
+                    <div id="drop_zone" class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-lg bg-surface transition-all duration-200">
+                        <div class="space-y-2 text-center">
+                            <svg class="mx-auto h-12 w-12 text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-text justify-center">
+                                <label for="resume" class="relative cursor-pointer rounded-md font-medium text-text underline decoration-border underline-offset-4 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-accent transition-all duration-200">
+                                    <span>Upload a file</span>
+                                    <input id="resume" name="resume" type="file" class="sr-only" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png" aria-describedby="resumeHelp resumeError" aria-required="true" required>
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p id="resumeHelp" class="text-xs text-muted">PDF, DOCX, DOC, JPG, or PNG up to 5MB</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading State (ARIA Announced) -->
+                    <div id="parseLoading" class="hidden mt-4 flex items-center space-x-3 text-text" aria-live="assertive">
+                        <svg class="animate-spin h-5 w-5 text-text" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="text-sm font-medium">Extracting data from your resume... Please wait.</span>
+                    </div>
+                    
+                    <p id="resumeError" class="mt-2 text-small text-red-600 hidden" aria-live="assertive" role="alert"></p>
+
+                    <!-- Parsed Resume Preview -->
+                    <div id="resumePreview" class="hidden mt-6 card-compact" aria-live="polite">
+                        <h3 class="heading-2 border-b border-border pb-2 mb-4">Verify Extracted Information</h3>
+                        <p class="text-small mb-6">Please review, correct, and expand upon the extracted information below before submitting your application.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="form-group">
+                                <label for="parsed_email" class="form-label">Email Address</label>
+                                <input type="email" id="parsed_email" name="parsed_email" 
+                                    class="form-input"
+                                    aria-label="Extracted Email Address">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="parsed_phone" class="form-label">Phone Number</label>
+                                <input type="text" id="parsed_phone" name="parsed_phone" 
+                                    class="form-input"
+                                    aria-label="Extracted Phone Number">
+                            </div>
+
+                            <div class="form-group md:col-span-2">
+                                <label for="parsed_skills" class="form-label">Identified Skills</label>
+                                <input type="text" id="parsed_skills" name="parsed_skills" 
+                                    class="form-input"
+                                    aria-label="Extracted Skills" aria-describedby="skillsHelp">
+                                <p id="skillsHelp" class="text-small mt-1">Comma-separated list of your technical and soft skills.</p>
+                            </div>
+                            
+                            <div class="form-group md:col-span-2">
+                                <label for="parsed_education" class="form-label">Education History</label>
+                                <textarea id="parsed_education" name="parsed_education" rows="4"
+                                    class="form-input resize-y"
+                                    aria-label="Extracted Education History"></textarea>
+                            </div>
+
+                            <div class="form-group md:col-span-2">
+                                <label for="parsed_work" class="form-label">Work Experience</label>
+                                <textarea id="parsed_work" name="parsed_work" rows="6"
+                                    class="form-input resize-y"
+                                    aria-label="Extracted Work Experience"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="flex items-center justify-between border-t border-border pt-6">
+                <a href="<?php echo BASE_URL; ?>jobs.php" class="btn-ghost">
+                    &larr; Return to Job Board
+                </a>
+                <button type="submit" class="btn-primary">
+                    Submit Application
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
