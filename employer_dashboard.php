@@ -138,10 +138,10 @@ require_once __DIR__ . '/includes/header.php';
             <p class="text-muted mt-1">Post inclusive roles and manage incoming applications in one place.</p>
         </div>
         <div class="w-full md:w-auto flex flex-col sm:flex-row gap-2">
-            <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto text-center border border-accent text-accent px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <a href="<?php echo BASE_URL; ?>jobs.php" class="w-full md:w-auto text-center btn-outline">
                 View All Job Postings
             </a>
-            <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <a href="<?php echo BASE_URL; ?>post_job.php" class="w-full md:w-auto text-center btn-primary">
                 Post New Job
             </a>
         </div>

@@ -33,21 +33,21 @@ require_once 'includes/header.php';
             <div>
                 <label for="username" class="block text-sm font-medium text-text mb-1">Full Name or Company Name</label>
                 <input type="text" id="username" name="username" required aria-required="true" aria-describedby="username-error"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
+                    class="form-input">
                 <p class="mt-1 text-sm text-red-600 hidden" id="username-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" aria-describedby="email-error"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
+                    class="form-input">
                 <p class="mt-1 text-sm text-red-600 hidden" id="email-error" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-text mb-1">Password</label>
                 <input type="password" id="password" name="password" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-hint password-error"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
+                    class="form-input">
                 <p class="mt-1 text-sm text-muted" id="password-hint">Must be at least 8 characters long.</p>
                 <p class="mt-1 text-sm text-red-600 hidden" id="password-error" role="alert" aria-live="polite"></p>
             </div>
@@ -55,7 +55,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="password_confirm" class="block text-sm font-medium text-text mb-1">Confirm Password</label>
                 <input type="password" id="password_confirm" name="password_confirm" required aria-required="true" minlength="8" autocomplete="new-password" aria-describedby="password-confirm-error"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                    class="form-input">
                 <p class="mt-1 text-sm text-red-600 hidden" id="password-confirm-error" role="alert" aria-live="polite"></p>
             </div>
 
@@ -91,7 +91,7 @@ require_once 'includes/header.php';
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full btn-primary">
             Register Account
         </button>
 

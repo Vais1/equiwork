@@ -21,44 +21,6 @@ require_once __DIR__ . '/csrf.php';
             document.documentElement.classList.remove('dark');
         }
     </script>
-
-    <style>
-        :root {
-            --color-bg: 248 250 252;
-            --color-surface: 255 255 255;
-            --color-border: 226 232 240;
-            --color-text: 15 23 42;
-            --color-muted: 100 116 139;
-            --color-accent: 37 99 235;
-            --color-accent-hover: 29 78 216;
-        }
-        .dark {
-            --color-bg: 15 23 42;
-            --color-surface: 30 41 59;
-            --color-border: 51 65 85;
-            --color-text: 248 250 252;
-            --color-muted: 148 163 184;
-            --color-accent: 59 130 246;
-            --color-accent-hover: 96 165 250;
-        }
-
-        body {
-            background-image:
-                radial-gradient(1200px 600px at 10% -20%, rgba(59, 130, 246, 0.14), transparent 60%),
-                radial-gradient(900px 420px at 100% 0%, rgba(14, 116, 144, 0.14), transparent 55%);
-        }
-
-        .dark body {
-            background-image:
-                radial-gradient(1200px 600px at 10% -20%, rgba(56, 189, 248, 0.18), transparent 60%),
-                radial-gradient(900px 420px at 100% 0%, rgba(14, 165, 233, 0.16), transparent 55%);
-        }
-
-        .page-shell {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
 </head>
 <body class="bg-bg text-text transition-all duration-200 duration-200 min-h-screen flex flex-col font-sans tracking-tight antialiased">
     
@@ -99,7 +61,7 @@ require_once __DIR__ . '/csrf.php';
 
                 <?php else: ?>
                     <a href="<?php echo BASE_URL; ?>login.php" class="text-sm font-semibold text-text focus:outline-none focus-visible:ring-4 focus-visible:ring-accent rounded px-2 py-0.5 transition-all duration-300 ease-in-out whitespace-nowrap leading-none flex items-center">Sign In</a>
-                    <a href="<?php echo BASE_URL; ?>register.php" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50 whitespace-nowrap leading-none flex items-center">Join Platform</a>
+                    <a href="<?php echo BASE_URL; ?>register.php" class="btn-primary whitespace-nowrap leading-none flex items-center">Join Platform</a>
                 <?php endif; ?>
             </div>
         </nav>

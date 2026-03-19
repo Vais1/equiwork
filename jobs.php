@@ -180,7 +180,7 @@ require_once 'includes/header.php';
                 </div>
 
                 <div class="mt-6 md:mt-8 pt-4 border-t border-border space-y-3">
-                    <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    <button type="submit" class="w-full btn-primary">
                         Apply Filters
                     </button>
                     <!-- Provide clear option to remove state -->

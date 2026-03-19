@@ -36,7 +36,7 @@ require_once 'includes/header.php';
             <div>
                 <label for="title" class="block text-sm font-medium text-text mb-1">Job Title <span class="text-red-500">*</span></label>
                 <input type="text" id="title" name="title" required
-                       class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
+                       class="form-input"
                        aria-describedby="titleError">
                 <p id="titleError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please enter a job title.</p>
             </div>
@@ -46,7 +46,7 @@ require_once 'includes/header.php';
                 
                 <div class="custom-select-container relative w-full" data-name="location_type">
                     <input type="hidden" name="location_type" id="location_type" required>
-                    <button type="button" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
+                    <button type="button" class="w-full btn-primary" aria-haspopup="listbox" aria-expanded="false" aria-describedby="locationError">
                         <span class="custom-select-text">Select an arrangement...</span>
                         <svg aria-hidden="true" class="w-4 h-4 ml-2 text-muted pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -66,11 +66,11 @@ require_once 'includes/header.php';
                 <div>
                     <label for="company_name" class="block text-sm font-medium text-text mb-1">Company Name <span class="text-xs text-muted font-normal">(Optional, defaults to your profile name)</span></label>
                     <input type="text" id="company_name" name="company_name"
-                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                           class="form-input">
                 </div>
                 <div>
                     <label for="employment_type" class="block text-sm font-medium text-text mb-1">Employment Type</label>
-                    <select id="employment_type" name="employment_type" class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                    <select id="employment_type" name="employment_type" class="form-input">
                         <option value="Full-time">Full-time</option>
                         <option value="Part-time">Part-time</option>
                         <option value="Contract">Contract</option>
@@ -83,24 +83,24 @@ require_once 'includes/header.php';
                 <div>
                     <label for="state_region" class="block text-sm font-medium text-text mb-1">State / Region <span class="text-xs text-muted font-normal">(Optional)</span></label>
                     <input type="text" id="state_region" name="state_region" placeholder="e.g. Kuala Lumpur"
-                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                           class="form-input">
                 </div>
                 <div>
                     <label for="salary_min_myr" class="block text-sm font-medium text-text mb-1">Min Salary (MYR) <span class="text-xs text-muted font-normal">(Optional)</span></label>
                     <input type="number" step="0.01" min="0" id="salary_min_myr" name="salary_min_myr" placeholder="e.g. 3000"
-                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                           class="form-input">
                 </div>
                 <div>
                     <label for="salary_max_myr" class="block text-sm font-medium text-text mb-1">Max Salary (MYR) <span class="text-xs text-muted font-normal">(Optional)</span></label>
                     <input type="number" step="0.01" min="0" id="salary_max_myr" name="salary_max_myr" placeholder="e.g. 5000"
-                           class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200">
+                           class="form-input">
                 </div>
             </div>
 
             <div>
                 <label for="description" class="block text-sm font-medium text-text mb-1">Job Description <span class="text-red-500">*</span></label>
                 <textarea id="description" name="description" rows="6" required
-                          class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
+                          class="form-input"
                           aria-describedby="descriptionError"></textarea>
                 <p id="descriptionError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite">Please provide a detailed job description.</p>
             </div>
@@ -141,7 +141,7 @@ require_once 'includes/header.php';
                 Cancel
             </a>
             <button type="submit" 
-                    class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+                    class="btn-primary">
                 Post Job
             </button>
         </div>

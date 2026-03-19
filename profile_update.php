@@ -64,7 +64,7 @@ require_once 'includes/header.php';
             <div class="form-group relative">
                 <label for="password" class="block text-sm font-medium text-text mb-1">New Password</label>
                 <input type="password" id="password" name="password" minlength="8"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150"
+                    class="form-input"
                     aria-describedby="passwordError">
                 <p id="passwordError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
@@ -72,14 +72,14 @@ require_once 'includes/header.php';
             <div class="form-group relative">
                 <label for="password_confirm" class="block text-sm font-medium text-text mb-1">Confirm New Password</label>
                 <input type="password" id="password_confirm" name="password_confirm" minlength="8"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200"
+                    class="form-input"
                     aria-describedby="passwordConfirmError">
                 <p id="passwordConfirmError" class="mt-1 text-sm text-red-600 hidden" aria-live="polite"></p>
             </div>
         </fieldset>
 
         <div class="flex items-center justify-end border-t border-border pt-4 md:pt-6">
-            <button type="submit" class="bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+            <button type="submit" class="btn-primary">
                 Save Profile
             </button>
         </div>

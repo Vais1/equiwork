@@ -42,19 +42,19 @@ require_once 'includes/header.php';
             <div>
                 <label for="email" class="block text-sm font-medium text-text mb-1">Email Address</label>
                 <input type="email" id="email" name="email" required aria-required="true" autocomplete="email" autofocus aria-describedby="emailError"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
+                    class="form-input">
                 <p id="emailError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium text-text mb-1">Password</label>
                 <input type="password" id="password" name="password" required aria-required="true" autocomplete="current-password" aria-describedby="passwordError"
-                    class="w-full border border-border rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent focus:border-transparent bg-surface text-text transition-all duration-200 duration-150">
+                    class="form-input">
                 <p id="passwordError" class="text-sm text-red-600 mt-1 hidden" role="alert" aria-live="polite"></p>
             </div>
         </fieldset>
 
-        <button type="submit" class="w-full bg-accent text-white px-4 py-2 min-w-[44px] rounded-lg font-semibold active:scale-95 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent/50">
+        <button type="submit" class="w-full btn-primary">
             Log In
         </button>
 
